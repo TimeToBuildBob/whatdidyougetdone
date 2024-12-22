@@ -17,10 +17,14 @@
 import click
 from datetime import datetime, timedelta, timezone
 import os
+from pathlib import Path
 from typing import Optional
 import sys
 import webbrowser
 from github import Github
+
+# Get script directory
+SCRIPT_DIR = Path(__file__).parent.absolute()
 
 def preview_in_browser(filename: str):
     """Open file in browser if in interactive mode."""
@@ -101,11 +105,12 @@ def generate_report(username: str, days: int = 7):
 
 def save_report(username: str, report: str):
     """Save report to file."""
-    filename = f"reports/{username}-{datetime.now().strftime('%Y-%m-%d')}.md"
-    os.makedirs("reports", exist_ok=True)
-    with open(filename, "w") as f:
-        f.write(report)
-    return filename
+    reports_dir = SCRIPT_DIR / "reports"
+    reports_dir.mkdir(exist_ok=True)
+    
+    filename = reports_dir / f"{username}-{datetime.now().strftime('%Y-%m-%d')}.md"
+    filename.write_text(report)
+    return str(filename)
 
 @click.group()
 def cli():
@@ -164,10 +169,11 @@ def team(usernames: tuple[str], days: int):
         report += "\n"
     
     # Save report
-    filename = f"reports/team-{datetime.now().strftime('%Y-%m-%d')}.md"
-    os.makedirs("reports", exist_ok=True)
-    with open(filename, "w") as f:
-        f.write(report)
+    reports_dir = SCRIPT_DIR / "reports"
+    reports_dir.mkdir(exist_ok=True)
+    
+    filename = reports_dir / f"team-{datetime.now().strftime('%Y-%m-%d')}.md"
+    filename.write_text(report)
     
     print(f"Team report saved to: {filename}")
     preview_in_browser(filename)
