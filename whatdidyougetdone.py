@@ -4,6 +4,7 @@
 # dependencies = [
 #   "PyGithub>=2.1.1",
 #   "click>=8.1.7",
+#   "platformdirs>=4.1.0",
 # ]
 # [tool.uv]
 # exclude-newer = "2024-01-01T00:00:00Z"
@@ -33,16 +34,13 @@ def preview_in_browser(filename: str):
         if click.confirm("Open in browser?"):
             webbrowser.open(f"file://{os.path.abspath(filename)}")
 
+from config import get_github_token
 
 def setup_github():
     """Ensure GitHub token is available."""
-    token = os.getenv("GITHUB_TOKEN")
-    if not token:
-        print("Please set GITHUB_TOKEN environment variable")
-        print("You can create one at: https://github.com/settings/tokens")
-        print("Required scopes: repo, read:user")
-        exit(1)
-
+    token = get_github_token()
+    # Set for PyGithub to use
+    os.environ["GITHUB_TOKEN"] = token
 
 def get_user_activity(username: str, days: int = 7):
     """Get GitHub activity for a user over the last N days."""
