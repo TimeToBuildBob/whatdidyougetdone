@@ -18,8 +18,15 @@ import click
 from datetime import datetime, timedelta, timezone
 import os
 from typing import Optional
+import sys
 import webbrowser
 from github import Github
+
+def preview_in_browser(filename: str):
+    """Open file in browser if in interactive mode."""
+    if sys.stdout.isatty():
+        if click.confirm("Open in browser?"):
+            webbrowser.open(f"file://{os.path.abspath(filename)}")
 
 def setup_github():
     """Ensure GitHub token is available."""
@@ -124,10 +131,7 @@ def report(username: str, days: int, output: Optional[str]):
         filename = save_report(username, report_text)
     
     print(f"Report saved to: {filename}")
-    
-    # Preview in browser
-    if click.confirm("Open in browser?"):
-        webbrowser.open(f"file://{os.path.abspath(filename)}")
+    preview_in_browser(filename)
 
 @cli.command()
 @click.argument("usernames", nargs=-1)
@@ -166,10 +170,7 @@ def team(usernames: tuple[str], days: int):
         f.write(report)
     
     print(f"Team report saved to: {filename}")
-    
-    # Preview in browser
-    if click.confirm("Open in browser?"):
-        webbrowser.open(f"file://{os.path.abspath(filename)}")
+    preview_in_browser(filename)
 
 if __name__ == "__main__":
     cli()
