@@ -4,6 +4,7 @@
 # dependencies = [
 #   "PyGithub>=2.1.1",
 #   "click>=8.1.7",
+#   "platformdirs>=4.1.0",
 # ]
 # [tool.uv]
 # exclude-newer = "2024-01-01T00:00:00Z"
@@ -49,12 +50,12 @@ def get_github_token() -> str:
     print("Required scopes: repo, read:user")
     exit(1)
 
+from config import get_github_token
 
 def setup_github():
     """Ensure GitHub token is available."""
     token = get_github_token()
     os.environ["GITHUB_TOKEN"] = token  # Set for Github instance
-
 
 def get_user_activity(username: str, days: int = 7):
     """Get GitHub activity for a user over the last N days."""
