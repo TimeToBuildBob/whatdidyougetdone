@@ -95,11 +95,20 @@ def generate_report(username: str, days: int = 7):
     
     for repo, acts in repos.items():
         report += f"## {repo}\n\n"
-        for act in sorted(acts, key=lambda x: x["date"], reverse=True):
-            if act["type"] == "commit":
-                report += f"- 💻 {act['message']}\n"
-            elif act["type"] == "pr":
-                report += f"- 🔀 {act['title']} ({act['state']})\n"
+        # Group by type
+        commits = [act for act in acts if act["type"] == "commit"]
+        prs = [act for act in acts if act["type"] == "pr"]
+        
+        # Show PRs first (higher level changes)
+        for act in sorted(prs, key=lambda x: x["date"], reverse=True):
+            report += f"- 🔀 {act['title']} ({act['state']})\n"
+        
+        # Then show commits
+        for act in sorted(commits, key=lambda x: x["date"], reverse=True):
+            # Skip merge commits and commits that are part of PRs
+            if act["message"].startswith("Merge") or "Co-authored-by" in act["message"]:
+                continue
+            report += f"- 💻 {act['message']}\n"
     
     return report
 
