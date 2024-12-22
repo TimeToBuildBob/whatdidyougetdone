@@ -15,7 +15,7 @@
 #   ./whatdidyougetdone.py team <username1> <username2> ...
 
 import click
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
 from typing import Optional
 import webbrowser
@@ -35,8 +35,8 @@ def get_user_activity(username: str, days: int = 7):
     g = Github(os.getenv("GITHUB_TOKEN"))
     user = g.get_user(username)
     
-    # Calculate date range
-    end_date = datetime.now()
+    # Calculate date range (in UTC)
+    end_date = datetime.now(timezone.utc)
     start_date = end_date - timedelta(days=days)
     
     # Get all events
