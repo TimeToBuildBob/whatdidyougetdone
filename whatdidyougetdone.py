@@ -50,6 +50,12 @@ def get_github_token() -> str:
     print("Required scopes: repo, read:user")
     exit(1)
 
+def preview_in_browser(filename: Path):
+    """Open file in browser if in interactive mode."""
+    if sys.stdout.isatty():
+        if click.confirm("Open in browser?"):
+            webbrowser.open(f"file://{os.path.abspath(filename)}")
+
 from config import get_github_token
 
 def setup_github():
@@ -162,6 +168,14 @@ def generate_report(username: str, days: int = 7, include_timeline: bool = False
 
     return report
 
+def save_report(username: str, report: str) -> Path:
+    """Save report to file."""
+    reports_dir = SCRIPT_DIR / "reports"
+    reports_dir.mkdir(exist_ok=True)
+
+    filename = reports_dir / f"{username}-{datetime.now().strftime('%Y-%m-%d')}.md"
+    filename.write_text(report)
+    return Path(filename)
 
 @click.group()
 def cli():
@@ -185,8 +199,6 @@ def report(username: str, days: int, file: Optional[str], timeline: bool):
     if file:
         Path(file).write_text(report_text)
         print(f"Report saved to: {file}")
-    else:
-        print(report_text)
 
 
 @cli.command()
