@@ -27,8 +27,7 @@ from github import Github
 # Get script directory
 SCRIPT_DIR = Path(__file__).parent.absolute()
 
-
-def preview_in_browser(filename: str):
+def preview_in_browser(filename: Path):
     """Open file in browser if in interactive mode."""
     if sys.stdout.isatty():
         if click.confirm("Open in browser?"):
@@ -118,16 +117,14 @@ def generate_report(username: str, days: int = 7):
 
     return report
 
-
-def save_report(username: str, report: str):
+def save_report(username: str, report: str) -> Path:
     """Save report to file."""
     reports_dir = SCRIPT_DIR / "reports"
     reports_dir.mkdir(exist_ok=True)
 
     filename = reports_dir / f"{username}-{datetime.now().strftime('%Y-%m-%d')}.md"
     filename.write_text(report)
-    return str(filename)
-
+    return Path(filename)
 
 @click.group()
 def cli():
@@ -149,7 +146,7 @@ def report(username: str, days: int, output: Optional[str]):
 
     # Save report
     if output:
-        filename = output
+        filename = Path(output)
     else:
         filename = save_report(username, report_text)
 
