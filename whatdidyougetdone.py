@@ -19,19 +19,10 @@ from datetime import datetime, timedelta, timezone
 import os
 from pathlib import Path
 from typing import Optional
-import sys
-import webbrowser
 from github import Github
 
 # Get script directory
 SCRIPT_DIR = Path(__file__).parent.absolute()
-
-
-def preview_in_browser(filename: Path) -> None:
-    """Open file in browser if in interactive mode."""
-    if sys.stdout.isatty():
-        if click.confirm("Open in browser?"):
-            webbrowser.open(f"file://{filename.absolute()}")
 
 
 def get_github_token() -> str:
@@ -106,9 +97,24 @@ def get_user_activity(username: str, days: int = 7):
     return activities
 
 
-def generate_report(username: str, days: int = 7):
+def generate_report(username: str, days: int = 7, include_timeline: bool = False):
     """Generate a markdown report of user activity."""
     activities = get_user_activity(username, days)
+
+    # Calculate summary stats
+    total_commits = sum(1 for a in activities if a["type"] == "commit")
+    total_prs = sum(1 for a in activities if a["type"] == "pr")
+    active_repos = len({a["repo"] for a in activities})
+
+    # Generate markdown
+    report = f"# What did {username} get done?\n\n"
+    report += f"Activity report for the last {days} days:\n\n"
+
+    # Summary stats
+    report += "## Summary\n\n"
+    report += f"- 💻 {total_commits} commits\n"
+    report += f"- 🔀 {total_prs} pull requests\n"
+    report += f"- 📦 {active_repos} active repositories\n\n"
 
     # Group by repo
     repos: dict[str, list[dict]] = {}
@@ -118,12 +124,10 @@ def generate_report(username: str, days: int = 7):
             repos[repo] = []
         repos[repo].append(activity)
 
-    # Generate markdown
-    report = f"# What did {username} get done?\n\n"
-    report += f"Activity report for the last {days} days:\n\n"
-
+    # Activity by repo
+    report += "## Activity by Repository\n\n"
     for repo, acts in repos.items():
-        report += f"## {repo}\n\n"
+        report += f"### {repo}\n\n"
         # Group by type
         commits = [act for act in acts if act["type"] == "commit"]
         prs = [act for act in acts if act["type"] == "pr"]
@@ -137,19 +141,25 @@ def generate_report(username: str, days: int = 7):
             # Skip merge commits and commits that are part of PRs
             if act["message"].startswith("Merge") or "Co-authored-by" in act["message"]:
                 continue
-            report += f"- 💻 {act['message']}\n"
+            # Take only first line of commit message
+            message = act["message"].split("\n")[0]
+            report += f"- 💻 {message}\n"
+
+    # Optional timeline
+    if include_timeline:
+        report += "\n<details><summary>Detailed Timeline</summary>\n\n"
+        for act in sorted(activities, key=lambda x: x["date"], reverse=True):
+            date_str = act["date"].strftime("%Y-%m-%d %H:%M")
+            if act["type"] == "commit":
+                message = act["message"].split("\n")[0]
+                report += f"- {date_str} 💻 [{act['repo']}] {message}\n"
+            elif act["type"] == "pr":
+                report += (
+                    f"- {date_str} 🔀 [{act['repo']}] {act['title']} ({act['state']})\n"
+                )
+        report += "\n</details>\n"
 
     return report
-
-
-def save_report(username: str, report: str) -> Path:
-    """Save report to file."""
-    reports_dir = SCRIPT_DIR / "reports"
-    reports_dir.mkdir(exist_ok=True)
-
-    filename = reports_dir / f"{username}-{datetime.now().strftime('%Y-%m-%d')}.md"
-    filename.write_text(report)
-    return filename
 
 
 @click.group()
@@ -161,28 +171,29 @@ def cli():
 @cli.command()
 @click.argument("username")
 @click.option("--days", default=7, help="Number of days to look back")
-@click.option("--output", help="Output file (default: reports/<username>-<date>.md)")
-def report(username: str, days: int, output: Optional[str]):
+@click.option("--file", help="Save output to file instead of stdout")
+@click.option("--timeline", is_flag=True, help="Include detailed timeline")
+def report(username: str, days: int, file: Optional[str], timeline: bool):
     """Generate activity report for a GitHub user"""
     setup_github()
 
     # Generate report
-    report_text = generate_report(username, days)
+    report_text = generate_report(username, days, include_timeline=timeline)
 
-    # Save report
-    if output:
-        filename = Path(output)
+    # Output report
+    if file:
+        Path(file).write_text(report_text)
+        print(f"Report saved to: {file}")
     else:
-        filename = save_report(username, report_text)
-
-    print(f"Report saved to: {filename}")
-    preview_in_browser(filename)
+        print(report_text)
 
 
 @cli.command()
 @click.argument("usernames", nargs=-1)
 @click.option("--days", default=7, help="Number of days to look back")
-def team(usernames: tuple[str], days: int):
+@click.option("--file", help="Save output to file instead of stdout")
+@click.option("--timeline", is_flag=True, help="Include detailed timeline")
+def team(usernames: tuple[str], days: int, file: Optional[str], timeline: bool):
     """Generate team activity report"""
     setup_github()
 
@@ -190,34 +201,95 @@ def team(usernames: tuple[str], days: int):
     report = "# Team Activity Report\n\n"
     report += f"Activity for the last {days} days\n\n"
 
+    # Team summary
+    total_team_commits = 0
+    total_team_prs = 0
+    active_repos: set[str] = set()
+
+    # Collect all activities first
+    all_activities: list[tuple[str, dict]] = []
     for username in usernames:
         activities = get_user_activity(username, days)
-        report += f"## {username}\n\n"
+        all_activities.extend((username, a) for a in activities)
 
-        # Count activities
+        # Update team stats
         commit_count = sum(1 for a in activities if a["type"] == "commit")
         pr_count = sum(1 for a in activities if a["type"] == "pr")
+        active_repos.update(a["repo"] for a in activities)
+
+        total_team_commits += commit_count
+        total_team_prs += pr_count
+
+    # Team summary
+    report += "## Team Summary\n\n"
+    report += f"- 👥 {len(usernames)} team members\n"
+    report += f"- 💻 {total_team_commits} commits\n"
+    report += f"- 🔀 {total_team_prs} pull requests\n"
+    report += f"- 📦 {len(active_repos)} active repositories\n\n"
+
+    # Per-user summary
+    for username in usernames:
+        user_activities = [a for u, a in all_activities if u == username]
+        report += f"## {username}\n\n"
+
+        # User stats
+        commit_count = sum(1 for a in user_activities if a["type"] == "commit")
+        pr_count = sum(1 for a in user_activities if a["type"] == "pr")
+        user_repos = len({a["repo"] for a in user_activities})
 
         report += f"- 💻 {commit_count} commits\n"
-        report += f"- 🔀 {pr_count} pull requests\n\n"
+        report += f"- 🔀 {pr_count} pull requests\n"
+        report += f"- 📦 {user_repos} active repositories\n\n"
 
-        # Add details
-        for activity in sorted(activities, key=lambda x: x["date"], reverse=True):
-            if activity["type"] == "commit":
-                report += f"- [{activity['repo']}] {activity['message']}\n"
-            elif activity["type"] == "pr":
-                report += f"- [{activity['repo']}] {activity['title']} ({activity['state']})\n"
-        report += "\n"
+        # Group by repo
+        repos: dict[str, list[dict]] = {}
+        for activity in user_activities:
+            repo = activity["repo"]
+            if repo not in repos:
+                repos[repo] = []
+            repos[repo].append(activity)
 
-    # Save report
-    reports_dir = SCRIPT_DIR / "reports"
-    reports_dir.mkdir(exist_ok=True)
+        for repo, acts in repos.items():
+            report += f"### {repo}\n\n"
+            # Group by type
+            commits = [act for act in acts if act["type"] == "commit"]
+            prs = [act for act in acts if act["type"] == "pr"]
 
-    filename = reports_dir / f"team-{datetime.now().strftime('%Y-%m-%d')}.md"
-    filename.write_text(report)
+            # Show PRs first
+            for act in sorted(prs, key=lambda x: x["date"], reverse=True):
+                report += f"- 🔀 {act['title']} ({act['state']})\n"
 
-    print(f"Team report saved to: {filename}")
-    preview_in_browser(filename)
+            # Then commits
+            for act in sorted(commits, key=lambda x: x["date"], reverse=True):
+                if (
+                    act["message"].startswith("Merge")
+                    or "Co-authored-by" in act["message"]
+                ):
+                    continue
+                message = act["message"].split("\n")[0]
+                report += f"- 💻 {message}\n"
+            report += "\n"
+
+    # Optional timeline
+    if timeline:
+        report += "\n<details><summary>Team Timeline</summary>\n\n"
+        for username, act in sorted(
+            all_activities, key=lambda x: x[1]["date"], reverse=True
+        ):
+            date_str = act["date"].strftime("%Y-%m-%d %H:%M")
+            if act["type"] == "commit":
+                message = act["message"].split("\n")[0]
+                report += f"- {date_str} 💻 {username} [{act['repo']}] {message}\n"
+            elif act["type"] == "pr":
+                report += f"- {date_str} 🔀 {username} [{act['repo']}] {act['title']} ({act['state']})\n"
+        report += "\n</details>\n"
+
+    # Output report
+    if file:
+        Path(file).write_text(report)
+        print(f"Report saved to: {file}")
+    else:
+        print(report)
 
 
 if __name__ == "__main__":
