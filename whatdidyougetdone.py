@@ -27,21 +27,42 @@ from github import Github
 SCRIPT_DIR = Path(__file__).parent.absolute()
 
 
-def preview_in_browser(filename: str):
+def preview_in_browser(filename: Path) -> None:
     """Open file in browser if in interactive mode."""
     if sys.stdout.isatty():
         if click.confirm("Open in browser?"):
-            webbrowser.open(f"file://{os.path.abspath(filename)}")
+            webbrowser.open(f"file://{filename.absolute()}")
+
+
+def get_github_token() -> str:
+    """Get GitHub token from environment or GitHub CLI."""
+    # Try environment variable first
+    if token := os.getenv("GITHUB_TOKEN"):
+        return token
+
+    # Try GitHub CLI
+    try:
+        import subprocess
+
+        result = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True)
+        if result.returncode == 0:
+            return result.stdout.strip()
+    except FileNotFoundError:
+        pass
+
+    print("Could not get GitHub token from environment or gh CLI")
+    print("Please either:")
+    print("1. Install GitHub CLI and authenticate with 'gh auth login', or")
+    print("2. Set GITHUB_TOKEN environment variable")
+    print("You can create a token at: https://github.com/settings/tokens")
+    print("Required scopes: repo, read:user")
+    exit(1)
 
 
 def setup_github():
     """Ensure GitHub token is available."""
-    token = os.getenv("GITHUB_TOKEN")
-    if not token:
-        print("Please set GITHUB_TOKEN environment variable")
-        print("You can create one at: https://github.com/settings/tokens")
-        print("Required scopes: repo, read:user")
-        exit(1)
+    token = get_github_token()
+    os.environ["GITHUB_TOKEN"] = token  # Set for Github instance
 
 
 def get_user_activity(username: str, days: int = 7):
@@ -90,7 +111,7 @@ def generate_report(username: str, days: int = 7):
     activities = get_user_activity(username, days)
 
     # Group by repo
-    repos = {}
+    repos: dict[str, list[dict]] = {}
     for activity in activities:
         repo = activity["repo"]
         if repo not in repos:
@@ -121,14 +142,14 @@ def generate_report(username: str, days: int = 7):
     return report
 
 
-def save_report(username: str, report: str):
+def save_report(username: str, report: str) -> Path:
     """Save report to file."""
     reports_dir = SCRIPT_DIR / "reports"
     reports_dir.mkdir(exist_ok=True)
 
     filename = reports_dir / f"{username}-{datetime.now().strftime('%Y-%m-%d')}.md"
     filename.write_text(report)
-    return str(filename)
+    return filename
 
 
 @click.group()
@@ -146,12 +167,11 @@ def report(username: str, days: int, output: Optional[str]):
     setup_github()
 
     # Generate report
-    activities = get_user_activity(username, days)
     report_text = generate_report(username, days)
 
     # Save report
     if output:
-        filename = output
+        filename = Path(output)
     else:
         filename = save_report(username, report_text)
 
@@ -167,7 +187,7 @@ def team(usernames: tuple[str], days: int):
     setup_github()
 
     # Generate combined report
-    report = f"# Team Activity Report\n\n"
+    report = "# Team Activity Report\n\n"
     report += f"Activity for the last {days} days\n\n"
 
     for username in usernames:
