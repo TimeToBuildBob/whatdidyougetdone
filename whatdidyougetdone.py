@@ -14,15 +14,22 @@
 #   ./whatdidyougetdone.py report <username>
 #   ./whatdidyougetdone.py team <username1> <username2> ...
 
-import click
-from datetime import datetime, timedelta, timezone
 import os
+import subprocess
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
+
+import click
 from github import Github
 
 # Get script directory
 SCRIPT_DIR = Path(__file__).parent.absolute()
+
+
+def start_of_day(dt: datetime) -> datetime:
+    """Get the start of the day for a given datetime (with offset for past-midnight but pre-4AM activity to count to previous day)."""
+    return dt.replace(hour=4, minute=0, second=0, microsecond=0)
 
 
 def get_github_token() -> str:
@@ -33,8 +40,6 @@ def get_github_token() -> str:
 
     # Try GitHub CLI
     try:
-        import subprocess
-
         result = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True)
         if result.returncode == 0:
             return result.stdout.strip()
@@ -63,36 +68,84 @@ def get_user_activity(username: str, days: int = 7):
 
     # Calculate date range (in UTC)
     end_date = datetime.now(timezone.utc)
-    start_date = end_date - timedelta(days=days)
+    start_date = start_of_day(end_date - timedelta(days=days))
 
-    # Get all events
+    # Warn about GitHub API limitations
+    if days > 90:
+        print("Warning: GitHub Events API only returns events from the last 90 days.")
+        print(f"Requested {days} days, but will only get events from the last 90 days.")
+        print(
+            f"Effective date range: {(end_date - timedelta(days=90)).strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
+        )
+        print()
+
+    # Get events with pagination
     activities = []
-    for event in user.get_events():
-        if event.created_at < start_date:
-            break
+    events_checked = 0
+    max_events = 1000  # Reasonable limit to prevent excessive API calls
 
-        # Format based on event type
-        if event.type == "PushEvent":
-            for commit in event.payload["commits"]:
+    try:
+        for event in user.get_events():
+            events_checked += 1
+
+            # Break if we've checked too many events (rate limiting protection)
+            if events_checked > max_events:
+                print(
+                    f"Note: Limited to checking {max_events} recent events for {username}"
+                )
+                break
+
+            # Break if event is too old
+            if event.created_at < start_date:
+                break
+
+            # Format based on event type
+            if event.type == "PushEvent":
+                for commit in event.payload["commits"]:
+                    activities.append(
+                        {
+                            "type": "commit",
+                            "repo": event.repo.name,
+                            "message": commit["message"],
+                            "date": event.created_at,
+                        }
+                    )
+            elif event.type == "PullRequestEvent":
                 activities.append(
                     {
-                        "type": "commit",
+                        "type": "pr",
                         "repo": event.repo.name,
-                        "message": commit["message"],
+                        "title": event.payload["pull_request"]["title"],
+                        "state": event.payload["pull_request"]["state"],
                         "date": event.created_at,
                     }
                 )
-        elif event.type == "PullRequestEvent":
-            activities.append(
-                {
-                    "type": "pr",
-                    "repo": event.repo.name,
-                    "title": event.payload["pull_request"]["title"],
-                    "state": event.payload["pull_request"]["state"],
-                    "date": event.created_at,
-                }
+            # Add more event types as needed
+
+    except Exception as e:
+        print(f"Warning: Error fetching events for {username}: {e}")
+        print(f"Proceeding with {len(activities)} activities found so far...")
+
+    # Debug information
+    if activities:
+        oldest_activity = min(activities, key=lambda x: x["date"])
+        newest_activity = max(activities, key=lambda x: x["date"])
+        print(f"Found {len(activities)} activities for {username}")
+        print(
+            f"Date range: {oldest_activity['date'].strftime('%Y-%m-%d')} to {newest_activity['date'].strftime('%Y-%m-%d')}"
+        )
+        print(f"Checked {events_checked} events total")
+
+        if events_checked >= max_events:
+            print(
+                f"Hit the {max_events} event limit - some recent activity may be missing"
             )
-        # Add more event types as needed
+        elif len(activities) >= 300:
+            print("Note: GitHub Events API has a 300 event maximum limit")
+        print()
+    else:
+        print(f"No activities found for {username} in the requested time range")
+        print()
 
     return activities
 
