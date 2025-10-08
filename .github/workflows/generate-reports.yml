@@ -1,0 +1,71 @@
+name: Generate Activity Reports
+
+on:
+  schedule:
+    # Run weekly on Monday at 00:00 UTC
+    - cron: '0 0 * * 1'
+  workflow_dispatch:  # Allow manual trigger
+  push:
+    branches: [ master, main ]
+    paths:
+      - '.github/workflows/generate-reports.yml'
+      - 'whatdidyougetdone.py'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+    
+    - name: Set up Python
+      run: uv python install 3.12
+    
+    - name: Generate reports
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        mkdir -p reports
+        
+        # Generate individual reports
+        echo "Generating report for TimeToBuildBob..."
+        uv run ./whatdidyougetdone.py report TimeToBuildBob --days 7 --file reports/bob-weekly.md
+        
+        echo "Generating report for ErikBjare..."
+        uv run ./whatdidyougetdone.py report ErikBjare --days 7 --file reports/erik-weekly.md
+        
+        # Generate team report
+        echo "Generating gptme team report..."
+        uv run ./whatdidyougetdone.py team ErikBjare TimeToBuildBob --days 7 --file reports/gptme-team-weekly.md
+        
+        # Create index
+        cat > reports/index.md << 'EOF'
+        # Activity Reports
+        
+        Auto-generated weekly activity reports using [whatdidyougetdone](https://github.com/ErikBjare/whatdidyougetdone).
+        
+        ## Individual Reports
+        - [Bob's Activity](bob-weekly.md)
+        - [Erik's Activity](erik-weekly.md)
+        
+        ## Team Reports
+        - [gptme Team Activity](gptme-team-weekly.md)
+        
+        ---
+        Last updated: $(date -u '+%Y-%m-%d %H:%M UTC')
+        EOF
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./reports
+        publish_branch: gh-pages
+        commit_message: 'docs: update activity reports'

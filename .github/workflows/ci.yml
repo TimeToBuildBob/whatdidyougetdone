@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+    
+    - name: Set up Python
+      run: uv python install 3.12
+    
+    - name: Install pre-commit
+      run: uv tool install pre-commit
+    
+    - name: Run pre-commit
+      run: uv tool run pre-commit run --all-files
+  
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "latest"
+    
+    - name: Set up Python
+      run: uv python install 3.12
+    
+    - name: Test script execution
+      run: |
+        # Test that script can run and show help
+        uv run ./whatdidyougetdone.py --help
+      
+    - name: Test script syntax
+      run: |
+        # Verify script syntax is valid
+        uv run python -m py_compile whatdidyougetdone.py
