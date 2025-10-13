@@ -4,25 +4,38 @@ Activity report for the last 7 days:
 
 ## Summary
 
-- 💻 56 commits
-- 🔀 13 pull requests
+- 💻 46 commits
+- 🔀 7 pull requests
 - 📦 2 active repositories
 
 ## Activity by Repository
 
+### gptme/gptme-webui
+
+- 💻 docs: improved the usage instructions, mention gptme.ai
 ### gptme/gptme
 
+- 🔀 Fix: Pin openai version in pre-commit mypy config (closed)
+- 🔀 feat(browser): add Accept header to prefer markdown/plaintext (closed)
+- 🔀 feat(telemetry): add hostname to resource attributes (closed)
+- 🔀 feat(telemetry): add agent name and interactive mode metadata (closed)
 - 🔀 fix(telemetry): switch to using OTLP for both metrics and traces (closed)
 - 🔀 fix: improved prompting for complete tool (closed)
 - 🔀 fix: improved prompting for complete tool (open)
-- 🔀 refactor: consolidate auto-compact/precommit functionality into tools (closed)
-- 🔀 feat: implement /compact and auto-compacting (closed)
-- 🔀 feat: wip anthropic 1M context support (open)
-- 🔀 feat: implement comprehensive hook system and command registration (#156) (closed)
-- 🔀 docs(shell): move timeout config from agent instructions to module docstring (closed)
-- 🔀 fix: filter out empty text blocks in Anthropic API to prevent cache_control errors (closed)
-- 🔀 feat: auto-restore todo state when resuming conversations (closed)
-- 🔀 fix: prevent premature code block closure during streaming with nested blocks (closed)
+- 💻 docs: improve server docs, mention gptme.ai
+- 💻 fix: show full path in patch tool output
+- 💻 refactor(mcp): consolidate info/discover commands into smart info command
+- 💻 fix(mcp): implement correct registry API endpoints
+- 💻 feat(mcp): add discovery commands to gptme-util CLI
+- 💻 fix(anthropic): set temperature/top_p only for models not supporting reasoning, even if thinking disabled (as if due to --tool-format tool)
+- 💻 fix: remove emoji from OTLP log message
+- 💻 fix: remove redundant log message
+- 💻 feat: add tool_format to telemetry and remove redundant log
+- 💻 fix: shortened telemetry startup log
+- 💻 fix(ci): pin openai version in pre-commit mypy config (#682)
+- 💻 feat(browser): add Accept header to prefer markdown/plaintext over HTML (#680)
+- 💻 feat(telemetry): add hostname to resource attributes (#676)
+- 💻 feat(telemetry): add agent name and interactive mode metadata (#675)
 - 💻 feat: reintroduce OpenAI and Anthropic telemetry instrumentation
 - 💻 fix(telemetry): Strip http:// prefix from OTLP endpoint for gRPC
 - 💻 fix: Update telemetry wrapper to match new signature
@@ -49,28 +62,3 @@ Activity report for the last 7 days:
 - 💻 feat: Complete Pushgateway setup and configuration
 - 💻 docs: Clean up PR and update telemetry documentation
 - 💻 feat: Add native Pushgateway support for telemetry
-- 💻 refactor: consolidate auto-compact/precommit functionality into tools (#666)
-- 💻 feat: implement comprehensive hook system and command registration (#156) (#660)
-- 💻 docs(shell): move timeout config from agent instructions to module docstring (#662)
-- 💻 fix: prevent cache_control on empty text blocks in Anthropic API (#653)
-- 💻 fix: handle nested code blocks in patch blocks correctly
-- 💻 test: add comprehensive nested codeblock tests
-- 💻 test: document actual behavior of ambiguous bare backticks
-- 💻 feat: emit hint when save tool barely changes file
-- 💻 fix: add version header and correct heading levels in release notes
-- 💻 refactor: simplify version header logic in build_changelog.py
-- 💻 chore: remove build_changelog.py, now available upstream
-- 💻 docs: fixed changelog index
-- 💻 chore: improve changelog version detection and update contributors
-- 💻 build: automatically update docs/changelog.rst in release target
-- 💻 chore: bump version to 0.28.3
-- 💻 fix: update CI anthropic model to claude-3-5-haiku
-- 💻 fix(shell): denylist should not trigger on content in quoted strings or heredocs
-- 💻 fix(shell): improve denylist patterns for git commands
-- 💻 feat: add git safety guards to shell tool
-- 💻 feat: improve save tool feedback with detailed status
-### ActivityWatch/activitywatch
-
-- 🔀 build: add --add-version-header flag to build_changelog.py (closed)
-- 🔀 feat: add --add-version-header flag to build_changelog.py (open)
-- 💻 build: add --add-version-header flag to build_changelog.py (#1179)
