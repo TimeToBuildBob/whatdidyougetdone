@@ -4,24 +4,43 @@ Activity report for the last 7 days:
 
 ## Summary
 
-- 💻 46 commits
-- 🔀 7 pull requests
-- 📦 2 active repositories
+- 💻 63 commits
+- 🔀 12 pull requests
+- 📦 3 active repositories
 
 ## Activity by Repository
 
-### gptme/gptme-webui
+### TimeToBuildBob/TimeToBuildBob.github.io
 
-- 💻 docs: improved the usage instructions, mention gptme.ai
+- 💻 fix: improve dark mode support across site
+- 💻 feat: add pre-commit hook to check Pug class syntax
 ### gptme/gptme
 
-- 🔀 Fix: Pin openai version in pre-commit mypy config (closed)
-- 🔀 feat(browser): add Accept header to prefer markdown/plaintext (closed)
-- 🔀 feat(telemetry): add hostname to resource attributes (closed)
-- 🔀 feat(telemetry): add agent name and interactive mode metadata (closed)
-- 🔀 fix(telemetry): switch to using OTLP for both metrics and traces (closed)
-- 🔀 fix: improved prompting for complete tool (closed)
+- 🔀 fix(autocompact): prevent backup filename growth with repeated compactions (merged)
+- 🔀 fix: prevent duplicate tool loading warnings in evals (merged)
+- 🔀 feat(llm): add configurable API timeout for OpenAI-compatible providers (merged)
+- 🔀 feat: enhance GitHub PR reading with code context and suggestions (merged)
+- 🔀 feat: implement basic lesson system with metadata and auto-inclusion (merged)
+- 🔀 Fix: Pin openai version in pre-commit mypy config (merged)
+- 🔀 feat(browser): add Accept header to prefer markdown/plaintext (merged)
+- 🔀 feat(telemetry): add hostname to resource attributes (merged)
+- 🔀 feat(telemetry): add agent name and interactive mode metadata (merged)
+- 🔀 fix(telemetry): switch to using OTLP for both metrics and traces (merged)
+- 🔀 fix: improved prompting for complete tool (merged)
 - 🔀 fix: improved prompting for complete tool (open)
+- 💻 fix(autocompact): prevent backup filename growth with repeated compactions (#693)
+- 💻 fix: prevent duplicate tool loading warnings in evals (#690)
+- 💻 feat(llm): add configurable API timeout for OpenAI-compatible providers (#681)
+- 💻 fix: use original_line as fallback for review comment line numbers
+- 💻 fix: update test to match new tool instructions
+- 💻 fix: handle gh CLI authentication errors in tests
+- 💻 fix: use correct JSON schema type for gh tool parameter
+- 💻 fix: show line ranges for multi-line review comments
+- 💻 fix: address review comments from ellipsis-dev
+- 💻 fix: address review comments
+- 💻 feat: add "gh pr checks" to wait for CI completion
+- 💻 refactor: rename read_pr to "gh pr view" to match gh CLI convention
+- 💻 feat: enhance GitHub PR reading with code context, suggestions, and read_pr tool
 - 💻 docs: improve server docs, mention gptme.ai
 - 💻 fix: show full path in patch tool output
 - 💻 refactor(mcp): consolidate info/discover commands into smart info command
@@ -62,3 +81,6 @@ Activity report for the last 7 days:
 - 💻 feat: Complete Pushgateway setup and configuration
 - 💻 docs: Clean up PR and update telemetry documentation
 - 💻 feat: Add native Pushgateway support for telemetry
+### gptme/gptme-webui
+
+- 💻 docs: improved the usage instructions, mention gptme.ai

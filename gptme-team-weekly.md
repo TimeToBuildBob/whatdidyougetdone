@@ -1,33 +1,48 @@
 # Team Activity Report
 
-Activity for the last 7 days
+Activity for the last 7 days:
 
-## Team Summary
+Activity report for the last 7 days:
 
-- 👥 2 team members
-- 💻 54 commits
-- 🔀 13 pull requests
-- 📦 5 active repositories
+## Summary
 
-## ErikBjare
+- 💻 63 commits
+- 🔀 12 pull requests
+- 📦 3 active repositories
 
-- 💻 46 commits
-- 🔀 7 pull requests
-- 📦 2 active repositories
+## Activity by Repository
 
-### gptme/gptme-webui
+### TimeToBuildBob/TimeToBuildBob.github.io
 
-- 💻 docs: improved the usage instructions, mention gptme.ai
-
+- 💻 fix: improve dark mode support across site
+- 💻 feat: add pre-commit hook to check Pug class syntax
 ### gptme/gptme
 
-- 🔀 Fix: Pin openai version in pre-commit mypy config (closed)
-- 🔀 feat(browser): add Accept header to prefer markdown/plaintext (closed)
-- 🔀 feat(telemetry): add hostname to resource attributes (closed)
-- 🔀 feat(telemetry): add agent name and interactive mode metadata (closed)
-- 🔀 fix(telemetry): switch to using OTLP for both metrics and traces (closed)
-- 🔀 fix: improved prompting for complete tool (closed)
+- 🔀 fix(autocompact): prevent backup filename growth with repeated compactions (merged)
+- 🔀 fix: prevent duplicate tool loading warnings in evals (merged)
+- 🔀 feat(llm): add configurable API timeout for OpenAI-compatible providers (merged)
+- 🔀 feat: enhance GitHub PR reading with code context and suggestions (merged)
+- 🔀 feat: implement basic lesson system with metadata and auto-inclusion (merged)
+- 🔀 Fix: Pin openai version in pre-commit mypy config (merged)
+- 🔀 feat(browser): add Accept header to prefer markdown/plaintext (merged)
+- 🔀 feat(telemetry): add hostname to resource attributes (merged)
+- 🔀 feat(telemetry): add agent name and interactive mode metadata (merged)
+- 🔀 fix(telemetry): switch to using OTLP for both metrics and traces (merged)
+- 🔀 fix: improved prompting for complete tool (merged)
 - 🔀 fix: improved prompting for complete tool (open)
+- 💻 fix(autocompact): prevent backup filename growth with repeated compactions (#693)
+- 💻 fix: prevent duplicate tool loading warnings in evals (#690)
+- 💻 feat(llm): add configurable API timeout for OpenAI-compatible providers (#681)
+- 💻 fix: use original_line as fallback for review comment line numbers
+- 💻 fix: update test to match new tool instructions
+- 💻 fix: handle gh CLI authentication errors in tests
+- 💻 fix: use correct JSON schema type for gh tool parameter
+- 💻 fix: show line ranges for multi-line review comments
+- 💻 fix: address review comments from ellipsis-dev
+- 💻 fix: address review comments
+- 💻 feat: add "gh pr checks" to wait for CI completion
+- 💻 refactor: rename read_pr to "gh pr view" to match gh CLI convention
+- 💻 feat: enhance GitHub PR reading with code context, suggestions, and read_pr tool
 - 💻 docs: improve server docs, mention gptme.ai
 - 💻 fix: show full path in patch tool output
 - 💻 refactor(mcp): consolidate info/discover commands into smart info command
@@ -68,36 +83,69 @@ Activity for the last 7 days
 - 💻 feat: Complete Pushgateway setup and configuration
 - 💻 docs: Clean up PR and update telemetry documentation
 - 💻 feat: Add native Pushgateway support for telemetry
+### gptme/gptme-webui
 
-## TimeToBuildBob
+- 💻 docs: improved the usage instructions, mention gptme.ai
 
-- 💻 8 commits
-- 🔀 6 pull requests
-- 📦 4 active repositories
+---
 
+Activity report for the last 7 days:
+
+## Summary
+
+- 💻 27 commits
+- 🔀 9 pull requests
+- 📦 6 active repositories
+
+## Activity by Repository
+
+### TimeToBuildBob/TimeToBuildBob
+
+- 💻 docs: update profile with recent contributions and projects
+### TimeToBuildBob/TimeToBuildBob.github.io
+
+- 💻 feat: add dark mode support with system preference detection
+- 💻 chore: add pre-commit hooks to catch build errors before commit
+- 💻 fix: resolve Pug syntax errors with decimal class names
+- 💻 feat: enhance contact section with structured contact cards
+- 💻 chore: sync content updates from workspace
+- 💻 fix: remove journal file (should be in gptme-bob repo)
+- 💻 feat: enhance project card design with improved visual hierarchy and interactions
 ### gptme/gptme
 
+- 🔀 feat: support @log workspace magic value in API (open)
+- 🔀 fix: prevent duplicate tool loading warnings in evals (open)
+- 🔀 feat: enhance GitHub PR reading with code context and suggestions (open)
 - 🔀 feat: implement basic lesson system with metadata and auto-inclusion (open)
 - 🔀 fix(config): clear tools cache after loading project/chat config (closed)
 - 🔀 feat(mcp): add MCP discovery and dynamic loading support (open)
 - 🔀 fix(config): clear tools cache when loading project/chat config (open)
 - 🔀 feat(telemetry): add hostname to resource attributes (open)
 - 🔀 feat(telemetry): add agent name and interactive mode metadata (open)
+- 💻 fix(autocompact): correctly strip hex suffixes from backup names
+- 💻 fix(autocompact): add unique suffix to backup names to prevent collisions
+- 💻 refactor(autocompact): add empty string validation in _get_backup_name
+- 💻 test(mcp): add comprehensive CLI tests for MCP commands
+- 💻 fix: adjust prompt token limit and fix custom prompt test
+- 💻 test: add comprehensive mocked tests for GitHub PR code context and suggestions
+- 💻 test: add comprehensive timeout tests and improve documentation
+- 💻 test: add comprehensive matcher tests, achieve 75% coverage
+- 💻 test: add comprehensive parser tests
+- 💻 test: add comprehensive tests for lesson commands and tool
 - 💻 feat: add lessons as a proper tool with hooks and commands
 - 💻 test: fix MCP CLI test and adjust prompt size limit
 - 💻 feat(telemetry): add hostname to resource attributes
 - 💻 fix: fixed otel openai package name in all extras
 - 💻 ci: added ci run for latest Python & package versions
-
 ### gptme/gptme-contrib
 
 - 💻 feat(discord): enable telemetry support
-
 ### TimeToBuildBob/ai-adoption-score
 
 - 💻 docs: add comprehensive deployment guide
-
 ### TimeToBuildBob/whatdidyougetdone
 
 - 💻 ci: add GitHub Actions workflows for CI and report generation
+
+---
 
