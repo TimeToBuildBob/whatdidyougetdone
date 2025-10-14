@@ -4,15 +4,16 @@
 # dependencies = [
 #   "PyGithub>=2.1.1",
 #   "click>=8.1.7",
+#   "aw-client>=0.5.13",
 # ]
 # [tool.uv]
-# exclude-newer = "2024-01-01T00:00:00Z"
+# exclude-newer = "2024-10-01T00:00:00Z"
 # ///
 #
-# What Did You Get Done? - Activity report generator
+# What Did You Get Done? - Activity report generator with ActivityWatch integration
 # Usage:
 #   ./whatdidyougetdone.py report <username>
-#   ./whatdidyougetdone.py team <username1> <username2> ...
+#   ./whatdidyougetdone.py report <username> --activitywatch  # Include local activity data
 
 import os
 import subprocess
@@ -55,10 +56,62 @@ def get_github_token() -> str:
     exit(1)
 
 
+def get_aw_activity(days: int = 7):
+    """Get ActivityWatch activity data for the last N days."""
+    try:
+        from aw_client import ActivityWatchClient
+    except ImportError:
+        print("Warning: aw-client not available. Install with: pip install aw-client")
+        return None
+
+    try:
+        # Connect to ActivityWatch
+        aw = ActivityWatchClient("whatdidyougetdone", testing=False)
+        
+        # Calculate date range
+        end_date = datetime.now(timezone.utc)
+        start_date = start_of_day(end_date - timedelta(days=days))
+        
+        # Get buckets for window and editor activity
+        buckets = aw.get_buckets()
+        window_buckets = [bid for bid in buckets.keys() if "window" in bid.lower()]
+        editor_buckets = [bid for bid in buckets.keys() if "editor" in bid.lower() or "code" in bid.lower()]
+        
+        if not window_buckets:
+            print("Warning: No ActivityWatch window buckets found")
+            return None
+            
+        # Query for activity data
+        # Get top applications and projects
+        query = f"""
+        events = flood(query_bucket(find_bucket("{window_buckets[0]}")));
+        events = filter_period_intersect(events, {start_date.isoformat()}, {end_date.isoformat()});
+        events = merge_events_by_keys(events, ["app", "title"]);
+        events = sort_by_duration(events);
+        RETURN = {{"apps": events[:10]}};
+        """
+        
+        result = aw.query(query)[0]
+        
+        # Calculate total time
+        total_time = sum(e["duration"] for e in result.get("apps", []))
+        
+        return {
+            "total_hours": total_time / 3600,
+            "apps": result.get("apps", [])[:5],  # Top 5 apps
+            "start_date": start_date,
+            "end_date": end_date
+        }
+        
+    except Exception as e:
+        print(f"Warning: Could not fetch ActivityWatch data: {e}")
+        return None
+
+
 def setup_github():
     """Ensure GitHub token is available."""
     token = get_github_token()
-    os.environ["GITHUB_TOKEN"] = token  # Set for Github instance
+    os.environ["GITHUB_TOKEN"] = token
 
 
 def get_user_activity(username: str, days: int = 7):
@@ -74,83 +127,55 @@ def get_user_activity(username: str, days: int = 7):
     if days > 90:
         print("Warning: GitHub Events API only returns events from the last 90 days.")
         print(f"Requested {days} days, but will only get events from the last 90 days.")
-        print(
-            f"Effective date range: {(end_date - timedelta(days=90)).strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
-        )
+        print(f"Effective date range: {(end_date - timedelta(days=90)).strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
         print()
 
     # Get events with pagination
     activities = []
     events_checked = 0
-    max_events = 1000  # Reasonable limit to prevent excessive API calls
+    max_events = 1000
 
     try:
         for event in user.get_events():
             events_checked += 1
-
-            # Break if we've checked too many events (rate limiting protection)
             if events_checked > max_events:
-                print(
-                    f"Note: Limited to checking {max_events} recent events for {username}"
-                )
+                print(f"Note: Limited to checking {max_events} recent events for {username}")
                 break
-
-            # Break if event is too old
             if event.created_at < start_date:
                 break
 
-            # Format based on event type
             if event.type == "PushEvent":
-                for commit in event.payload["commits"]:
-                    activities.append(
-                        {
-                            "type": "commit",
-                            "repo": event.repo.name,
-                            "message": commit["message"],
-                            "date": event.created_at,
-                        }
-                    )
+                repo_name = event.repo.name
+                for commit in event.payload.get("commits", []):
+                    activities.append({
+                        "type": "commit",
+                        "repo": repo_name,
+                        "message": commit.get("message", ""),
+                        "sha": commit.get("sha", "")[:7],
+                        "date": event.created_at
+                    })
             elif event.type == "PullRequestEvent":
-                activities.append(
-                    {
-                        "type": "pr",
-                        "repo": event.repo.name,
-                        "title": event.payload["pull_request"]["title"],
-                        "state": event.payload["pull_request"]["state"],
-                        "date": event.created_at,
-                    }
-                )
-            # Add more event types as needed
+                pr = event.payload.get("pull_request", {})
+                state = pr.get("state", "unknown")
+                if event.payload.get("action") == "closed" and pr.get("merged"):
+                    state = "merged"
+                
+                activities.append({
+                    "type": "pr",
+                    "repo": event.repo.name,
+                    "title": pr.get("title", ""),
+                    "state": state,
+                    "number": pr.get("number", 0),
+                    "date": event.created_at
+                })
 
     except Exception as e:
-        print(f"Warning: Error fetching events for {username}: {e}")
-        print(f"Proceeding with {len(activities)} activities found so far...")
+        print(f"Error fetching GitHub activity: {e}")
 
-    # Debug information
-    if activities:
-        oldest_activity = min(activities, key=lambda x: x["date"])
-        newest_activity = max(activities, key=lambda x: x["date"])
-        print(f"Found {len(activities)} activities for {username}")
-        print(
-            f"Date range: {oldest_activity['date'].strftime('%Y-%m-%d')} to {newest_activity['date'].strftime('%Y-%m-%d')}"
-        )
-        print(f"Checked {events_checked} events total")
-
-        if events_checked >= max_events:
-            print(
-                f"Hit the {max_events} event limit - some recent activity may be missing"
-            )
-        elif len(activities) >= 300:
-            print("Note: GitHub Events API has a 300 event maximum limit")
-        print()
-    else:
-        print(f"No activities found for {username} in the requested time range")
-        print()
-
-    return activities
+    return sorted(activities, key=lambda x: x["date"], reverse=True)
 
 
-def generate_report(username: str, days: int = 7, include_timeline: bool = False):
+def generate_report(username: str, days: int = 7, include_timeline: bool = False, include_aw: bool = False):
     """Generate a markdown report of user activity."""
     activities = get_user_activity(username, days)
 
@@ -167,7 +192,27 @@ def generate_report(username: str, days: int = 7, include_timeline: bool = False
     report += "## Summary\n\n"
     report += f"- 💻 {total_commits} commits\n"
     report += f"- 🔀 {total_prs} pull requests\n"
-    report += f"- 📦 {active_repos} active repositories\n\n"
+    report += f"- 📦 {active_repos} active repositories\n"
+    
+    # Add ActivityWatch data if available
+    if include_aw:
+        aw_data = get_aw_activity(days)
+        if aw_data:
+            report += f"- ⏱️ {aw_data['total_hours']:.1f} hours of local activity\n"
+    
+    report += "\n"
+
+    # ActivityWatch section
+    if include_aw:
+        aw_data = get_aw_activity(days)
+        if aw_data and aw_data['apps']:
+            report += "## Local Activity (via ActivityWatch)\n\n"
+            report += "Top applications by time:\n\n"
+            for app in aw_data['apps']:
+                app_name = app['data'].get('app', 'Unknown')
+                hours = app['duration'] / 3600
+                report += f"- 💻 {app_name}: {hours:.1f}h\n"
+            report += "\n"
 
     # Group by repo
     repos: dict[str, list[dict]] = {}
@@ -181,20 +226,15 @@ def generate_report(username: str, days: int = 7, include_timeline: bool = False
     report += "## Activity by Repository\n\n"
     for repo, acts in repos.items():
         report += f"### {repo}\n\n"
-        # Group by type
         commits = [act for act in acts if act["type"] == "commit"]
         prs = [act for act in acts if act["type"] == "pr"]
 
-        # Show PRs first (higher level changes)
         for act in sorted(prs, key=lambda x: x["date"], reverse=True):
             report += f"- 🔀 {act['title']} ({act['state']})\n"
 
-        # Then show commits
         for act in sorted(commits, key=lambda x: x["date"], reverse=True):
-            # Skip merge commits and commits that are part of PRs
             if act["message"].startswith("Merge") or "Co-authored-by" in act["message"]:
                 continue
-            # Take only first line of commit message
             message = act["message"].split("\n")[0]
             report += f"- 💻 {message}\n"
 
@@ -207,9 +247,7 @@ def generate_report(username: str, days: int = 7, include_timeline: bool = False
                 message = act["message"].split("\n")[0]
                 report += f"- {date_str} 💻 [{act['repo']}] {message}\n"
             elif act["type"] == "pr":
-                report += (
-                    f"- {date_str} 🔀 [{act['repo']}] {act['title']} ({act['state']})\n"
-                )
+                report += f"- {date_str} 🔀 [{act['repo']}] {act['title']} ({act['state']})\n"
         report += "\n</details>\n"
 
     return report
@@ -217,8 +255,8 @@ def generate_report(username: str, days: int = 7, include_timeline: bool = False
 
 @click.group()
 def cli():
-    """What did you get done? - Activity report generator"""
-    pass
+    """What Did You Get Done? - Activity report generator"""
+    setup_github()
 
 
 @cli.command()
@@ -226,17 +264,15 @@ def cli():
 @click.option("--days", default=7, help="Number of days to look back")
 @click.option("--file", help="Save output to file instead of stdout")
 @click.option("--timeline", is_flag=True, help="Include detailed timeline")
-def report(username: str, days: int, file: Optional[str], timeline: bool):
-    """Generate activity report for a GitHub user"""
-    setup_github()
-
-    # Generate report
-    report_text = generate_report(username, days, include_timeline=timeline)
-
-    # Output report
+@click.option("--activitywatch", is_flag=True, help="Include local ActivityWatch data")
+def report(username: str, days: int, file: Optional[str], timeline: bool, activitywatch: bool):
+    """Generate activity report for a single user"""
+    report_text = generate_report(username, days, include_timeline=timeline, include_aw=activitywatch)
+    
     if file:
-        Path(file).write_text(report_text)
-        print(f"Report saved to: {file}")
+        with open(file, "w") as f:
+            f.write(report_text)
+        print(f"Report saved to {file}")
     else:
         print(report_text)
 
@@ -247,102 +283,27 @@ def report(username: str, days: int, file: Optional[str], timeline: bool):
 @click.option("--file", help="Save output to file instead of stdout")
 @click.option("--timeline", is_flag=True, help="Include detailed timeline")
 def team(usernames: tuple[str], days: int, file: Optional[str], timeline: bool):
-    """Generate team activity report"""
-    setup_github()
-
-    # Generate combined report
-    report = "# Team Activity Report\n\n"
-    report += f"Activity for the last {days} days\n\n"
-
-    # Team summary
-    total_team_commits = 0
-    total_team_prs = 0
-    active_repos: set[str] = set()
-
-    # Collect all activities first
-    all_activities: list[tuple[str, dict]] = []
+    """Generate combined activity report for multiple users"""
+    if not usernames:
+        print("Error: Please provide at least one username")
+        return
+    
+    report_text = f"# Team Activity Report\n\n"
+    report_text += f"Activity for the last {days} days:\n\n"
+    
     for username in usernames:
-        activities = get_user_activity(username, days)
-        all_activities.extend((username, a) for a in activities)
-
-        # Update team stats
-        commit_count = sum(1 for a in activities if a["type"] == "commit")
-        pr_count = sum(1 for a in activities if a["type"] == "pr")
-        active_repos.update(a["repo"] for a in activities)
-
-        total_team_commits += commit_count
-        total_team_prs += pr_count
-
-    # Team summary
-    report += "## Team Summary\n\n"
-    report += f"- 👥 {len(usernames)} team members\n"
-    report += f"- 💻 {total_team_commits} commits\n"
-    report += f"- 🔀 {total_team_prs} pull requests\n"
-    report += f"- 📦 {len(active_repos)} active repositories\n\n"
-
-    # Per-user summary
-    for username in usernames:
-        user_activities = [a for u, a in all_activities if u == username]
-        report += f"## {username}\n\n"
-
-        # User stats
-        commit_count = sum(1 for a in user_activities if a["type"] == "commit")
-        pr_count = sum(1 for a in user_activities if a["type"] == "pr")
-        user_repos = len({a["repo"] for a in user_activities})
-
-        report += f"- 💻 {commit_count} commits\n"
-        report += f"- 🔀 {pr_count} pull requests\n"
-        report += f"- 📦 {user_repos} active repositories\n\n"
-
-        # Group by repo
-        repos: dict[str, list[dict]] = {}
-        for activity in user_activities:
-            repo = activity["repo"]
-            if repo not in repos:
-                repos[repo] = []
-            repos[repo].append(activity)
-
-        for repo, acts in repos.items():
-            report += f"### {repo}\n\n"
-            # Group by type
-            commits = [act for act in acts if act["type"] == "commit"]
-            prs = [act for act in acts if act["type"] == "pr"]
-
-            # Show PRs first
-            for act in sorted(prs, key=lambda x: x["date"], reverse=True):
-                report += f"- 🔀 {act['title']} ({act['state']})\n"
-
-            # Then commits
-            for act in sorted(commits, key=lambda x: x["date"], reverse=True):
-                if (
-                    act["message"].startswith("Merge")
-                    or "Co-authored-by" in act["message"]
-                ):
-                    continue
-                message = act["message"].split("\n")[0]
-                report += f"- 💻 {message}\n"
-            report += "\n"
-
-    # Optional timeline
-    if timeline:
-        report += "\n<details><summary>Team Timeline</summary>\n\n"
-        for username, act in sorted(
-            all_activities, key=lambda x: x[1]["date"], reverse=True
-        ):
-            date_str = act["date"].strftime("%Y-%m-%d %H:%M")
-            if act["type"] == "commit":
-                message = act["message"].split("\n")[0]
-                report += f"- {date_str} 💻 {username} [{act['repo']}] {message}\n"
-            elif act["type"] == "pr":
-                report += f"- {date_str} 🔀 {username} [{act['repo']}] {act['title']} ({act['state']})\n"
-        report += "\n</details>\n"
-
-    # Output report
+        print(f"Fetching activity for {username}...")
+        user_report = generate_report(username, days, include_timeline=timeline, include_aw=False)
+        # Remove the title and first line from individual reports
+        lines = user_report.split("\n")
+        report_text += "\n".join(lines[2:]) + "\n---\n\n"
+    
     if file:
-        Path(file).write_text(report)
-        print(f"Report saved to: {file}")
+        with open(file, "w") as f:
+            f.write(report_text)
+        print(f"Report saved to {file}")
     else:
-        print(report)
+        print(report_text)
 
 
 if __name__ == "__main__":
