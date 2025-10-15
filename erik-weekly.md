@@ -1,6 +1,6 @@
 # What did ErikBjare get done?
 
-Activity report for the last 7 days:
+Activity for the last 7 days:
 
 ## Summary
 
