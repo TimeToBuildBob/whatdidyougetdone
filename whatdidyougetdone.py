@@ -257,20 +257,76 @@ def generate_report(
     """
     activities = get_user_activity(username, days, start_date, end_date)
 
+    # Deduplicate PRs by URL (same PR can have multiple events)
+    seen_prs = {}
+    for activity in activities:
+        if activity["type"] == "pr":
+            # Use title + repo as key since URL might not always be present
+            pr_key = f"{activity['repo']}:{activity['title']}"
+            if pr_key not in seen_prs:
+                seen_prs[pr_key] = activity
+
     # Calculate summary stats
     total_commits = sum(1 for a in activities if a["type"] == "commit")
-    total_prs = sum(1 for a in activities if a["type"] == "pr")
+    total_prs = len(seen_prs)  # Use deduplicated count
     active_repos = len({a["repo"] for a in activities})
+
+    # Categorize PRs by type
+    pr_categories: dict[str, list[dict]] = {
+        "feat": [],
+        "fix": [],
+        "docs": [],
+        "test": [],
+        "chore": [],
+        "other": [],
+    }
+    for pr_url, pr in seen_prs.items():
+        title = pr["title"].lower()
+        if title.startswith("feat"):
+            pr_categories["feat"].append(pr)
+        elif title.startswith("fix"):
+            pr_categories["fix"].append(pr)
+        elif title.startswith("docs"):
+            pr_categories["docs"].append(pr)
+        elif title.startswith("test"):
+            pr_categories["test"].append(pr)
+        elif title.startswith("chore") or title.startswith("refactor"):
+            pr_categories["chore"].append(pr)
+        else:
+            pr_categories["other"].append(pr)
 
     # Generate markdown
     report = f"# What did {username} get done?\n\n"
-    report += f"Activity report for the last {days} days:\n\n"
+
+    # Use custom date range in header if provided
+    if start_date and end_date:
+        start_str = start_date.strftime("%Y-%m-%d")
+        end_str = end_date.strftime("%Y-%m-%d")
+        report += f"Activity from {start_str} to {end_str}:\n\n"
+    else:
+        report += f"Activity for the last {days} days:\n\n"
 
     # Summary stats
     report += "## Summary\n\n"
     report += f"- 💻 {total_commits} commits\n"
     report += f"- 🔀 {total_prs} pull requests\n"
     report += f"- 📦 {active_repos} active repositories\n"
+
+    # PR breakdown by category
+    if total_prs > 0:
+        report += "\n### PR Breakdown by Type\n\n"
+        for category, prs in pr_categories.items():
+            if prs:
+                category_emoji = {
+                    "feat": "✨",
+                    "fix": "🐛",
+                    "docs": "📝",
+                    "test": "🧪",
+                    "chore": "🔧",
+                    "other": "📦",
+                }
+                emoji = category_emoji.get(category, "📦")
+                report += f"- {emoji} {category.capitalize()}: {len(prs)}\n"
 
     # Add ActivityWatch data if available
     if include_aw:
@@ -292,23 +348,44 @@ def generate_report(
                 report += f"- 💻 {app_name}: {hours:.1f}h\n"
             report += "\n"
 
-    # Group by repo
-    repos: dict[str, list[dict]] = {}
+    # Group by repo using deduplicated PRs
+    repos: dict[str, dict[str, list]] = {}
+
+    # Add all commits
     for activity in activities:
-        repo = activity["repo"]
+        if activity["type"] == "commit":
+            repo = activity["repo"]
+            if repo not in repos:
+                repos[repo] = {"commits": [], "prs": []}
+            repos[repo]["commits"].append(activity)
+
+    # Add deduplicated PRs
+    for pr_key, pr in seen_prs.items():
+        repo = pr["repo"]
         if repo not in repos:
-            repos[repo] = []
-        repos[repo].append(activity)
+            repos[repo] = {"commits": [], "prs": []}
+        repos[repo]["prs"].append(pr)
 
     # Activity by repo
     report += "## Activity by Repository\n\n"
     for repo, acts in repos.items():
         report += f"### {repo}\n\n"
-        commits = [act for act in acts if act["type"] == "commit"]
-        prs = [act for act in acts if act["type"] == "pr"]
 
-        for act in sorted(prs, key=lambda x: x["date"], reverse=True):
-            report += f"- 🔀 {act['title']} ({act['state']})\n"
+        # PRs with better formatting
+        if acts["prs"]:
+            for pr in sorted(acts["prs"], key=lambda x: x["date"], reverse=True):
+                # State emoji
+                state_emoji = {"merged": "✅", "open": "🔄", "closed": "❌"}.get(
+                    pr["state"], "🔀"
+                )
+
+                # Format: emoji title (state)
+                title = pr["title"]
+                report += f"- {state_emoji} {title}\n"
+            report += "\n"
+
+        # Commits
+        commits = acts["commits"]
 
         for act in sorted(commits, key=lambda x: x["date"], reverse=True):
             if act["message"].startswith("Merge") or "Co-authored-by" in act["message"]:
