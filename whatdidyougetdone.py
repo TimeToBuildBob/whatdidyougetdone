@@ -56,8 +56,18 @@ def get_github_token() -> str:
     exit(1)
 
 
-def get_aw_activity(days: int = 7):
-    """Get ActivityWatch activity data for the last N days."""
+def get_aw_activity(
+    days: int = 7,
+    start_date: Optional[datetime] = None,
+    end_date: Optional[datetime] = None,
+):
+    """Get ActivityWatch activity data for a date range.
+
+    Args:
+        days: Number of days to look back (default 7, used if start_date/end_date not provided)
+        start_date: Optional start date (UTC)
+        end_date: Optional end date (UTC)
+    """
     try:
         from aw_client import ActivityWatchClient
     except ImportError:
@@ -69,8 +79,13 @@ def get_aw_activity(days: int = 7):
         aw = ActivityWatchClient("whatdidyougetdone", testing=False)
 
         # Calculate date range
-        end_date = datetime.now(timezone.utc)
-        start_date = start_of_day(end_date - timedelta(days=days))
+        if start_date and end_date:
+            # Use provided date range
+            pass
+        else:
+            # Use days parameter
+            end_date = datetime.now(timezone.utc)
+            start_date = start_of_day(end_date - timedelta(days=days))
 
         # Get buckets for window activity
         buckets = aw.get_buckets()
@@ -113,14 +128,31 @@ def setup_github():
     os.environ["GITHUB_TOKEN"] = token
 
 
-def get_user_activity(username: str, days: int = 7):
-    """Get GitHub activity for a user over the last N days."""
+def get_user_activity(
+    username: str,
+    days: int = 7,
+    start_date: Optional[datetime] = None,
+    end_date: Optional[datetime] = None,
+):
+    """Get GitHub activity for a user over a date range.
+
+    Args:
+        username: GitHub username
+        days: Number of days to look back (default 7, used if start_date/end_date not provided)
+        start_date: Optional start date (UTC)
+        end_date: Optional end date (UTC)
+    """
     g = Github(os.getenv("GITHUB_TOKEN"))
     user = g.get_user(username)
 
     # Calculate date range (in UTC)
-    end_date = datetime.now(timezone.utc)
-    start_date = start_of_day(end_date - timedelta(days=days))
+    if start_date and end_date:
+        # Use provided date range
+        pass
+    else:
+        # Use days parameter
+        end_date = datetime.now(timezone.utc)
+        start_date = start_of_day(end_date - timedelta(days=days))
 
     # Warn about GitHub API limitations
     if days > 90:
@@ -208,20 +240,71 @@ def get_user_activity(username: str, days: int = 7):
 def generate_report(
     username: str,
     days: int = 7,
+    start_date: Optional[datetime] = None,
+    end_date: Optional[datetime] = None,
     include_timeline: bool = False,
     include_aw: bool = False,
 ):
-    """Generate a markdown report of user activity."""
-    activities = get_user_activity(username, days)
+    """Generate a markdown report of user activity.
+
+    Args:
+        username: GitHub username
+        days: Number of days to look back (default 7, ignored if start_date/end_date provided)
+        start_date: Optional start date (UTC)
+        end_date: Optional end date (UTC)
+        include_timeline: Include detailed timeline
+        include_aw: Include ActivityWatch data
+    """
+    activities = get_user_activity(username, days, start_date, end_date)
+
+    # Deduplicate PRs by URL (same PR can have multiple events)
+    seen_prs = {}
+    for activity in activities:
+        if activity["type"] == "pr":
+            # Use title + repo as key since URL might not always be present
+            pr_key = f"{activity['repo']}:{activity['title']}"
+            if pr_key not in seen_prs:
+                seen_prs[pr_key] = activity
 
     # Calculate summary stats
     total_commits = sum(1 for a in activities if a["type"] == "commit")
-    total_prs = sum(1 for a in activities if a["type"] == "pr")
+    total_prs = len(seen_prs)  # Use deduplicated count
     active_repos = len({a["repo"] for a in activities})
+
+    # Categorize PRs by type
+    pr_categories: dict[str, list[dict]] = {
+        "feat": [],
+        "fix": [],
+        "docs": [],
+        "test": [],
+        "chore": [],
+        "other": [],
+    }
+    for pr_url, pr in seen_prs.items():
+        title = pr["title"].lower()
+        if title.startswith("feat"):
+            pr_categories["feat"].append(pr)
+        elif title.startswith("fix"):
+            pr_categories["fix"].append(pr)
+        elif title.startswith("docs"):
+            pr_categories["docs"].append(pr)
+        elif title.startswith("test"):
+            pr_categories["test"].append(pr)
+        elif title.startswith("chore") or title.startswith("refactor"):
+            pr_categories["chore"].append(pr)
+        else:
+            pr_categories["other"].append(pr)
 
     # Generate markdown
     report = f"# What did {username} get done?\n\n"
-    report += f"Activity report for the last {days} days:\n\n"
+
+    # Use custom date range in header if provided
+    if start_date and end_date:
+        start_str = start_date.strftime("%Y-%m-%d")
+        end_str = end_date.strftime("%Y-%m-%d")
+        report += f"Activity from {start_str} to {end_str}:\n\n"
+    else:
+        report += f"Activity for the last {days} days:\n\n"
 
     # Summary stats
     report += "## Summary\n\n"
@@ -229,9 +312,25 @@ def generate_report(
     report += f"- 🔀 {total_prs} pull requests\n"
     report += f"- 📦 {active_repos} active repositories\n"
 
+    # PR breakdown by category
+    if total_prs > 0:
+        report += "\n### PR Breakdown by Type\n\n"
+        for category, prs in pr_categories.items():
+            if prs:
+                category_emoji = {
+                    "feat": "✨",
+                    "fix": "🐛",
+                    "docs": "📝",
+                    "test": "🧪",
+                    "chore": "🔧",
+                    "other": "📦",
+                }
+                emoji = category_emoji.get(category, "📦")
+                report += f"- {emoji} {category.capitalize()}: {len(prs)}\n"
+
     # Add ActivityWatch data if available
     if include_aw:
-        aw_data = get_aw_activity(days)
+        aw_data = get_aw_activity(days, start_date, end_date)
         if aw_data:
             report += f"- ⏱️ {aw_data['total_hours']:.1f} hours of local activity\n"
 
@@ -239,7 +338,7 @@ def generate_report(
 
     # ActivityWatch section
     if include_aw:
-        aw_data = get_aw_activity(days)
+        aw_data = get_aw_activity(days, start_date, end_date)
         if aw_data and aw_data["apps"]:
             report += "## Local Activity (via ActivityWatch)\n\n"
             report += "Top applications by time:\n\n"
@@ -249,23 +348,44 @@ def generate_report(
                 report += f"- 💻 {app_name}: {hours:.1f}h\n"
             report += "\n"
 
-    # Group by repo
-    repos: dict[str, list[dict]] = {}
+    # Group by repo using deduplicated PRs
+    repos: dict[str, dict[str, list]] = {}
+
+    # Add all commits
     for activity in activities:
-        repo = activity["repo"]
+        if activity["type"] == "commit":
+            repo = activity["repo"]
+            if repo not in repos:
+                repos[repo] = {"commits": [], "prs": []}
+            repos[repo]["commits"].append(activity)
+
+    # Add deduplicated PRs
+    for pr_key, pr in seen_prs.items():
+        repo = pr["repo"]
         if repo not in repos:
-            repos[repo] = []
-        repos[repo].append(activity)
+            repos[repo] = {"commits": [], "prs": []}
+        repos[repo]["prs"].append(pr)
 
     # Activity by repo
     report += "## Activity by Repository\n\n"
     for repo, acts in repos.items():
         report += f"### {repo}\n\n"
-        commits = [act for act in acts if act["type"] == "commit"]
-        prs = [act for act in acts if act["type"] == "pr"]
 
-        for act in sorted(prs, key=lambda x: x["date"], reverse=True):
-            report += f"- 🔀 {act['title']} ({act['state']})\n"
+        # PRs with better formatting
+        if acts["prs"]:
+            for pr in sorted(acts["prs"], key=lambda x: x["date"], reverse=True):
+                # State emoji
+                state_emoji = {"merged": "✅", "open": "🔄", "closed": "❌"}.get(
+                    pr["state"], "🔀"
+                )
+
+                # Format: emoji title (state)
+                title = pr["title"]
+                report += f"- {state_emoji} {title}\n"
+            report += "\n"
+
+        # Commits
+        commits = acts["commits"]
 
         for act in sorted(commits, key=lambda x: x["date"], reverse=True):
             if act["message"].startswith("Merge") or "Co-authored-by" in act["message"]:
@@ -298,16 +418,67 @@ def cli():
 
 @cli.command()
 @click.argument("username")
-@click.option("--days", default=7, help="Number of days to look back")
+@click.option(
+    "--days",
+    default=7,
+    help="Number of days to look back (ignored if --start-date and --end-date provided)",
+)
+@click.option("--start-date", help="Start date (YYYY-MM-DD, requires --end-date)")
+@click.option("--end-date", help="End date (YYYY-MM-DD, requires --start-date)")
 @click.option("--file", help="Save output to file instead of stdout")
 @click.option("--timeline", is_flag=True, help="Include detailed timeline")
 @click.option("--activitywatch", is_flag=True, help="Include local ActivityWatch data")
 def report(
-    username: str, days: int, file: Optional[str], timeline: bool, activitywatch: bool
+    username: str,
+    days: int,
+    start_date: Optional[str],
+    end_date: Optional[str],
+    file: Optional[str],
+    timeline: bool,
+    activitywatch: bool,
 ):
-    """Generate activity report for a single user"""
+    """Generate activity report for a single user.
+
+    Use --days for recent activity, or --start-date and --end-date for a specific range.
+    """
+    # Parse and validate date range
+    parsed_start_date: Optional[datetime] = None
+    parsed_end_date: Optional[datetime] = None
+
+    if start_date or end_date:
+        # Both must be provided if either is provided
+        if not (start_date and end_date):
+            click.echo(
+                "Error: Both --start-date and --end-date must be provided together"
+            )
+            return
+
+        try:
+            # Parse dates and make them timezone-aware (UTC)
+            parsed_start_date = datetime.strptime(start_date, "%Y-%m-%d").replace(
+                tzinfo=timezone.utc
+            )
+            parsed_end_date = datetime.strptime(end_date, "%Y-%m-%d").replace(
+                hour=23, minute=59, second=59, tzinfo=timezone.utc
+            )
+
+            # Validate date range
+            if parsed_start_date >= parsed_end_date:
+                click.echo("Error: --start-date must be before --end-date")
+                return
+
+        except ValueError as e:
+            click.echo(f"Error parsing dates: {e}")
+            click.echo("Date format should be YYYY-MM-DD (e.g., 2024-01-15)")
+            return
+
     report_text = generate_report(
-        username, days, include_timeline=timeline, include_aw=activitywatch
+        username,
+        days,
+        start_date=parsed_start_date,
+        end_date=parsed_end_date,
+        include_timeline=timeline,
+        include_aw=activitywatch,
     )
 
     if file:
@@ -320,22 +491,75 @@ def report(
 
 @cli.command()
 @click.argument("usernames", nargs=-1)
-@click.option("--days", default=7, help="Number of days to look back")
+@click.option(
+    "--days",
+    default=7,
+    help="Number of days to look back (ignored if --start-date and --end-date provided)",
+)
+@click.option("--start-date", help="Start date (YYYY-MM-DD, requires --end-date)")
+@click.option("--end-date", help="End date (YYYY-MM-DD, requires --start-date)")
 @click.option("--file", help="Save output to file instead of stdout")
 @click.option("--timeline", is_flag=True, help="Include detailed timeline")
-def team(usernames: tuple[str], days: int, file: Optional[str], timeline: bool):
+def team(
+    usernames: tuple[str],
+    days: int,
+    start_date: Optional[str],
+    end_date: Optional[str],
+    file: Optional[str],
+    timeline: bool,
+):
     """Generate combined activity report for multiple users"""
     if not usernames:
         print("Error: Please provide at least one username")
         return
 
+    # Parse and validate date range
+    parsed_start_date: Optional[datetime] = None
+    parsed_end_date: Optional[datetime] = None
+
+    if start_date or end_date:
+        # Both must be provided if either is provided
+        if not (start_date and end_date):
+            click.echo(
+                "Error: Both --start-date and --end-date must be provided together"
+            )
+            return
+
+        try:
+            # Parse dates and make them timezone-aware (UTC)
+            parsed_start_date = datetime.strptime(start_date, "%Y-%m-%d").replace(
+                tzinfo=timezone.utc
+            )
+            parsed_end_date = datetime.strptime(end_date, "%Y-%m-%d").replace(
+                hour=23, minute=59, second=59, tzinfo=timezone.utc
+            )
+
+            # Validate date range
+            if parsed_start_date >= parsed_end_date:
+                click.echo("Error: --start-date must be before --end-date")
+                return
+
+        except ValueError as e:
+            click.echo(f"Error parsing dates: {e}")
+            click.echo("Date format should be YYYY-MM-DD (e.g., 2024-01-15)")
+            return
+
+    # Generate header with appropriate date range text
     report_text = "# Team Activity Report\n\n"
-    report_text += f"Activity for the last {days} days:\n\n"
+    if parsed_start_date and parsed_end_date:
+        report_text += f"Activity from {start_date} to {end_date}:\n\n"
+    else:
+        report_text += f"Activity for the last {days} days:\n\n"
 
     for username in usernames:
         print(f"Fetching activity for {username}...")
         user_report = generate_report(
-            username, days, include_timeline=timeline, include_aw=False
+            username,
+            days,
+            start_date=parsed_start_date,
+            end_date=parsed_end_date,
+            include_timeline=timeline,
+            include_aw=False,
         )
         # Remove the title and first line from individual reports
         lines = user_report.split("\n")
