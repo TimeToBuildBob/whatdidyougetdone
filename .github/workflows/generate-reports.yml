@@ -44,7 +44,13 @@ jobs:
         echo "Generating gptme team report..."
         uv run ./whatdidyougetdone.py team ErikBjare TimeToBuildBob --days 7 --file reports/gptme-team-weekly.md
         
-        # Create index
+        # Copy web UI files
+        echo "Copying web UI files..."
+        cp index.html reports/
+        cp style.css reports/
+        cp script.js reports/
+        
+        # Create index.md for reference
         cat > reports/index.md << 'EOF'
         # Activity Reports
         
