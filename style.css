@@ -317,23 +317,23 @@ footer a:hover {
     header h1 {
         font-size: 2rem;
     }
-    
+
     .report-nav {
         flex-direction: column;
     }
-    
+
     .nav-btn {
         width: 100%;
     }
-    
+
     .report-content {
         padding: 1.5rem;
     }
-    
+
     .share-buttons {
         flex-direction: column;
     }
-    
+
     .share-btn {
         width: 100%;
     }
