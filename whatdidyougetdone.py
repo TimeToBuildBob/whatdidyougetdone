@@ -160,21 +160,44 @@ def get_user_activity(username: str, days: int = 7):
                         }
                     )
             elif event.type == "PullRequestEvent":
-                pr = event.payload.get("pull_request", {})
-                state = pr.get("state", "unknown")
-                if event.payload.get("action") == "closed" and pr.get("merged"):
-                    state = "merged"
+                pr_ref = event.payload.get("pull_request", {})
+                pr_number = pr_ref.get("number")
 
-                activities.append(
-                    {
-                        "type": "pr",
-                        "repo": event.repo.name,
-                        "title": pr.get("title", ""),
-                        "state": state,
-                        "number": pr.get("number", 0),
-                        "date": event.created_at,
-                    }
-                )
+                # Fetch full PR details to get title, state, etc.
+                # The event payload only contains PR reference, not full data
+                try:
+                    repo = g.get_repo(event.repo.full_name)
+                    pr = repo.get_pull(pr_number)
+
+                    state = pr.state
+                    if pr.merged:
+                        state = "merged"
+
+                    activities.append(
+                        {
+                            "type": "pr",
+                            "repo": event.repo.name,
+                            "title": pr.title,
+                            "state": state,
+                            "number": pr.number,
+                            "date": event.created_at,
+                        }
+                    )
+                except Exception as e:
+                    print(
+                        f"Warning: Could not fetch PR #{pr_number} from {event.repo.name}: {e}"
+                    )
+                    # Fallback to incomplete data
+                    activities.append(
+                        {
+                            "type": "pr",
+                            "repo": event.repo.name,
+                            "title": f"PR #{pr_number}",
+                            "state": "unknown",
+                            "number": pr_number,
+                            "date": event.created_at,
+                        }
+                    )
 
     except Exception as e:
         print(f"Error fetching GitHub activity: {e}")
