@@ -62,6 +62,9 @@ async function loadReport(reportName) {
         shareEl.style.display = 'block';
         loadingEl.style.display = 'none';
 
+        // Update dynamic OG tags
+        updateOpenGraphTags(reportName, markdown);
+
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -81,6 +84,49 @@ async function loadReport(reportName) {
     }
 }
 
+// Update Open Graph meta tags dynamically
+function updateOpenGraphTags(reportName, markdown) {
+    const reportNames = {
+        'bob-weekly': 'Bob',
+        'erik-weekly': 'Erik',
+        'gptme-team-weekly': 'gptme Team'
+    };
+
+    const name = reportNames[reportName] || 'User';
+    const stats = extractStats(markdown);
+
+    // Update title
+    const titleTag = document.querySelector('meta[property="og:title"]');
+    if (titleTag) {
+        titleTag.content = `${name}'s Weekly Activity - What Did You Get Done?`;
+    }
+
+    // Update description with stats
+    const descTag = document.querySelector('meta[property="og:description"]');
+    if (descTag) {
+        let desc = `${name}'s GitHub activity: `;
+        const parts = [];
+        if (stats.commits > 0) parts.push(`${stats.commits} commits`);
+        if (stats.prs > 0) parts.push(`${stats.prs} PRs`);
+        if (stats.repos > 0) parts.push(`${stats.repos} repos`);
+        desc += parts.join(', ');
+        descTag.content = desc;
+    }
+}
+
+// Extract stats from markdown content
+function extractStats(content) {
+    const commitMatch = content.match(/(\d+)\s+commits?/i);
+    const prMatch = content.match(/(\d+)\s+pull requests?/i);
+    const repoMatch = content.match(/(\d+)\s+active repositories?/i);
+
+    return {
+        commits: commitMatch ? parseInt(commitMatch[1]) : 0,
+        prs: prMatch ? parseInt(prMatch[1]) : 0,
+        repos: repoMatch ? parseInt(repoMatch[1]) : 0
+    };
+}
+
 // Load last updated time
 async function loadLastUpdated() {
     try {
@@ -98,19 +144,98 @@ async function loadLastUpdated() {
     }
 }
 
-// Share on Twitter/X
-function shareOnTwitter() {
-    const url = window.location.href;
-    const text = getShareText();
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-    window.open(twitterUrl, '_blank', 'width=550,height=420');
+// Generate share text with actual stats
+function getShareText() {
+    const reportNames = {
+        'bob-weekly': 'Bob',
+        'erik-weekly': 'Erik',
+        'gptme-team-weekly': 'gptme Team'
+    };
+
+    const name = reportNames[currentReport] || 'My';
+
+    // Parse report content for stats
+    const content = document.getElementById('report-content').innerText;
+    const stats = extractStats(content);
+
+    // Generate engaging text with stats
+    let text = `📊 ${name}'s week in GitHub:\n\n`;
+
+    if (stats.commits > 0) text += `💻 ${stats.commits} commits\n`;
+    if (stats.prs > 0) text += `🔀 ${stats.prs} pull requests\n`;
+    if (stats.repos > 0) text += `📦 ${stats.repos} active repos\n`;
+
+    text += '\n#WhatDidYouGetDone #GitHub #OpenSource';
+
+    return text;
 }
 
-// Share on LinkedIn
-function shareOnLinkedIn() {
+// Show share preview modal
+function showSharePreview(platform) {
+    const text = getShareText();
     const url = window.location.href;
-    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-    window.open(linkedInUrl, '_blank', 'width=550,height=420');
+
+    // Create modal HTML
+    const modalHTML = `
+        <div class="share-modal-overlay" id="shareModal">
+            <div class="share-modal">
+                <div class="share-modal-header">
+                    <h3>📢 Share Your Week</h3>
+                    <button class="close-modal" onclick="closeShareModal()">✕</button>
+                </div>
+                <div class="share-modal-body">
+                    <label for="shareText">Customize your share text:</label>
+                    <textarea id="shareText" rows="8">${text}</textarea>
+                    <div class="share-preview">
+                        <strong>Link:</strong> ${url}
+                    </div>
+                </div>
+                <div class="share-modal-footer">
+                    <button class="btn-secondary" onclick="closeShareModal()">Cancel</button>
+                    <button class="btn-primary" onclick="confirmShare('${platform}')">
+                        Share on ${platform}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Add modal to page
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// Close share modal
+function closeShareModal() {
+    const modal = document.getElementById('shareModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Confirm and execute share
+function confirmShare(platform) {
+    const text = document.getElementById('shareText').value;
+    const url = window.location.href;
+
+    closeShareModal();
+
+    if (platform === 'Twitter') {
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+        window.open(twitterUrl, '_blank', 'width=550,height=420');
+    } else if (platform === 'LinkedIn') {
+        const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        window.open(linkedInUrl, '_blank', 'width=550,height=420');
+    }
+}
+
+// Share on Twitter/X with preview
+function shareOnTwitter() {
+    showSharePreview('Twitter');
+}
+
+// Share on LinkedIn with preview
+function shareOnLinkedIn() {
+    showSharePreview('LinkedIn');
 }
 
 // Copy link to clipboard
@@ -164,18 +289,6 @@ function fallbackCopyToClipboard(text) {
     }
 
     document.body.removeChild(textArea);
-}
-
-// Generate share text based on current report
-function getShareText() {
-    const reportNames = {
-        'bob-weekly': 'Bob',
-        'erik-weekly': 'Erik',
-        'gptme-team-weekly': 'gptme Team'
-    };
-
-    const name = reportNames[currentReport] || 'My';
-    return `Check out ${name}'s weekly activity on GitHub! 📊`;
 }
 
 // Configure marked options

@@ -7,10 +7,18 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 0 pull requests
-- 📦 0 active repositories
+- 🔀 1 pull requests
+- 📦 1 active repositories
+
+### PR Breakdown by Type
+
+- ✨ Feat: 1
 
 ## Activity by Repository
+
+### gptme-contrib
+
+- ✅ feat: add GitHub integration and workspace management scripts
 
 
 ---
@@ -20,25 +28,24 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 26 pull requests
+- 🔀 29 pull requests
 - 📦 5 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 13
+- ✨ Feat: 17
 - 🐛 Fix: 8
 - 📝 Docs: 1
 - 🧪 Test: 1
-- 📦 Other: 3
+- 📦 Other: 2
 
 ## Activity by Repository
 
-### whatdidyougetdone
-
-- ✅ feat: add custom date range support (--start-date and --end-date)
-
 ### gptme
 
+- ❌ feat(lessons): add mode-specific configuration for lesson auto-inclusion
+- 🔄 feat(lessons): add file and match result caching for performance
+- ✅ feat(llm): add support for Claude Haiku 4.5
 - 🔄 test(codeblock): add edge case tests for nested markdown blocks
 - ✅ feat(lessons): implement status filtering for lesson lifecycle management
 - ✅ fix(anthropic): add timeout configuration to prevent indefinite hangs
@@ -62,13 +69,17 @@ Activity for the last 7 days:
 - ✅ feat(telemetry): add hostname to resource attributes
 - ✅ feat(telemetry): add agent name and interactive mode metadata
 
+### whatdidyougetdone
+
+- ✅ feat: add custom date range support (--start-date and --end-date)
+
 ### gptme-agent-template
 
 - ✅ feat(scripts): improve context generation with multi-file journal and tree depth limit
 
 ### gptme-contrib
 
-- 🔄 Add GitHub integration and workspace management scripts
+- ✅ feat: add GitHub integration and workspace management scripts
 
 ### gptme-webui
 
