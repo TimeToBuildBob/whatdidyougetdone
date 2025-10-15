@@ -27,7 +27,7 @@ function switchReport(reportName, button) {
         btn.classList.remove('active');
     });
     button.classList.add('active');
-    
+
     // Load new report
     currentReport = reportName;
     loadReport(reportName);
@@ -38,33 +38,33 @@ async function loadReport(reportName) {
     const loadingEl = document.getElementById('loading');
     const contentEl = document.getElementById('report-content');
     const shareEl = document.getElementById('share-section');
-    
+
     // Show loading
     loadingEl.style.display = 'block';
     contentEl.style.display = 'none';
     shareEl.style.display = 'none';
-    
+
     try {
         // Fetch markdown file
         const response = await fetch(`${REPORTS_BASE_URL}${reportName}.md`);
         if (!response.ok) {
             throw new Error(`Failed to load report: ${response.status}`);
         }
-        
+
         const markdown = await response.text();
-        
+
         // Convert markdown to HTML
         const html = marked.parse(markdown);
-        
+
         // Display content
         contentEl.innerHTML = html;
         contentEl.style.display = 'block';
         shareEl.style.display = 'block';
         loadingEl.style.display = 'none';
-        
+
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        
+
     } catch (error) {
         console.error('Error loading report:', error);
         contentEl.innerHTML = `
@@ -86,7 +86,7 @@ async function loadLastUpdated() {
     try {
         const response = await fetch(`${REPORTS_BASE_URL}index.md`);
         const text = await response.text();
-        
+
         // Extract timestamp from index.md
         const match = text.match(/Last updated: (.+)/);
         if (match) {
@@ -130,7 +130,7 @@ async function copyLink() {
 function showCopyFeedback() {
     const copyBtn = document.querySelector('.share-btn.copy');
     const originalText = copyBtn.innerHTML;
-    
+
     copyBtn.innerHTML = `
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="20 6 9 17 4 12"></polyline>
@@ -138,7 +138,7 @@ function showCopyFeedback() {
         Copied!
     `;
     copyBtn.style.background = 'var(--success-color)';
-    
+
     setTimeout(() => {
         copyBtn.innerHTML = originalText;
         copyBtn.style.background = '';
@@ -154,7 +154,7 @@ function fallbackCopyToClipboard(text) {
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
-    
+
     try {
         document.execCommand('copy');
         showCopyFeedback();
@@ -162,7 +162,7 @@ function fallbackCopyToClipboard(text) {
         console.error('Fallback copy failed:', error);
         alert('Failed to copy link. Please copy manually: ' + text);
     }
-    
+
     document.body.removeChild(textArea);
 }
 
@@ -173,7 +173,7 @@ function getShareText() {
         'erik-weekly': 'Erik',
         'gptme-team-weekly': 'gptme Team'
     };
-    
+
     const name = reportNames[currentReport] || 'My';
     return `Check out ${name}'s weekly activity on GitHub! 📊`;
 }

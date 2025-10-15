@@ -18,55 +18,55 @@ jobs:
       contents: write
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Install uv
       uses: astral-sh/setup-uv@v5
       with:
         version: "latest"
-    
+
     - name: Set up Python
       run: uv python install 3.12
-    
+
     - name: Generate reports
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         mkdir -p reports
-        
+
         # Generate individual reports
         echo "Generating report for TimeToBuildBob..."
         uv run ./whatdidyougetdone.py report TimeToBuildBob --days 7 --file reports/bob-weekly.md
-        
+
         echo "Generating report for ErikBjare..."
         uv run ./whatdidyougetdone.py report ErikBjare --days 7 --file reports/erik-weekly.md
-        
+
         # Generate team report
         echo "Generating gptme team report..."
         uv run ./whatdidyougetdone.py team ErikBjare TimeToBuildBob --days 7 --file reports/gptme-team-weekly.md
-        
+
         # Copy web UI files
         echo "Copying web UI files..."
         cp index.html reports/
         cp style.css reports/
         cp script.js reports/
-        
+
         # Create index.md for reference
         cat > reports/index.md << 'EOF'
         # Activity Reports
-        
+
         Auto-generated weekly activity reports using [whatdidyougetdone](https://github.com/ErikBjare/whatdidyougetdone).
-        
+
         ## Individual Reports
         - [Bob's Activity](bob-weekly.md)
         - [Erik's Activity](erik-weekly.md)
-        
+
         ## Team Reports
         - [gptme Team Activity](gptme-team-weekly.md)
-        
+
         ---
         Last updated: $(date -u '+%Y-%m-%d %H:%M UTC')
         EOF
-    
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
