@@ -237,6 +237,72 @@ def get_user_activity(
     return sorted(activities, key=lambda x: x["date"], reverse=True)
 
 
+def generate_ai_summary(activities: list[dict], username: str, days: int) -> str:
+    """Generate an AI-powered summary of user activity using gptme.
+
+    Args:
+        activities: List of activity dictionaries
+        username: GitHub username
+        days: Number of days covered
+
+    Returns:
+        AI-generated summary text
+    """
+    try:
+        # Prepare activity summary for the LLM
+        commit_count = sum(1 for a in activities if a["type"] == "commit")
+        pr_count = sum(1 for a in activities if a["type"] == "pr")
+        repos = {a["repo"] for a in activities}
+
+        # Get sample commits and PRs
+        commits = [
+            a["message"].split("\n")[0] for a in activities if a["type"] == "commit"
+        ][:10]
+        prs = [a["title"] for a in activities if a["type"] == "pr"][:10]
+
+        prompt = f"""Summarize this developer's activity over the past {days} days in 2-3 sentences.
+Focus on key themes, types of work, and notable achievements.
+
+Activity summary:
+- {commit_count} commits across {len(repos)} repositories
+- {pr_count} pull requests
+- Repositories: {", ".join(list(repos)[:5])}
+- Sample commits: {", ".join(commits[:5])}
+- Sample PRs: {", ".join(prs[:5])}
+
+Write a concise, engaging summary that highlights the developer's work. Be specific about types of changes (features, fixes, docs, etc.)."""
+
+        # Call gptme to generate summary
+        result = subprocess.run(
+            ["gptme", "--non-interactive", prompt],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+
+        if result.returncode == 0:
+            summary = result.stdout.strip()
+            # Remove any tool outputs or system messages, keep only the assistant response
+            lines = summary.split("\n")
+            # Skip lines that start with tool markers
+            clean_lines = [
+                line
+                for line in lines
+                if not line.startswith(("```", "System:", "User:"))
+            ]
+            summary = "\n".join(clean_lines).strip()
+            return f"## 🤖 AI Summary\n\n{summary}\n\n"
+        else:
+            return f"⚠️ AI summary unavailable (gptme error: {result.stderr[:100]})\n\n"
+
+    except subprocess.TimeoutExpired:
+        return "⚠️ AI summary unavailable (gptme timeout)\n\n"
+    except FileNotFoundError:
+        return "⚠️ AI summary unavailable (gptme not installed)\n\n"
+    except Exception as e:
+        return f"⚠️ AI summary error: {str(e)}\n\n"
+
+
 def generate_report(
     username: str,
     days: int = 7,
@@ -244,6 +310,7 @@ def generate_report(
     end_date: Optional[datetime] = None,
     include_timeline: bool = False,
     include_aw: bool = False,
+    ai_summary: bool = False,
 ):
     """Generate a markdown report of user activity.
 
@@ -254,6 +321,7 @@ def generate_report(
         end_date: Optional end date (UTC)
         include_timeline: Include detailed timeline
         include_aw: Include ActivityWatch data
+        ai_summary: Include AI-generated summary
     """
     activities = get_user_activity(username, days, start_date, end_date)
 
@@ -305,6 +373,10 @@ def generate_report(
         report += f"Activity from {start_str} to {end_str}:\n\n"
     else:
         report += f"Activity for the last {days} days:\n\n"
+
+    # AI Summary
+    if ai_summary:
+        report += generate_ai_summary(activities, username, days)
 
     # Summary stats
     report += "## Summary\n\n"
@@ -428,6 +500,9 @@ def cli():
 @click.option("--file", help="Save output to file instead of stdout")
 @click.option("--timeline", is_flag=True, help="Include detailed timeline")
 @click.option("--activitywatch", is_flag=True, help="Include local ActivityWatch data")
+@click.option(
+    "--ai-summary", is_flag=True, help="Include AI-generated summary (uses gptme CLI)"
+)
 def report(
     username: str,
     days: int,
@@ -436,6 +511,7 @@ def report(
     file: Optional[str],
     timeline: bool,
     activitywatch: bool,
+    ai_summary: bool,
 ):
     """Generate activity report for a single user.
 
@@ -479,6 +555,7 @@ def report(
         end_date=parsed_end_date,
         include_timeline=timeline,
         include_aw=activitywatch,
+        ai_summary=ai_summary,
     )
 
     if file:
