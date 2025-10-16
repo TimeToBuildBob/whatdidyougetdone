@@ -354,39 +354,30 @@ function setupTeamDashboard() {
         `;
         resultSection.style.display = 'block';
 
-        // TODO: Implement actual GitHub API calls
-        // For now, show a placeholder message
-        setTimeout(() => {
+        // Generate team report using GitHub API
+        try {
+            const report = await generateTeamReport(usernames, days, startDate, endDate);
+            const html = marked.parse(report);
+            resultContent.innerHTML = html;
+        } catch (error) {
+            console.error('Error generating team report:', error);
             resultContent.innerHTML = `
                 <div style="text-align: center; padding: 2rem;">
-                    <h3>🚧 Feature Under Development</h3>
-                    <p style="margin: 1rem 0;">
-                        The dynamic team report generation is currently under development.
+                    <h3>⚠️ Error Generating Report</h3>
+                    <p style="margin: 1rem 0; color: var(--text-secondary);">
+                        ${error.message}
                     </p>
-                    <p style="color: var(--text-secondary);">
-                        <strong>Your request:</strong><br/>
-                        Usernames: ${usernames.join(', ')}<br/>
-                        Days: ${days}<br/>
-                        ${startDate && endDate ? `Date range: ${startDate} to ${endDate}` : ''}
+                    <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        <strong>Troubleshooting:</strong>
                     </p>
-                    <p style="margin-top: 1.5rem; color: var(--text-secondary);">
-                        <strong>Next steps for implementation:</strong>
-                    </p>
-                    <ul style="text-align: left; max-width: 600px; margin: 1rem auto; color: var(--text-secondary);">
-                        <li>Add GitHub API authentication (requires user token or backend)</li>
-                        <li>Implement client-side GitHub API calls for fetching user activity</li>
-                        <li>Parse and aggregate activity data across users</li>
-                        <li>Format and display results as markdown</li>
-                        <li>Add caching to avoid rate limits</li>
+                    <ul style="text-align: left; max-width: 600px; margin: 1rem auto; color: var(--text-secondary); font-size: 0.9rem;">
+                        <li>Check that GitHub usernames are correct</li>
+                        <li>If rate limited, try again in an hour or provide a GitHub token</li>
+                        <li>Check the browser console for more details</li>
                     </ul>
-                    <p style="margin-top: 1.5rem;">
-                        <a href="https://github.com/ErikBjare/whatdidyougetdone" target="_blank" class="btn-primary">
-                            View Project on GitHub
-                        </a>
-                    </p>
                 </div>
             `;
-        }, 1000);
+        }
     });
 }
 
@@ -394,3 +385,153 @@ function setupTeamDashboard() {
 document.addEventListener('DOMContentLoaded', () => {
     setupTeamDashboard();
 });
+
+// GitHub API Integration
+async function fetchGitHubEvents(username, token = null) {
+    const headers = {
+        'Accept': 'application/vnd.github.v3+json'
+    };
+
+    if (token) {
+        headers['Authorization'] = `token ${token}`;
+    }
+
+    const response = await fetch(`https://api.github.com/users/${username}/events`, {
+        headers: headers
+    });
+
+    if (!response.ok) {
+        if (response.status === 404) {
+            throw new Error(`User "${username}" not found`);
+        } else if (response.status === 403) {
+            throw new Error('GitHub API rate limit exceeded. Please try again later or provide a GitHub token.');
+        }
+        throw new Error(`GitHub API error: ${response.status}`);
+    }
+
+    return await response.json();
+}
+
+async function generateTeamReport(usernames, days, startDate, endDate) {
+    // Calculate date range
+    const now = new Date();
+    const start = startDate ? new Date(startDate) : new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+    const end = endDate ? new Date(endDate) : now;
+
+    // Fetch events for all users
+    const allEvents = [];
+    const errors = [];
+
+    for (const username of usernames) {
+        try {
+            const events = await fetchGitHubEvents(username);
+            allEvents.push({ username, events });
+        } catch (error) {
+            errors.push({ username, error: error.message });
+        }
+    }
+
+    if (allEvents.length === 0) {
+        throw new Error('Failed to fetch activity for all users:\n' + errors.map(e => `- ${e.username}: ${e.error}`).join('\n'));
+    }
+
+    // Process events
+    const commits = [];
+    const prs = [];
+
+    for (const { username, events } of allEvents) {
+        for (const event of events) {
+            const eventDate = new Date(event.created_at);
+            if (eventDate < start || eventDate > end) {
+                continue;
+            }
+
+            if (event.type === 'PushEvent') {
+                for (const commit of event.payload.commits || []) {
+                    commits.push({
+                        username,
+                        repo: event.repo.name,
+                        message: commit.message,
+                        sha: commit.sha.substring(0, 7),
+                        date: eventDate
+                    });
+                }
+            } else if (event.type === 'PullRequestEvent') {
+                const pr = event.payload.pull_request;
+                prs.push({
+                    username,
+                    repo: event.repo.name,
+                    number: pr.number,
+                    title: pr.title,
+                    state: pr.state,
+                    action: event.payload.action,
+                    date: eventDate
+                });
+            }
+        }
+    }
+
+    // Generate markdown report
+    let report = `# Team Activity Report\n\n`;
+    report += `**Period:** ${start.toLocaleDateString()} - ${end.toLocaleDateString()}\n`;
+    report += `**Team Members:** ${usernames.join(', ')}\n\n`;
+
+    if (errors.length > 0) {
+        report += `## ⚠️ Warnings\n\n`;
+        for (const error of errors) {
+            report += `- ${error.username}: ${error.error}\n`;
+        }
+        report += `\n`;
+    }
+
+    // Commits section
+    report += `## 📝 Commits (${commits.length})\n\n`;
+    if (commits.length > 0) {
+        const commitsByRepo = {};
+        for (const commit of commits) {
+            if (!commitsByRepo[commit.repo]) {
+                commitsByRepo[commit.repo] = [];
+            }
+            commitsByRepo[commit.repo].push(commit);
+        }
+
+        for (const [repo, repoCommits] of Object.entries(commitsByRepo)) {
+            report += `### ${repo} (${repoCommits.length} commits)\n\n`;
+            for (const commit of repoCommits.slice(0, 10)) {
+                const message = commit.message.split('\n')[0];
+                report += `- **${commit.username}** \`${commit.sha}\` ${message}\n`;
+            }
+            if (repoCommits.length > 10) {
+                report += `- ... and ${repoCommits.length - 10} more commits\n`;
+            }
+            report += `\n`;
+        }
+    } else {
+        report += `No commits found in this period.\n\n`;
+    }
+
+    // PRs section
+    report += `## 🔀 Pull Requests (${prs.length})\n\n`;
+    if (prs.length > 0) {
+        const prsByRepo = {};
+        for (const pr of prs) {
+            if (!prsByRepo[pr.repo]) {
+                prsByRepo[pr.repo] = [];
+            }
+            prsByRepo[pr.repo].push(pr);
+        }
+
+        for (const [repo, repoPrs] of Object.entries(prsByRepo)) {
+            report += `### ${repo}\n\n`;
+            for (const pr of repoPrs) {
+                const stateIcon = pr.state === 'open' ? '🔄' : pr.state === 'closed' ? '✅' : '❌';
+                report += `- ${stateIcon} **${pr.username}** #${pr.number}: ${pr.title}\n`;
+            }
+            report += `\n`;
+        }
+    } else {
+        report += `No pull requests found in this period.\n\n`;
+    }
+
+    return report;
+}
