@@ -3,96 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What Did You Get Done? - Activity Reports</title>
-    <meta name="description" content="Track and share your GitHub activity. See what you accomplished this week.">
-
-    <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="What Did You Get Done?">
-    <meta property="og:description" content="Track and share your GitHub activity">
-    <meta property="og:url" content="https://erikbjare.github.io/whatdidyougetdone/">
-    <meta property="og:site_name" content="What Did You Get Done?">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="What Did You Get Done?">
-    <meta name="twitter:description" content="Track and share your GitHub activity">
-    <meta name="twitter:creator" content="@TimeToBuildBob">
-
-    <!-- Styles -->
+    <title>What Did You Get Done? - GitHub Activity Reports</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- Markdown parser -->
-    <script src="https://cdn.jsdelivr.net/npm/marked@11.0.0/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <header>
-        <div class="container">
+    <div class="container">
+        <header>
             <h1>📊 What Did You Get Done?</h1>
-            <p class="subtitle">Weekly activity reports from GitHub</p>
-        </div>
-    </header>
+            <p class="subtitle">Track and share your GitHub achievements</p>
+        </header>
 
-    <main class="container">
-        <!-- Navigation -->
-        <nav class="report-nav">
+        <nav class="nav-buttons">
             <button class="nav-btn active" data-report="bob-weekly">Bob</button>
             <button class="nav-btn" data-report="erik-weekly">Erik</button>
             <button class="nav-btn" data-report="gptme-team-weekly">gptme Team</button>
+            <button class="nav-btn" data-view="custom-team">🎯 Custom Team</button>
         </nav>
 
-        <!-- Loading indicator -->
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
-            <p>Loading report...</p>
-        </div>
+        <!-- Team Dashboard Section -->
+        <section id="team-dashboard" class="team-dashboard" style="display: none;">
+            <h2>🎯 Create Custom Team Report</h2>
+            <p class="subtitle">Enter GitHub usernames to generate a team activity report</p>
 
-        <!-- Report content -->
-        <article id="report-content" class="report-content">
-            <!-- Markdown content will be rendered here -->
-        </article>
-
-        <!-- Share buttons -->
-        <div id="share-section" class="share-section" style="display: none;">
-            <h3>📢 Share Your Week</h3>
-            <div class="share-buttons">
-                <button class="share-btn twitter" onclick="shareOnTwitter()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                    Share on X
-                </button>
-                <button class="share-btn linkedin" onclick="shareOnLinkedIn()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                    Share on LinkedIn
-                </button>
-                <button class="share-btn copy" onclick="copyLink()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                    </svg>
-                    Copy Link
-                </button>
+            <!-- Rate Limit Display -->
+            <div id="rate-limit-display" class="rate-limit-display">
+                <div class="rate-limit-content">
+                    <span class="rate-limit-icon">⏱️</span>
+                    <span class="rate-limit-text">Loading rate limit info...</span>
+                    <button id="refresh-rate-limit" class="refresh-rate-limit-btn" title="Refresh rate limit status">🔄</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Footer info -->
-        <div class="footer-info">
-            <p>
-                Reports auto-generated weekly •
-                <a href="https://github.com/ErikBjare/whatdidyougetdone" target="_blank">View on GitHub</a>
-            </p>
-            <p class="last-updated">Last updated: <span id="last-updated"></span></p>
-        </div>
-    </main>
+            <form id="team-form" class="team-form">
+                <div class="form-group">
+                    <label for="team-usernames">GitHub Usernames (comma-separated):</label>
+                    <input
+                        type="text"
+                        id="team-usernames"
+                        name="usernames"
+                        placeholder="e.g., ErikBjare, TimeToBuildBob"
+                        required
+                    />
+                </div>
 
-    <footer>
-        <div class="container">
-            <p>Built with <a href="https://github.com/ErikBjare/whatdidyougetdone" target="_blank">whatdidyougetdone</a></p>
-        </div>
-    </footer>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="team-days">Days to look back:</label>
+                        <input
+                            type="number"
+                            id="team-days"
+                            name="days"
+                            min="1"
+                            max="90"
+                            value="7"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team-start-date">Start Date (optional):</label>
+                        <input
+                            type="date"
+                            id="team-start-date"
+                            name="start-date"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team-end-date">End Date (optional):</label>
+                        <input
+                            type="date"
+                            id="team-end-date"
+                            name="end-date"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="github-token">GitHub Token (optional, for higher rate limits):</label>
+                    <input
+                        type="password"
+                        id="github-token"
+                        name="token"
+                        placeholder="ghp_..."
+                    />
+                    <p class="help-text">
+                        Without token: 60 requests/hour. With token: 5000 requests/hour.
+                        <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=What%20Did%20You%20Get%20Done" target="_blank">Create token →</a>
+                    </p>
+                </div>
+
+                <button type="submit" class="generate-btn">
+                    <span class="btn-icon">🚀</span>
+                    Generate Team Report
+                </button>
+            </form>
+
+            <div id="team-result" class="result-section"></div>
+        </section>
+
+        <!-- Pre-generated Reports Section -->
+        <section id="reports" class="reports">
+            <div id="report-content" class="report-content"></div>
+        </section>
+
+        <footer>
+            <p>Built with ❤️ by <a href="https://github.com/TimeToBuildBob" target="_blank">Bob</a></p>
+            <p>Powered by <a href="https://github.com/TimeToBuildBob/whatdidyougetdone" target="_blank">What Did You Get Done?</a></p>
+        </footer>
+    </div>
 
     <script src="script.js"></script>
 </body>

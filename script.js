@@ -1,5 +1,5 @@
 // Configuration
-const REPORTS_BASE_URL = 'reports/';
+const REPORTS_BASE_URL = '';
 let currentReport = 'bob-weekly';
 
 // Initialize on page load
@@ -296,3 +296,375 @@ marked.setOptions({
     breaks: true,
     gfm: true
 });
+
+// Team Dashboard functionality
+function setupTeamDashboard() {
+    const teamForm = document.getElementById('team-form');
+    const teamDashboard = document.getElementById('team-dashboard');
+    const reportContent = document.getElementById('report-content');
+    const shareSection = document.getElementById('share-section');
+
+    // Handle view switching
+    const navButtons = document.querySelectorAll('.nav-btn');
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.dataset.view === 'custom-team') {
+                // Show team dashboard
+                teamDashboard.style.display = 'block';
+                reportContent.style.display = 'none';
+                shareSection.style.display = 'none';
+                document.getElementById('loading').style.display = 'none';
+
+                // Update active button
+                document.querySelectorAll('.nav-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                btn.classList.add('active');
+            }
+        });
+    });
+
+    // Handle form submission
+    teamForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const usernames = document.getElementById('team-usernames').value
+            .split(',')
+            .map(u => u.trim())
+            .filter(u => u.length > 0);
+
+        const days = parseInt(document.getElementById('team-days').value);
+        const startDate = document.getElementById('team-start-date').value;
+        const endDate = document.getElementById('team-end-date').value;
+        const token = document.getElementById('github-token').value.trim() || null;
+
+        if (usernames.length === 0) {
+            alert('Please enter at least one GitHub username');
+            return;
+        }
+
+        // Show loading
+        const resultSection = document.getElementById('team-result');
+        const resultContent = document.getElementById('team-content');
+
+        resultContent.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <div class="spinner"></div>
+                <p>Generating team report...</p>
+            </div>
+        `;
+        resultSection.style.display = 'block';
+
+        // Generate team report using GitHub API
+        try {
+            const report = await generateTeamReport(usernames, days, startDate, endDate, token);
+            const html = marked.parse(report);
+            resultContent.innerHTML = html;
+
+            // Update rate limit display after API calls
+            await updateRateLimitDisplay(token);
+        } catch (error) {
+            // Update rate limit even on error (to show if rate limited)
+            await updateRateLimitDisplay(token);
+            console.error('Error generating team report:', error);
+            resultContent.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <h3>⚠️ Error Generating Report</h3>
+                    <p style="margin: 1rem 0; color: var(--text-secondary);">
+                        ${error.message}
+                    </p>
+                    <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        <strong>Troubleshooting:</strong>
+                    </p>
+                    <ul style="text-align: left; max-width: 600px; margin: 1rem auto; color: var(--text-secondary); font-size: 0.9rem;">
+                        <li>Check that GitHub usernames are correct</li>
+                        <li>If rate limited, try again in an hour or provide a GitHub token</li>
+                        <li>Check the browser console for more details</li>
+                    </ul>
+                </div>
+            `;
+        }
+    });
+}
+
+// Initialize team dashboard when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setupTeamDashboard();
+});
+
+// GitHub API Integration
+async function fetchGitHubEvents(username, token = null) {
+    const headers = {
+        'Accept': 'application/vnd.github.v3+json'
+    };
+
+    if (token) {
+        headers['Authorization'] = `token ${token}`;
+    }
+
+    const response = await fetch(`https://api.github.com/users/${username}/events`, {
+        headers: headers
+    });
+
+    if (!response.ok) {
+        if (response.status === 404) {
+            throw new Error(`User "${username}" not found`);
+        } else if (response.status === 403) {
+            throw new Error('GitHub API rate limit exceeded. Please try again later or provide a GitHub token.');
+        }
+        throw new Error(`GitHub API error: ${response.status}`);
+    }
+
+    return await response.json();
+}
+
+async function generateTeamReport(usernames, days, startDate, endDate, token = null) {
+    // Calculate date range
+    const now = new Date();
+    const start = startDate ? new Date(startDate) : new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+    const end = endDate ? new Date(endDate) : now;
+
+    // Fetch events for all users
+    const allEvents = [];
+    const errors = [];
+
+    for (let i = 0; i < usernames.length; i++) {
+        const username = usernames[i];
+
+        // Update progress indicator
+        const resultContent = document.getElementById('team-content');
+        resultContent.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <div class="spinner"></div>
+                <p>Generating team report...</p>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">
+                    Fetching activity for <strong>${username}</strong> (${i + 1}/${usernames.length})
+                </p>
+            </div>
+        `;
+
+        try {
+            const events = await fetchGitHubEvents(username, token);
+            allEvents.push({ username, events });
+        } catch (error) {
+            errors.push({ username, error: error.message });
+        }
+    }
+
+    if (allEvents.length === 0) {
+        throw new Error('Failed to fetch activity for all users:\n' + errors.map(e => `- ${e.username}: ${e.error}`).join('\n'));
+    }
+
+    // Process events
+    const commits = [];
+    const prs = [];
+
+    for (const { username, events } of allEvents) {
+        for (const event of events) {
+            const eventDate = new Date(event.created_at);
+            if (eventDate < start || eventDate > end) {
+                continue;
+            }
+
+            if (event.type === 'PushEvent') {
+                for (const commit of event.payload.commits || []) {
+                    commits.push({
+                        username,
+                        repo: event.repo.name,
+                        message: commit.message,
+                        sha: commit.sha.substring(0, 7),
+                        date: eventDate
+                    });
+                }
+            } else if (event.type === 'PullRequestEvent') {
+                const pr = event.payload.pull_request;
+                prs.push({
+                    username,
+                    repo: event.repo.name,
+                    number: pr.number,
+                    title: pr.title,
+                    state: pr.state,
+                    action: event.payload.action,
+                    date: eventDate
+                });
+            }
+        }
+    }
+
+    // Generate markdown report
+    let report = `# Team Activity Report\n\n`;
+    report += `**Period:** ${start.toLocaleDateString()} - ${end.toLocaleDateString()}\n`;
+    report += `**Team Members:** ${usernames.join(', ')}\n\n`;
+
+    if (errors.length > 0) {
+        report += `## ⚠️ Warnings\n\n`;
+        for (const error of errors) {
+            report += `- ${error.username}: ${error.error}\n`;
+        }
+        report += `\n`;
+    }
+
+    // Commits section
+    report += `## 📝 Commits (${commits.length})\n\n`;
+    if (commits.length > 0) {
+        const commitsByRepo = {};
+        for (const commit of commits) {
+            if (!commitsByRepo[commit.repo]) {
+                commitsByRepo[commit.repo] = [];
+            }
+            commitsByRepo[commit.repo].push(commit);
+        }
+
+        for (const [repo, repoCommits] of Object.entries(commitsByRepo)) {
+            report += `### ${repo} (${repoCommits.length} commits)\n\n`;
+            for (const commit of repoCommits.slice(0, 10)) {
+                const message = commit.message.split('\n')[0];
+                report += `- **${commit.username}** \`${commit.sha}\` ${message}\n`;
+            }
+            if (repoCommits.length > 10) {
+                report += `- ... and ${repoCommits.length - 10} more commits\n`;
+            }
+            report += `\n`;
+        }
+    } else {
+        report += `No commits found in this period.\n\n`;
+    }
+
+    // PRs section
+    report += `## 🔀 Pull Requests (${prs.length})\n\n`;
+    if (prs.length > 0) {
+        const prsByRepo = {};
+        for (const pr of prs) {
+            if (!prsByRepo[pr.repo]) {
+                prsByRepo[pr.repo] = [];
+            }
+            prsByRepo[pr.repo].push(pr);
+        }
+
+        for (const [repo, repoPrs] of Object.entries(prsByRepo)) {
+            report += `### ${repo}\n\n`;
+            for (const pr of repoPrs) {
+                const stateIcon = pr.state === 'open' ? '🔄' : pr.state === 'closed' ? '✅' : '❌';
+                report += `- ${stateIcon} **${pr.username}** #${pr.number}: ${pr.title}\n`;
+            }
+            report += `\n`;
+        }
+    } else {
+        report += `No pull requests found in this period.\n\n`;
+    }
+
+    return report;
+}
+
+// Rate Limit Management
+async function fetchRateLimit(token = null) {
+    const headers = {
+        'Accept': 'application/vnd.github.v3+json'
+    };
+
+    if (token) {
+        headers['Authorization'] = `token ${token}`;
+    }
+
+    try {
+        const response = await fetch('https://api.github.com/rate_limit', { headers });
+        const data = await response.json();
+        return data.rate;
+    } catch (error) {
+        console.error('Error fetching rate limit:', error);
+        return null;
+    }
+}
+
+function formatRateLimitDisplay(rateLimit) {
+    if (!rateLimit) {
+        return 'Unable to fetch rate limit info';
+    }
+
+    const { limit, remaining, reset } = rateLimit;
+    const resetDate = new Date(reset * 1000);
+    const now = new Date();
+    const minutesUntilReset = Math.ceil((resetDate - now) / 1000 / 60);
+
+    let timeText;
+    if (minutesUntilReset < 60) {
+        timeText = `${minutesUntilReset} minute${minutesUntilReset !== 1 ? 's' : ''}`;
+    } else {
+        const hours = Math.floor(minutesUntilReset / 60);
+        timeText = `${hours} hour${hours !== 1 ? 's' : ''}`;
+    }
+
+    const percentage = (remaining / limit * 100).toFixed(0);
+    const authenticated = limit > 60 ? '🔐 Authenticated' : '🔓 Unauthenticated';
+
+    return `
+        <span class="rate-limit-remaining">${remaining}/${limit}</span> requests remaining
+        <span class="rate-limit-reset">(resets in ${timeText})</span>
+        <span class="rate-limit-auth">${authenticated}</span>
+    `;
+}
+
+function getRateLimitClass(rateLimit) {
+    if (!rateLimit) return '';
+
+    const percentage = (rateLimit.remaining / rateLimit.limit * 100);
+
+    if (percentage < 10) return 'danger';
+    if (percentage < 30) return 'warning';
+    return '';
+}
+
+async function updateRateLimitDisplay(token = null) {
+    const display = document.getElementById('rate-limit-display');
+    const textElement = display.querySelector('.rate-limit-text');
+
+    if (!display || !textElement) return;
+
+    // Show loading state
+    textElement.innerHTML = 'Checking rate limit...';
+
+    // Fetch rate limit
+    const rateLimit = await fetchRateLimit(token);
+
+    // Update display
+    if (rateLimit) {
+        textElement.innerHTML = formatRateLimitDisplay(rateLimit);
+
+        // Update display class based on remaining requests
+        display.className = 'rate-limit-display ' + getRateLimitClass(rateLimit);
+    } else {
+        textElement.innerHTML = 'Unable to check rate limit';
+        display.className = 'rate-limit-display';
+    }
+}
+
+// Initialize rate limit display when team dashboard is shown
+function initializeRateLimitDisplay() {
+    const refreshButton = document.getElementById('refresh-rate-limit');
+    const tokenInput = document.getElementById('github-token');
+
+    if (refreshButton) {
+        refreshButton.addEventListener('click', () => {
+            const token = tokenInput?.value?.trim() || null;
+            updateRateLimitDisplay(token);
+        });
+    }
+
+    // Update rate limit when token is entered/changed
+    if (tokenInput) {
+        tokenInput.addEventListener('change', () => {
+            const token = tokenInput.value?.trim() || null;
+            updateRateLimitDisplay(token);
+        });
+    }
+
+    // Initial fetch
+    updateRateLimitDisplay();
+}
+
+// Call initializeRateLimitDisplay when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeRateLimitDisplay);
+} else {
+    initializeRateLimitDisplay();
+}
