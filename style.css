@@ -620,3 +620,62 @@ footer a:hover {
     padding-top: 2rem;
     border-top: 2px solid var(--border-color);
 }
+/* Rate Limit Display */
+.rate-limit-display {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.rate-limit-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-size: 14px;
+}
+
+.rate-limit-icon {
+    font-size: 20px;
+}
+
+.rate-limit-text {
+    flex: 1;
+    font-weight: 500;
+}
+
+.rate-limit-text .rate-limit-remaining {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.rate-limit-text .rate-limit-reset {
+    opacity: 0.9;
+    font-size: 13px;
+}
+
+.refresh-rate-limit-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.refresh-rate-limit-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.rate-limit-display.warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.rate-limit-display.danger {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}

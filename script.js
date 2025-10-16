@@ -360,7 +360,12 @@ function setupTeamDashboard() {
             const report = await generateTeamReport(usernames, days, startDate, endDate, token);
             const html = marked.parse(report);
             resultContent.innerHTML = html;
+
+            // Update rate limit display after API calls
+            await updateRateLimitDisplay(token);
         } catch (error) {
+            // Update rate limit even on error (to show if rate limited)
+            await updateRateLimitDisplay(token);
             console.error('Error generating team report:', error);
             resultContent.innerHTML = `
                 <div style="text-align: center; padding: 2rem;">
@@ -549,4 +554,117 @@ async function generateTeamReport(usernames, days, startDate, endDate, token = n
     }
 
     return report;
+}
+
+// Rate Limit Management
+async function fetchRateLimit(token = null) {
+    const headers = {
+        'Accept': 'application/vnd.github.v3+json'
+    };
+
+    if (token) {
+        headers['Authorization'] = `token ${token}`;
+    }
+
+    try {
+        const response = await fetch('https://api.github.com/rate_limit', { headers });
+        const data = await response.json();
+        return data.rate;
+    } catch (error) {
+        console.error('Error fetching rate limit:', error);
+        return null;
+    }
+}
+
+function formatRateLimitDisplay(rateLimit) {
+    if (!rateLimit) {
+        return 'Unable to fetch rate limit info';
+    }
+
+    const { limit, remaining, reset } = rateLimit;
+    const resetDate = new Date(reset * 1000);
+    const now = new Date();
+    const minutesUntilReset = Math.ceil((resetDate - now) / 1000 / 60);
+
+    let timeText;
+    if (minutesUntilReset < 60) {
+        timeText = `${minutesUntilReset} minute${minutesUntilReset !== 1 ? 's' : ''}`;
+    } else {
+        const hours = Math.floor(minutesUntilReset / 60);
+        timeText = `${hours} hour${hours !== 1 ? 's' : ''}`;
+    }
+
+    const percentage = (remaining / limit * 100).toFixed(0);
+    const authenticated = limit > 60 ? '🔐 Authenticated' : '🔓 Unauthenticated';
+
+    return `
+        <span class="rate-limit-remaining">${remaining}/${limit}</span> requests remaining
+        <span class="rate-limit-reset">(resets in ${timeText})</span>
+        <span class="rate-limit-auth">${authenticated}</span>
+    `;
+}
+
+function getRateLimitClass(rateLimit) {
+    if (!rateLimit) return '';
+
+    const percentage = (rateLimit.remaining / rateLimit.limit * 100);
+
+    if (percentage < 10) return 'danger';
+    if (percentage < 30) return 'warning';
+    return '';
+}
+
+async function updateRateLimitDisplay(token = null) {
+    const display = document.getElementById('rate-limit-display');
+    const textElement = display.querySelector('.rate-limit-text');
+
+    if (!display || !textElement) return;
+
+    // Show loading state
+    textElement.innerHTML = 'Checking rate limit...';
+
+    // Fetch rate limit
+    const rateLimit = await fetchRateLimit(token);
+
+    // Update display
+    if (rateLimit) {
+        textElement.innerHTML = formatRateLimitDisplay(rateLimit);
+
+        // Update display class based on remaining requests
+        display.className = 'rate-limit-display ' + getRateLimitClass(rateLimit);
+    } else {
+        textElement.innerHTML = 'Unable to check rate limit';
+        display.className = 'rate-limit-display';
+    }
+}
+
+// Initialize rate limit display when team dashboard is shown
+function initializeRateLimitDisplay() {
+    const refreshButton = document.getElementById('refresh-rate-limit');
+    const tokenInput = document.getElementById('github-token');
+
+    if (refreshButton) {
+        refreshButton.addEventListener('click', () => {
+            const token = tokenInput?.value?.trim() || null;
+            updateRateLimitDisplay(token);
+        });
+    }
+
+    // Update rate limit when token is entered/changed
+    if (tokenInput) {
+        tokenInput.addEventListener('change', () => {
+            const token = tokenInput.value?.trim() || null;
+            updateRateLimitDisplay(token);
+        });
+    }
+
+    // Initial fetch
+    updateRateLimitDisplay();
+}
+
+// Call initializeRateLimitDisplay when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeRateLimitDisplay);
+} else {
+    initializeRateLimitDisplay();
 }
