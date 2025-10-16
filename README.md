@@ -195,7 +195,7 @@ The web UI is automatically deployed to GitHub Pages via the `generate-reports.y
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/ErikBjare/whatdidyougetdone.git
+git clone https://github.com/TimeToBuildBob/whatdidyougetdone.git
 cd whatdidyougetdone
 ```
 
@@ -331,7 +331,7 @@ Built with:
 
 ## Links
 
-- [GitHub Repository](https://github.com/ErikBjare/whatdidyougetdone)
+- [GitHub Repository](https://github.com/TimeToBuildBob/whatdidyougetdone)
 - [Live Demo](https://erikbjare.github.io/whatdidyougetdone/)
 - [ActivityWatch](https://activitywatch.net/)
-- [Issue Tracker](https://github.com/ErikBjare/whatdidyougetdone/issues)
+- [Issue Tracker](https://github.com/TimeToBuildBob/whatdidyougetdone/issues)

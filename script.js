@@ -1,5 +1,5 @@
 // Configuration
-const REPORTS_BASE_URL = 'reports/';
+const REPORTS_BASE_URL = '';
 let currentReport = 'bob-weekly';
 
 // Initialize on page load
