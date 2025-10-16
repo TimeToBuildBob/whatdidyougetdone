@@ -296,3 +296,101 @@ marked.setOptions({
     breaks: true,
     gfm: true
 });
+
+// Team Dashboard functionality
+function setupTeamDashboard() {
+    const teamForm = document.getElementById('team-form');
+    const teamDashboard = document.getElementById('team-dashboard');
+    const reportContent = document.getElementById('report-content');
+    const shareSection = document.getElementById('share-section');
+
+    // Handle view switching
+    const navButtons = document.querySelectorAll('.nav-btn');
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.dataset.view === 'custom-team') {
+                // Show team dashboard
+                teamDashboard.style.display = 'block';
+                reportContent.style.display = 'none';
+                shareSection.style.display = 'none';
+                document.getElementById('loading').style.display = 'none';
+
+                // Update active button
+                document.querySelectorAll('.nav-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                btn.classList.add('active');
+            }
+        });
+    });
+
+    // Handle form submission
+    teamForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const usernames = document.getElementById('team-usernames').value
+            .split(',')
+            .map(u => u.trim())
+            .filter(u => u.length > 0);
+
+        const days = parseInt(document.getElementById('team-days').value);
+        const startDate = document.getElementById('team-start-date').value;
+        const endDate = document.getElementById('team-end-date').value;
+
+        if (usernames.length === 0) {
+            alert('Please enter at least one GitHub username');
+            return;
+        }
+
+        // Show loading
+        const resultSection = document.getElementById('team-result');
+        const resultContent = document.getElementById('team-content');
+
+        resultContent.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <div class="spinner"></div>
+                <p>Generating team report...</p>
+            </div>
+        `;
+        resultSection.style.display = 'block';
+
+        // TODO: Implement actual GitHub API calls
+        // For now, show a placeholder message
+        setTimeout(() => {
+            resultContent.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <h3>🚧 Feature Under Development</h3>
+                    <p style="margin: 1rem 0;">
+                        The dynamic team report generation is currently under development.
+                    </p>
+                    <p style="color: var(--text-secondary);">
+                        <strong>Your request:</strong><br/>
+                        Usernames: ${usernames.join(', ')}<br/>
+                        Days: ${days}<br/>
+                        ${startDate && endDate ? `Date range: ${startDate} to ${endDate}` : ''}
+                    </p>
+                    <p style="margin-top: 1.5rem; color: var(--text-secondary);">
+                        <strong>Next steps for implementation:</strong>
+                    </p>
+                    <ul style="text-align: left; max-width: 600px; margin: 1rem auto; color: var(--text-secondary);">
+                        <li>Add GitHub API authentication (requires user token or backend)</li>
+                        <li>Implement client-side GitHub API calls for fetching user activity</li>
+                        <li>Parse and aggregate activity data across users</li>
+                        <li>Format and display results as markdown</li>
+                        <li>Add caching to avoid rate limits</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem;">
+                        <a href="https://github.com/ErikBjare/whatdidyougetdone" target="_blank" class="btn-primary">
+                            View Project on GitHub
+                        </a>
+                    </p>
+                </div>
+            `;
+        }, 1000);
+    });
+}
+
+// Initialize team dashboard when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setupTeamDashboard();
+});

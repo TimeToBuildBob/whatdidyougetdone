@@ -39,7 +39,73 @@
             <button class="nav-btn active" data-report="bob-weekly">Bob</button>
             <button class="nav-btn" data-report="erik-weekly">Erik</button>
             <button class="nav-btn" data-report="gptme-team-weekly">gptme Team</button>
+            <button class="nav-btn" data-view="custom-team">🎯 Custom Team</button>
         </nav>
+
+        <!-- Team Dashboard Section -->
+        <section id="team-dashboard" class="team-dashboard" style="display: none;">
+            <h2>🎯 Create Custom Team Report</h2>
+            <p class="subtitle">Enter GitHub usernames to generate a team activity report</p>
+
+            <form id="team-form" class="team-form">
+                <div class="form-group">
+                    <label for="team-usernames">GitHub Usernames (comma-separated):</label>
+                    <input
+                        type="text"
+                        id="team-usernames"
+                        name="usernames"
+                        placeholder="erikbjare, TimeToBuildBob, username3"
+                        required
+                    />
+                    <small>Enter usernames separated by commas</small>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="team-days">Days to look back:</label>
+                        <input
+                            type="number"
+                            id="team-days"
+                            name="days"
+                            min="1"
+                            max="90"
+                            value="7"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team-start-date">Start Date (optional):</label>
+                        <input
+                            type="date"
+                            id="team-start-date"
+                            name="start_date"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team-end-date">End Date (optional):</label>
+                        <input
+                            type="date"
+                            id="team-end-date"
+                            name="end_date"
+                        />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    Generate Team Report
+                </button>
+            </form>
+
+            <div id="team-result" class="team-result" style="display: none;">
+                <h3>Team Activity Report</h3>
+                <div id="team-content" class="report-content"></div>
+            </div>
+        </section>
 
         <!-- Loading indicator -->
         <div id="loading" class="loading">
