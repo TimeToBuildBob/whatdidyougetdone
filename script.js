@@ -336,6 +336,7 @@ function setupTeamDashboard() {
         const days = parseInt(document.getElementById('team-days').value);
         const startDate = document.getElementById('team-start-date').value;
         const endDate = document.getElementById('team-end-date').value;
+        const token = document.getElementById('github-token').value.trim() || null;
 
         if (usernames.length === 0) {
             alert('Please enter at least one GitHub username');
@@ -356,7 +357,7 @@ function setupTeamDashboard() {
 
         // Generate team report using GitHub API
         try {
-            const report = await generateTeamReport(usernames, days, startDate, endDate);
+            const report = await generateTeamReport(usernames, days, startDate, endDate, token);
             const html = marked.parse(report);
             resultContent.innerHTML = html;
         } catch (error) {
@@ -412,7 +413,7 @@ async function fetchGitHubEvents(username, token = null) {
     return await response.json();
 }
 
-async function generateTeamReport(usernames, days, startDate, endDate) {
+async function generateTeamReport(usernames, days, startDate, endDate, token = null) {
     // Calculate date range
     const now = new Date();
     const start = startDate ? new Date(startDate) : new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
@@ -422,9 +423,23 @@ async function generateTeamReport(usernames, days, startDate, endDate) {
     const allEvents = [];
     const errors = [];
 
-    for (const username of usernames) {
+    for (let i = 0; i < usernames.length; i++) {
+        const username = usernames[i];
+
+        // Update progress indicator
+        const resultContent = document.getElementById('team-content');
+        resultContent.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <div class="spinner"></div>
+                <p>Generating team report...</p>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">
+                    Fetching activity for <strong>${username}</strong> (${i + 1}/${usernames.length})
+                </p>
+            </div>
+        `;
+
         try {
-            const events = await fetchGitHubEvents(username);
+            const events = await fetchGitHubEvents(username, token);
             allEvents.push({ username, events });
         } catch (error) {
             errors.push({ username, error: error.message });
