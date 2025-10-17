@@ -5,21 +5,31 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 38 pull requests
+- 🔀 44 pull requests
 - 📦 5 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 16
-- 🐛 Fix: 17
-- 📝 Docs: 1
+- ✨ Feat: 17
+- 🐛 Fix: 21
+- 📝 Docs: 2
 - 🧪 Test: 3
 - 📦 Other: 1
 
 ## Activity by Repository
 
+### gptme-contrib
+
+- 🔄 fix(email): remove nl2br extension to fix list formatting
+- ✅ feat: add GitHub integration and workspace management scripts
+
 ### gptme
 
+- 🔄 feat(shell): add pre-execution validation to prevent common errors
+- ✅ fix(shell): handle file descriptor redirects and complex tool syntax
+- 🔄 fix(llm): use client defaults for timeout instead of explicit value
+- ✅ docs: complete /edit command demo documentation
+- ❌ fix: increase default API timeout from 5min to 10min
 - ✅ fix: ensure MCP tools reload with updated config
 - ✅ fix(shell): handle compound operators and preserve tilde expansion
 - ✅ fix(tests): skip test_subagent for claude-haiku-4-5 due to timeout
@@ -27,7 +37,7 @@ Activity for the last 7 days:
 - ✅ fix(eval): set tool_format before LogManager.load()
 - ✅ fix(shell): handle compound commands (for/while/if loops) correctly
 - 🔄 feat(anthropic): add native web search support
-- 🔄 feat(lessons): add message pattern-based mode detection for Phase 3
+- ✅ feat(lessons): add message pattern-based mode detection for Phase 3
 - ✅ test(codeblock): add streaming mode variants for header+backticks tests
 - 🔄 fix(mcp): add resilience with auto-restart and retry on connection failures
 - ✅ test(codeblock): remove xfail markers from passing header tests
@@ -62,10 +72,6 @@ Activity for the last 7 days:
 ### gptme-agent-template
 
 - ✅ feat(scripts): improve context generation with multi-file journal and tree depth limit
-
-### gptme-contrib
-
-- ✅ feat: add GitHub integration and workspace management scripts
 
 ### gptme-webui
 
