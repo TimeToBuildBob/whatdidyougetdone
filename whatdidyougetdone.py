@@ -5,6 +5,7 @@
 #   "PyGithub>=2.1.1",
 #   "click>=8.1.7",
 #   "aw-client>=0.5.13",
+#   "tweepy>=4.14.0",
 # ]
 # [tool.uv]
 # exclude-newer = "2024-10-01T00:00:00Z"
@@ -54,6 +55,108 @@ def get_github_token() -> str:
     print("You can create a token at: https://github.com/settings/tokens")
     print("Required scopes: repo, read:user")
     exit(1)
+
+
+def get_twitter_credentials():
+    """Get Twitter API credentials from environment.
+
+    Required environment variables:
+    - TWITTER_BEARER_TOKEN: Twitter API Bearer Token
+
+    Returns:
+        Twitter API Bearer Token or None if not available
+    """
+    bearer_token = os.getenv("TWITTER_BEARER_TOKEN")
+    if not bearer_token:
+        print("Warning: TWITTER_BEARER_TOKEN not set. Twitter integration disabled.")
+        print("To enable Twitter integration:")
+        print("1. Create a Twitter Developer App at https://developer.twitter.com/")
+        print("2. Get your Bearer Token from the app dashboard")
+        print("3. Set environment variable: export TWITTER_BEARER_TOKEN='your_token'")
+        return None
+    return bearer_token
+
+
+def get_twitter_activity(
+    username: str,
+    days: int = 7,
+    start_date: Optional[datetime] = None,
+    end_date: Optional[datetime] = None,
+):
+    """Get Twitter activity data for a user.
+
+    Args:
+        username: Twitter username (without @)
+        days: Number of days to look back (default 7)
+        start_date: Optional start date (UTC)
+        end_date: Optional end date (UTC)
+
+    Returns:
+        Dictionary with Twitter activity data or None if unavailable
+    """
+    bearer_token = get_twitter_credentials()
+    if not bearer_token:
+        return None
+
+    try:
+        import tweepy
+    except ImportError:
+        print("Warning: tweepy not available. Install with: pip install tweepy")
+        return None
+
+    try:
+        # Initialize Twitter API client
+        client = tweepy.Client(bearer_token=bearer_token)
+
+        # Calculate date range
+        if start_date and end_date:
+            # Use provided range
+            pass
+        else:
+            # Use days parameter
+            end_date = datetime.now(timezone.utc)
+            start_date = start_of_day(end_date - timedelta(days=days))
+
+        # Get user by username
+        user_response = client.get_user(
+            username=username, user_fields=["public_metrics"]
+        )
+        if not user_response.data:
+            print(f"Warning: Twitter user @{username} not found")
+            return None
+
+        user = user_response.data
+
+        # Get recent tweets (Twitter API v2 free tier limits)
+        tweets_response = client.get_users_tweets(
+            id=user.id,
+            start_time=start_date.isoformat(),
+            end_time=end_date.isoformat(),
+            tweet_fields=["created_at", "public_metrics"],
+            max_results=100,  # API limit
+        )
+
+        tweets = tweets_response.data if tweets_response.data else []
+
+        # Calculate stats
+        total_tweets = len(tweets)
+        total_likes = sum(t.public_metrics["like_count"] for t in tweets)
+        total_retweets = sum(t.public_metrics["retweet_count"] for t in tweets)
+        total_replies = sum(t.public_metrics["reply_count"] for t in tweets)
+
+        return {
+            "username": username,
+            "total_tweets": total_tweets,
+            "total_likes": total_likes,
+            "total_retweets": total_retweets,
+            "total_replies": total_replies,
+            "tweets": tweets,
+            "user_metrics": user.public_metrics,
+        }
+
+    except Exception as e:
+        print(f"Warning: Failed to fetch Twitter data: {e}")
+        return None
 
 
 def get_aw_activity(
@@ -310,6 +413,7 @@ def generate_report(
     end_date: Optional[datetime] = None,
     include_timeline: bool = False,
     include_aw: bool = False,
+    include_twitter: bool = False,
     ai_summary: bool = False,
 ):
     """Generate a markdown report of user activity.
@@ -321,6 +425,7 @@ def generate_report(
         end_date: Optional end date (UTC)
         include_timeline: Include detailed timeline
         include_aw: Include ActivityWatch data
+        include_twitter: Include Twitter/X activity data
         ai_summary: Include AI-generated summary
     """
     activities = get_user_activity(username, days, start_date, end_date)
@@ -406,6 +511,14 @@ def generate_report(
         if aw_data:
             report += f"- ⏱️ {aw_data['total_hours']:.1f} hours of local activity\n"
 
+    # Add Twitter/X data if available
+    if include_twitter:
+        twitter_data = get_twitter_activity(username, days, start_date, end_date)
+        if twitter_data:
+            report += f"- 🐦 {twitter_data['total_tweets']} tweets\n"
+            report += f"- ❤️ {twitter_data['total_likes']} likes received\n"
+            report += f"- 🔄 {twitter_data['total_retweets']} retweets\n"
+
     report += "\n"
 
     # ActivityWatch section
@@ -419,6 +532,25 @@ def generate_report(
                 hours = app["duration"] / 3600
                 report += f"- 💻 {app_name}: {hours:.1f}h\n"
             report += "\n"
+
+    # Twitter/X section
+    if include_twitter:
+        twitter_data = get_twitter_activity(username, days, start_date, end_date)
+        if twitter_data and twitter_data["tweets"]:
+            report += "## Twitter/X Activity\n\n"
+            report += f"Account: @{twitter_data['username']}\n\n"
+            report += "### User Metrics\n\n"
+            metrics = twitter_data["user_metrics"]
+            report += f"- 👥 {metrics['followers_count']:,} followers\n"
+            report += f"- 📝 {metrics['tweet_count']:,} total tweets\n"
+            report += "\n### Recent Tweets\n\n"
+            for tweet in twitter_data["tweets"][:10]:  # Show top 10
+                date = tweet.created_at.strftime("%Y-%m-%d")
+                likes = tweet.public_metrics["like_count"]
+                retweets = tweet.public_metrics["retweet_count"]
+                text = tweet.text[:100] + "..." if len(tweet.text) > 100 else tweet.text
+                report += f"- 📅 {date} | ❤️ {likes} | 🔄 {retweets}\n"
+                report += f"  {text}\n\n"
 
     # Group by repo using deduplicated PRs
     repos: dict[str, dict[str, list]] = {}
@@ -496,10 +628,11 @@ def cli():
     help="Number of days to look back (ignored if --start-date and --end-date provided)",
 )
 @click.option("--start-date", help="Start date (YYYY-MM-DD, requires --end-date)")
-@click.option("--end-date", help="End date (YYYY-MM-DD, requires --start-date)")
+@click.option("--end-date", help="End date (YYYY-MM-DD, requires --end-date)")
 @click.option("--file", help="Save output to file instead of stdout")
 @click.option("--timeline", is_flag=True, help="Include detailed timeline")
 @click.option("--activitywatch", is_flag=True, help="Include local ActivityWatch data")
+@click.option("--twitter", is_flag=True, help="Include Twitter/X activity data")
 @click.option(
     "--ai-summary", is_flag=True, help="Include AI-generated summary (uses gptme CLI)"
 )
@@ -511,6 +644,7 @@ def report(
     file: Optional[str],
     timeline: bool,
     activitywatch: bool,
+    twitter: bool,
     ai_summary: bool,
 ):
     """Generate activity report for a single user.
@@ -555,6 +689,7 @@ def report(
         end_date=parsed_end_date,
         include_timeline=timeline,
         include_aw=activitywatch,
+        include_twitter=twitter,
         ai_summary=ai_summary,
     )
 
@@ -577,6 +712,7 @@ def report(
 @click.option("--end-date", help="End date (YYYY-MM-DD, requires --start-date)")
 @click.option("--file", help="Save output to file instead of stdout")
 @click.option("--timeline", is_flag=True, help="Include detailed timeline")
+@click.option("--twitter", is_flag=True, help="Include Twitter/X activity data")
 def team(
     usernames: tuple[str],
     days: int,
@@ -584,6 +720,7 @@ def team(
     end_date: Optional[str],
     file: Optional[str],
     timeline: bool,
+    twitter: bool,
 ):
     """Generate combined activity report for multiple users"""
     if not usernames:
@@ -637,6 +774,7 @@ def team(
             end_date=parsed_end_date,
             include_timeline=timeline,
             include_aw=False,
+            include_twitter=twitter,
         )
         # Remove the title and first line from individual reports
         lines = user_report.split("\n")
