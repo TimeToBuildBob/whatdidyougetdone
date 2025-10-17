@@ -679,3 +679,47 @@ footer a:hover {
 .rate-limit-display.danger {
     background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
 }
+
+.cache-status {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(17, 153, 142, 0.2);
+}
+
+.cache-status-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-size: 14px;
+}
+
+.cache-icon {
+    font-size: 18px;
+}
+
+.cache-status-text {
+    flex: 1;
+}
+
+.clear-cache-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.clear-cache-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.cache-status.empty {
+    background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
+}

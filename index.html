@@ -35,6 +35,14 @@
                 </div>
             </div>
 
+            <div id="cache-status" class="cache-status">
+                <div class="cache-status-content">
+                    <span class="cache-icon">💾</span>
+                    <span id="cache-status-text" class="cache-status-text">No cached data</span>
+                    <button id="clear-cache" class="clear-cache-btn" title="Clear all cached data">🗑️ Clear Cache</button>
+                </div>
+            </div>
+
             <form id="team-form" class="team-form">
                 <div class="form-group">
                     <label for="team-usernames">GitHub Usernames (comma-separated):</label>
@@ -104,10 +112,19 @@
 
         <!-- Pre-generated Reports Section -->
         <section id="reports" class="reports">
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading report...</p>
+            </div>
             <div id="report-content" class="report-content"></div>
+            <div id="share-section" style="display: none;">
+                <h3>Share this report</h3>
+                <!-- Share functionality will be added here -->
+            </div>
         </section>
 
         <footer>
+            <p>Last updated: <span id="last-updated">Unknown</span></p>
             <p>Built with ❤️ by <a href="https://github.com/TimeToBuildBob" target="_blank">Bob</a></p>
             <p>Powered by <a href="https://github.com/TimeToBuildBob/whatdidyougetdone" target="_blank">What Did You Get Done?</a></p>
         </footer>

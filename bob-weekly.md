@@ -5,13 +5,13 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 42 pull requests
+- 🔀 38 pull requests
 - 📦 5 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 19
-- 🐛 Fix: 18
+- ✨ Feat: 16
+- 🐛 Fix: 17
 - 📝 Docs: 1
 - 🧪 Test: 3
 - 📦 Other: 1
@@ -20,11 +20,12 @@ Activity for the last 7 days:
 
 ### gptme
 
-- 🔄 fix(shell): handle compound operators and preserve tilde expansion
+- ✅ fix: ensure MCP tools reload with updated config
+- ✅ fix(shell): handle compound operators and preserve tilde expansion
 - ✅ fix(tests): skip test_subagent for claude-haiku-4-5 due to timeout
 - ❌ feat(cli): add Ctrl+V support for pasting images
 - ✅ fix(eval): set tool_format before LogManager.load()
-- 🔄 fix(shell): handle compound commands (for/while/if loops) correctly
+- ✅ fix(shell): handle compound commands (for/while/if loops) correctly
 - 🔄 feat(anthropic): add native web search support
 - 🔄 feat(lessons): add message pattern-based mode detection for Phase 3
 - ✅ test(codeblock): add streaming mode variants for header+backticks tests
@@ -53,11 +54,6 @@ Activity for the last 7 days:
 - ✅ fix: prevent duplicate tool loading warnings in evals
 - ✅ feat: enhance GitHub PR reading with code context and suggestions
 - ✅ feat: implement basic lesson system with metadata and auto-inclusion
-- 🔄 feat(mcp): add MCP discovery and dynamic loading support
-- ❌ fix(config): clear tools cache after loading project/chat config
-- ✅ Fix: Pin openai version in pre-commit mypy config
-- ✅ feat(llm): add configurable API timeout for OpenAI-compatible providers
-- ✅ feat(browser): add Accept header to prefer markdown/plaintext
 
 ### whatdidyougetdone
 

@@ -393,7 +393,123 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // GitHub API Integration
+// Cache Configuration
+const CACHE_MAX_AGE = 15 * 60 * 1000; // 15 minutes in milliseconds
+
+// Cache Helper Functions
+function getCacheKey(username) {
+    return `github_events_${username}`;
+}
+
+function getTokenHash(token) {
+    // Simple hash for cache invalidation when token changes
+    if (!token) return 'no_token';
+    return btoa(token.substring(0, 10)); // Hash first 10 chars
+}
+
+function getFromCache(username, tokenHash) {
+    try {
+        const cacheKey = getCacheKey(username);
+        const cached = localStorage.getItem(cacheKey);
+
+        if (!cached) return null;
+
+        const data = JSON.parse(cached);
+        const now = Date.now();
+        const age = now - data.timestamp;
+
+        // Invalidate if cache is too old or token changed
+        if (age > CACHE_MAX_AGE || data.tokenHash !== tokenHash) {
+            localStorage.removeItem(cacheKey);
+            return null;
+        }
+
+        return data.events;
+    } catch (error) {
+        console.warn('Cache read error:', error);
+        return null;
+    }
+}
+
+function saveToCache(username, events, tokenHash) {
+    try {
+        const cacheKey = getCacheKey(username);
+        const data = {
+            events: events,
+            timestamp: Date.now(),
+            tokenHash: tokenHash
+        };
+        localStorage.setItem(cacheKey, JSON.stringify(data));
+        updateCacheStatus();
+    } catch (error) {
+        console.warn('Cache write error:', error);
+    }
+}
+
+function getCacheInfo() {
+    const cacheKeys = Object.keys(localStorage).filter(key => key.startsWith('github_events_'));
+    const cacheItems = cacheKeys.map(key => {
+        try {
+            const data = JSON.parse(localStorage.getItem(key));
+            return {
+                username: key.replace('github_events_', ''),
+                timestamp: data.timestamp,
+                age: Date.now() - data.timestamp
+            };
+        } catch {
+            return null;
+        }
+    }).filter(item => item !== null);
+
+    return cacheItems;
+}
+
+function updateCacheStatus() {
+    const cacheStatusEl = document.getElementById('cache-status');
+    const cacheTextEl = document.getElementById('cache-status-text');
+
+    if (!cacheStatusEl || !cacheTextEl) return;
+
+    const cacheItems = getCacheInfo();
+
+    if (cacheItems.length === 0) {
+        cacheStatusEl.classList.add('empty');
+        cacheTextEl.textContent = 'No cached data';
+    } else {
+        cacheStatusEl.classList.remove('empty');
+
+        // Find most recent cache update
+        const mostRecent = Math.max(...cacheItems.map(item => item.timestamp));
+        const ageMinutes = Math.floor((Date.now() - mostRecent) / 60000);
+
+        const ageText = ageMinutes === 0 ? 'just now' :
+                       ageMinutes === 1 ? '1 minute ago' :
+                       ageMinutes < 60 ? `${ageMinutes} minutes ago` :
+                       `${Math.floor(ageMinutes / 60)} hours ago`;
+
+        cacheTextEl.textContent = `${cacheItems.length} user${cacheItems.length > 1 ? 's' : ''} cached (updated ${ageText})`;
+    }
+}
+
+function clearAllCache() {
+    const cacheKeys = Object.keys(localStorage).filter(key => key.startsWith('github_events_'));
+    cacheKeys.forEach(key => localStorage.removeItem(key));
+    updateCacheStatus();
+    console.log('Cache cleared');
+}
+
 async function fetchGitHubEvents(username, token = null) {
+    const tokenHash = getTokenHash(token);
+
+    // Try to get from cache first
+    const cachedEvents = getFromCache(username, tokenHash);
+    if (cachedEvents) {
+        console.log(`Using cached events for ${username}`);
+        return cachedEvents;
+    }
+
+    // Cache miss - fetch from API
+    console.log(`Fetching fresh events for ${username}`);
     const headers = {
         'Accept': 'application/vnd.github.v3+json'
     };
@@ -415,7 +531,12 @@ async function fetchGitHubEvents(username, token = null) {
         throw new Error(`GitHub API error: ${response.status}`);
     }
 
-    return await response.json();
+    const events = await response.json();
+
+    // Save to cache
+    saveToCache(username, events, tokenHash);
+
+    return events;
 }
 
 async function generateTeamReport(usernames, days, startDate, endDate, token = null) {
@@ -662,9 +783,29 @@ function initializeRateLimitDisplay() {
     updateRateLimitDisplay();
 }
 
-// Call initializeRateLimitDisplay when DOM is ready
+// Initialize cache status display
+function initializeCacheStatus() {
+    const clearButton = document.getElementById('clear-cache');
+
+    if (clearButton) {
+        clearButton.addEventListener('click', () => {
+            if (confirm('Clear all cached GitHub data? This will require fresh API calls for future reports.')) {
+                clearAllCache();
+            }
+        });
+    }
+
+    // Initial update
+    updateCacheStatus();
+}
+
+// Call initialization functions when DOM is ready
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeRateLimitDisplay);
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeRateLimitDisplay();
+        initializeCacheStatus();
+    });
 } else {
     initializeRateLimitDisplay();
+    initializeCacheStatus();
 }
