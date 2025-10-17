@@ -6,6 +6,7 @@
 #   "click>=8.1.7",
 #   "aw-client>=0.5.13",
 #   "tweepy>=4.14.0",
+#   "praw>=7.7.1",
 # ]
 # [tool.uv]
 # exclude-newer = "2024-10-01T00:00:00Z"
@@ -156,6 +157,156 @@ def get_twitter_activity(
 
     except Exception as e:
         print(f"Warning: Failed to fetch Twitter data: {e}")
+        return None
+
+
+def get_reddit_credentials():
+    """Get Reddit API credentials from environment.
+
+    Required environment variables:
+    - REDDIT_CLIENT_ID: Reddit application client ID
+    - REDDIT_CLIENT_SECRET: Reddit application client secret
+    - REDDIT_USER_AGENT: User agent string (e.g., "whatdidyougetdone/1.0")
+
+    Returns:
+        Tuple of (client_id, client_secret, user_agent) or None if not available
+    """
+    client_id = os.getenv("REDDIT_CLIENT_ID")
+    client_secret = os.getenv("REDDIT_CLIENT_SECRET")
+    user_agent = os.getenv("REDDIT_USER_AGENT", "whatdidyougetdone/1.0")
+
+    if not client_id or not client_secret:
+        print("Warning: Reddit credentials not set. Reddit integration disabled.")
+        print("To enable Reddit integration:")
+        print("1. Create a Reddit app at https://www.reddit.com/prefs/apps")
+        print("2. Choose 'script' app type")
+        print("3. Set environment variables:")
+        print("   export REDDIT_CLIENT_ID='your_client_id'")
+        print("   export REDDIT_CLIENT_SECRET='your_client_secret'")
+        print("   export REDDIT_USER_AGENT='whatdidyougetdone/1.0'  # optional")
+        return None
+    return (client_id, client_secret, user_agent)
+
+
+def get_reddit_activity(
+    username: str,
+    days: int = 7,
+    start_date: Optional[datetime] = None,
+    end_date: Optional[datetime] = None,
+):
+    """Get Reddit activity data for a user.
+
+    Args:
+        username: Reddit username (without /u/ prefix)
+        days: Number of days to look back (default 7)
+        start_date: Optional start date (UTC)
+        end_date: Optional end date (UTC)
+
+    Returns:
+        Dictionary with Reddit activity data or None if unavailable
+    """
+    credentials = get_reddit_credentials()
+    if not credentials:
+        return None
+
+    try:
+        import praw
+    except ImportError:
+        print("Warning: praw not installed. Install with: pip install praw")
+        return None
+
+    try:
+        client_id, client_secret, user_agent = credentials
+
+        # Calculate date range
+        if start_date and end_date:
+            start = start_date
+            end = end_date
+        else:
+            end = datetime.now(timezone.utc)
+            start = end - timedelta(days=days)
+
+        # Initialize Reddit API client (read-only, no authentication needed for public data)
+        reddit = praw.Reddit(
+            client_id=client_id,
+            client_secret=client_secret,
+            user_agent=user_agent,
+        )
+
+        # Get user
+        try:
+            redditor = reddit.redditor(username)
+            # Trigger API call to check if user exists
+            _ = redditor.created_utc
+        except Exception:
+            print(f"Warning: Reddit user u/{username} not found")
+            return None
+
+        # Get submissions (posts) and comments from the time period
+        posts = []
+        comments = []
+
+        # PRAW returns newest first, so we check until we hit the start date
+        for submission in redditor.submissions.new(limit=100):
+            submission_time = datetime.fromtimestamp(
+                submission.created_utc, tz=timezone.utc
+            )
+            if submission_time < start:
+                break
+            if start <= submission_time <= end:
+                posts.append(
+                    {
+                        "title": submission.title,
+                        "subreddit": submission.subreddit.display_name,
+                        "score": submission.score,
+                        "num_comments": submission.num_comments,
+                        "url": f"https://reddit.com{submission.permalink}",
+                        "created": submission_time,
+                    }
+                )
+
+        for comment in redditor.comments.new(limit=100):
+            comment_time = datetime.fromtimestamp(comment.created_utc, tz=timezone.utc)
+            if comment_time < start:
+                break
+            if start <= comment_time <= end:
+                comments.append(
+                    {
+                        "body": comment.body[:200] + "..."
+                        if len(comment.body) > 200
+                        else comment.body,
+                        "subreddit": comment.subreddit.display_name,
+                        "score": comment.score,
+                        "url": f"https://reddit.com{comment.permalink}",
+                        "created": comment_time,
+                    }
+                )
+
+        # Calculate engagement metrics
+        total_post_karma = sum(p["score"] for p in posts)
+        total_comment_karma = sum(c["score"] for c in comments)
+        total_karma = total_post_karma + total_comment_karma
+
+        # Get user's total karma (all-time)
+        user_post_karma = redditor.link_karma
+        user_comment_karma = redditor.comment_karma
+
+        return {
+            "posts": posts,
+            "comments": comments,
+            "metrics": {
+                "posts_count": len(posts),
+                "comments_count": len(comments),
+                "total_karma": total_karma,
+                "post_karma": total_post_karma,
+                "comment_karma": total_comment_karma,
+                "user_total_post_karma": user_post_karma,
+                "user_total_comment_karma": user_comment_karma,
+            },
+        }
+
+    except Exception as e:
+        print(f"Warning: Failed to fetch Reddit data: {e}")
         return None
 
 
@@ -414,6 +565,7 @@ def generate_report(
     include_timeline: bool = False,
     include_aw: bool = False,
     include_twitter: bool = False,
+    include_reddit: bool = False,
     ai_summary: bool = False,
 ):
     """Generate a markdown report of user activity.
@@ -426,6 +578,7 @@ def generate_report(
         include_timeline: Include detailed timeline
         include_aw: Include ActivityWatch data
         include_twitter: Include Twitter/X activity data
+        include_reddit: Include Reddit activity data
         ai_summary: Include AI-generated summary
     """
     activities = get_user_activity(username, days, start_date, end_date)
@@ -519,6 +672,15 @@ def generate_report(
             report += f"- ❤️ {twitter_data['total_likes']} likes received\n"
             report += f"- 🔄 {twitter_data['total_retweets']} retweets\n"
 
+    # Add Reddit data if available
+    if include_reddit:
+        reddit_data = get_reddit_activity(username, days, start_date, end_date)
+        if reddit_data:
+            metrics = reddit_data["metrics"]
+            report += f"- 📱 {metrics['posts_count']} Reddit posts\n"
+            report += f"- 💬 {metrics['comments_count']} Reddit comments\n"
+            report += f"- ⬆️ {metrics['total_karma']} karma earned\n"
+
     report += "\n"
 
     # ActivityWatch section
@@ -551,6 +713,47 @@ def generate_report(
                 text = tweet.text[:100] + "..." if len(tweet.text) > 100 else tweet.text
                 report += f"- 📅 {date} | ❤️ {likes} | 🔄 {retweets}\n"
                 report += f"  {text}\n\n"
+
+    # Reddit section
+    if include_reddit:
+        reddit_data = get_reddit_activity(username, days, start_date, end_date)
+        if reddit_data and (reddit_data["posts"] or reddit_data["comments"]):
+            report += "## Reddit Activity\n\n"
+            report += f"Username: u/{username}\n\n"
+
+            metrics = reddit_data["metrics"]
+            report += "### User Metrics\n\n"
+            report += f"- 📝 {metrics['user_total_post_karma']:,} total post karma\n"
+            report += (
+                f"- 💬 {metrics['user_total_comment_karma']:,} total comment karma\n"
+            )
+            report += f"- 📊 Period: {metrics['posts_count']} posts, {metrics['comments_count']} comments, {metrics['total_karma']} karma\n"
+            report += "\n"
+
+            if reddit_data["posts"]:
+                report += "### Recent Posts\n\n"
+                for post in reddit_data["posts"][:10]:  # Show top 10
+                    date = post["created"].strftime("%Y-%m-%d")
+                    score = post["score"]
+                    comments = post["num_comments"]
+                    title = (
+                        post["title"][:80] + "..."
+                        if len(post["title"]) > 80
+                        else post["title"]
+                    )
+                    report += f"- 📅 {date} | r/{post['subreddit']} | ⬆️ {score} | 💬 {comments}\n"
+                    report += f"  **{title}**\n"
+                    report += f"  {post['url']}\n\n"
+
+            if reddit_data["comments"]:
+                report += "### Recent Comments\n\n"
+                for comment in reddit_data["comments"][:10]:  # Show top 10
+                    date = comment["created"].strftime("%Y-%m-%d")
+                    score = comment["score"]
+                    body = comment["body"]
+                    report += f"- 📅 {date} | r/{comment['subreddit']} | ⬆️ {score}\n"
+                    report += f"  {body}\n"
+                    report += f"  {comment['url']}\n\n"
 
     # Group by repo using deduplicated PRs
     repos: dict[str, dict[str, list]] = {}
@@ -633,6 +836,7 @@ def cli():
 @click.option("--timeline", is_flag=True, help="Include detailed timeline")
 @click.option("--activitywatch", is_flag=True, help="Include local ActivityWatch data")
 @click.option("--twitter", is_flag=True, help="Include Twitter/X activity data")
+@click.option("--reddit", is_flag=True, help="Include Reddit activity data")
 @click.option(
     "--ai-summary", is_flag=True, help="Include AI-generated summary (uses gptme CLI)"
 )
@@ -645,6 +849,7 @@ def report(
     timeline: bool,
     activitywatch: bool,
     twitter: bool,
+    reddit: bool,
     ai_summary: bool,
 ):
     """Generate activity report for a single user.
@@ -690,6 +895,7 @@ def report(
         include_timeline=timeline,
         include_aw=activitywatch,
         include_twitter=twitter,
+        include_reddit=reddit,
         ai_summary=ai_summary,
     )
 
@@ -713,6 +919,7 @@ def report(
 @click.option("--file", help="Save output to file instead of stdout")
 @click.option("--timeline", is_flag=True, help="Include detailed timeline")
 @click.option("--twitter", is_flag=True, help="Include Twitter/X activity data")
+@click.option("--reddit", is_flag=True, help="Include Reddit activity data")
 def team(
     usernames: tuple[str],
     days: int,
@@ -721,6 +928,7 @@ def team(
     file: Optional[str],
     timeline: bool,
     twitter: bool,
+    reddit: bool,
 ):
     """Generate combined activity report for multiple users"""
     if not usernames:
@@ -775,6 +983,7 @@ def team(
             include_timeline=timeline,
             include_aw=False,
             include_twitter=twitter,
+            include_reddit=reddit,
         )
         # Remove the title and first line from individual reports
         lines = user_report.split("\n")
