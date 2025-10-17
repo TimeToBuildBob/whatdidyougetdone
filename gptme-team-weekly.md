@@ -28,12 +28,12 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 44 pull requests
+- 🔀 45 pull requests
 - 📦 5 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 17
+- ✨ Feat: 18
 - 🐛 Fix: 21
 - 📝 Docs: 2
 - 🧪 Test: 3
@@ -41,13 +41,9 @@ Activity for the last 7 days:
 
 ## Activity by Repository
 
-### gptme-contrib
-
-- 🔄 fix(email): remove nl2br extension to fix list formatting
-- ✅ feat: add GitHub integration and workspace management scripts
-
 ### gptme
 
+- 🔄 feat(save): add intelligent placeholder merging
 - 🔄 feat(shell): add pre-execution validation to prevent common errors
 - ✅ fix(shell): handle file descriptor redirects and complex tool syntax
 - 🔄 fix(llm): use client defaults for timeout instead of explicit value
@@ -87,6 +83,11 @@ Activity for the last 7 days:
 - ✅ fix: prevent duplicate tool loading warnings in evals
 - ✅ feat: enhance GitHub PR reading with code context and suggestions
 - ✅ feat: implement basic lesson system with metadata and auto-inclusion
+
+### gptme-contrib
+
+- 🔄 fix(email): remove nl2br extension to fix list formatting
+- ✅ feat: add GitHub integration and workspace management scripts
 
 ### whatdidyougetdone
 
