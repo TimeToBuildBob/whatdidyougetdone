@@ -7,18 +7,25 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 1 pull requests
-- 📦 1 active repositories
+- 🔀 4 pull requests
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- 🐛 Fix: 1
+- ✨ Feat: 1
+- 🐛 Fix: 3
 
 ## Activity by Repository
 
 ### gptme
 
+- ❌ fix(llm): retry on all transient Anthropic API errors
+- ❌ feat(save): add intelligent placeholder merging
 - ✅ fix: some telemetry fixes
+
+### gptme-contrib
+
+- ❌ fix(email): remove nl2br extension to fix list formatting
 
 
 ---
@@ -28,13 +35,13 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 45 pull requests
+- 🔀 50 pull requests
 - 📦 5 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 18
-- 🐛 Fix: 21
+- ✨ Feat: 20
+- 🐛 Fix: 24
 - 📝 Docs: 2
 - 🧪 Test: 3
 - 📦 Other: 1
@@ -43,10 +50,15 @@ Activity for the last 7 days:
 
 ### gptme
 
-- 🔄 feat(save): add intelligent placeholder merging
-- 🔄 feat(shell): add pre-execution validation to prevent common errors
+- ✅ feat(shell): add configurable shellcheck exclude codes
+- ✅ fix(llm): extend Anthropic retry logic to handle all transient 5xx errors
+- ❌ fix(llm): retry on all transient Anthropic API errors
+- ✅ fix(llm): update deepseek models context window to 128k
+- ❌ feat(shell): add pre-execution validation to prevent common errors
+- ✅ feat(shell): add simple shellcheck validation
+- ❌ feat(save): add intelligent placeholder merging
 - ✅ fix(shell): handle file descriptor redirects and complex tool syntax
-- 🔄 fix(llm): use client defaults for timeout instead of explicit value
+- ✅ fix(llm): use client defaults for timeout instead of explicit value
 - ✅ docs: complete /edit command demo documentation
 - ❌ fix: increase default API timeout from 5min to 10min
 - ✅ fix: ensure MCP tools reload with updated config
@@ -82,11 +94,11 @@ Activity for the last 7 days:
 - ✅ feat: enhance lesson system with tool matching, examples, and gh tool improvements
 - ✅ fix: prevent duplicate tool loading warnings in evals
 - ✅ feat: enhance GitHub PR reading with code context and suggestions
-- ✅ feat: implement basic lesson system with metadata and auto-inclusion
 
 ### gptme-contrib
 
-- 🔄 fix(email): remove nl2br extension to fix list formatting
+- ✅ feat multiple updates
+- ❌ fix(email): remove nl2br extension to fix list formatting
 - ✅ feat: add GitHub integration and workspace management scripts
 
 ### whatdidyougetdone
