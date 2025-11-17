@@ -8,26 +8,24 @@ Activity for the last 7 days:
 
 - 💻 0 commits
 - 🔀 3 pull requests
-- 📦 3 active repositories
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- 🐛 Fix: 1
-- 📦 Other: 2
+- ✨ Feat: 1
+- 🔧 Chore: 1
+- 📦 Other: 1
 
 ## Activity by Repository
 
-### roam-research-mcp
-
-- 🔄 build: add .roam directory to Docker image
-
-### gptme-webui
-
-- ✅ fix(api): await operations in createConversationWithPlaceholder to pr…
-
 ### gptme-contrib
 
-- ✅ Misc changes from bob
+- ✅ feat(packages): Add packages/ structure with lib package and orchestrator (Track 2 PR 2.1)
+
+### gptme
+
+- ✅ Improve protection against command injection in shell tool
+- ✅ refactor: extract cwd tracking to hook and refactor time/token awareness to clean hooks
 
 
 ---
@@ -37,44 +35,45 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 19 pull requests
+- 🔀 20 pull requests
 - 📦 3 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 11
+- ✨ Feat: 13
 - 🐛 Fix: 6
-- 🔧 Chore: 2
+- 🔧 Chore: 1
 
 ## Activity by Repository
 
-### gptme-webui
-
-- ✅ feat(tasks): add target type filters to task list
-
 ### gptme
 
-- ❌ feat(tests): add pytest-rerunfailures configuration for automatic test retries
-- ✅ fix: resolve MCP tool loading issues and connection errors
-- ❌ feat(validation): add markdown codeblock cut-off detection
-- 🔄 feat(validation): add MESSAGE_POST_PROCESS hook for markdown codeblock cut-off detection
-- ✅ feat(gepa): add PromptImprovementModule to fix InputField architecture issue
-- ✅ fix(gepa): export ANTHROPIC_API_KEY and suppress verbose logs
-- ✅ feat(lessons): Phase 5.5 - Dynamic top-K selection
-- ❌ feat(tools): Add ActivityWatch integration for quantified self AI coaching
-- ✅ fix(gepa): collect and save trajectory feedback in optimization results
-- ✅ feat(lessons): Add ACE-inspired hybrid lesson matching
-- ❌ feat(tasks): implement Task Loop Mode (Phases 1-3)
-- ✅ refactor: migrate TTS to hook-based architecture
-- ✅ chore: change default TTS server port to 8765
-- ✅ fix(eval): fix reflection model used in GEPA optimizer
-- ✅ fix(eval): add defensive check for eval_result in task_success_metric
+- ✅ feat(server): add API v2 client for programmatic interaction
+- ✅ fix(gepa): Phase 3.3 - Fix task source and auto parameter conflicts
+- ✅ feat: auto-enable complete tool in non-interactive mode and support multiple -t flags
+- ✅ fix(gepa): Phase 3.3 - Fix DSPy auto parameter conflict in MIPROv2
+- 🔄 feat(context_compression): Phase 1 core infrastructure for 30-80% token reduction
+- ✅ feat(gepa): Phase 2 test set expansion - 7 more tasks
+- ✅ feat(gepa): Phase 1 test set expansion - 12 new tasks
+- 🔄 feat(context): Phase 1 - Core Context Selector Infrastructure
 
 ### gptme-contrib
 
-- ✅ fix(twitter): resolve communication_utils import errors
-- ✅ feat(auth): Extract OAuth callback server to shared utilities
-- ✅ feat(email): move communication_utils to gptme-contrib per Issue ErikBjare/bob#91
+- ✅ feat(packages): Add tasks package with queue generation (Track 2 PR 2.3)
+- ✅ feat(packages): Add lessons validation package (Track 2 PR 2.2)
+- ✅ feat(packages): Add packages/ structure with lib package and orchestrator (Track 2 PR 2.1)
+- ✅ fix(twitter): increment draft counter for both mentions and timeline
+- ✅ chore: add .venv/ and venv/ to .gitignore
+- ✅ fix(twitter): increment drafts_generated for main draft
+- ✅ fix(twitter): use authorization_response parameter in fetch_token
+- ✅ fix(twitter): add pre-filtering to reduce LLM evaluation overhead
+
+### gptme-agent-template
+
+- ✅ feat: Add work queue and context generation systems (Phase 3.1 - PR 1.3)
+- ✅ feat: Add lessons system structure with two-file architecture (Phase 3.1 - PR 1.2)
+- ✅ feat: Add autonomous run infrastructure with CASCADE workflow (Phase 3.1 - PR 1.1)
+- ❌ feat: Add task scheduler system for autonomous agents
 
 
 ---
