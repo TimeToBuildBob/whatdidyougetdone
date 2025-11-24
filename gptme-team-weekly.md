@@ -7,25 +7,27 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 3 pull requests
-- 📦 2 active repositories
+- 🔀 7 pull requests
+- 📦 1 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 1
-- 🔧 Chore: 1
+- ✨ Feat: 2
+- 🐛 Fix: 1
+- 📝 Docs: 3
 - 📦 Other: 1
 
 ## Activity by Repository
 
-### gptme-contrib
-
-- ✅ feat(packages): Add packages/ structure with lib package and orchestrator (Track 2 PR 2.1)
-
 ### gptme
 
-- ✅ Improve protection against command injection in shell tool
-- ✅ refactor: extract cwd tracking to hook and refactor time/token awareness to clean hooks
+- ✅ fix: detect git version from pip's direct_url.json for pipx installs
+- ✅ build(deps): remove pytest-asyncio dep
+- ✅ feat: implement active context discovery
+- ✅ docs: more docs fixes
+- ✅ docs: custom provider docs fix
+- ✅ docs: fixes to docs, clean up
+- ✅ feat(context): implement hooks-based context compression architecture
 
 
 ---
@@ -35,45 +37,48 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 20 pull requests
-- 📦 3 active repositories
+- 🔀 25 pull requests
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 13
-- 🐛 Fix: 6
-- 🔧 Chore: 1
+- ✨ Feat: 14
+- 🐛 Fix: 8
+- 📝 Docs: 1
+- 🧪 Test: 2
 
 ## Activity by Repository
 
-### gptme
-
-- ✅ feat(server): add API v2 client for programmatic interaction
-- ✅ fix(gepa): Phase 3.3 - Fix task source and auto parameter conflicts
-- ✅ feat: auto-enable complete tool in non-interactive mode and support multiple -t flags
-- ✅ fix(gepa): Phase 3.3 - Fix DSPy auto parameter conflict in MIPROv2
-- 🔄 feat(context_compression): Phase 1 core infrastructure for 30-80% token reduction
-- ✅ feat(gepa): Phase 2 test set expansion - 7 more tasks
-- ✅ feat(gepa): Phase 1 test set expansion - 12 new tasks
-- 🔄 feat(context): Phase 1 - Core Context Selector Infrastructure
-
 ### gptme-contrib
 
-- ✅ feat(packages): Add tasks package with queue generation (Track 2 PR 2.3)
-- ✅ feat(packages): Add lessons validation package (Track 2 PR 2.2)
-- ✅ feat(packages): Add packages/ structure with lib package and orchestrator (Track 2 PR 2.1)
-- ✅ fix(twitter): increment draft counter for both mentions and timeline
-- ✅ chore: add .venv/ and venv/ to .gitignore
-- ✅ fix(twitter): increment drafts_generated for main draft
-- ✅ fix(twitter): use authorization_response parameter in fetch_token
-- ✅ fix(twitter): add pre-filtering to reduce LLM evaluation overhead
+- 🔄 feat(imagen): Phase 1 enhancements - multiple options and view integration
+- ✅ feat(consortium): Implement Phase 1 core functionality
+- ✅ test: disable outdated discord state test
 
-### gptme-agent-template
+### gptme
 
-- ✅ feat: Add work queue and context generation systems (Phase 3.1 - PR 1.3)
-- ✅ feat: Add lessons system structure with two-file architecture (Phase 3.1 - PR 1.2)
-- ✅ feat: Add autonomous run infrastructure with CASCADE workflow (Phase 3.1 - PR 1.1)
-- ❌ feat: Add task scheduler system for autonomous agents
+- ✅ fix(tests): explicitly disable chat history in server v2 test
+- 🔄 test(dspy): add comprehensive unit tests for GptmeReasoningProgram
+- ✅ docs(dspy): add comprehensive documentation for use_reasoning_program parameter
+- ✅ fix(shell): properly terminate child processes on timeout
+- ✅ fix(dspy): register metadata for complexity test tasks
+- ❌ feat(context): Phase 3.2 - Extensible Plugin System for Context Management
+- ✅ fix(tools): preserve full type information in tool signatures
+- ✅ feat: add compression analysis utilities and script
+- ✅ fix(server): add default model fallback and improve error messages
+- ✅ fix(patch): implement relaxed whitespace matching for whitespace-only lines
+- ✅ feat(context): Phase 3.1.1 - Task Complexity Analyzer Core Infrastructure
+- ✅ feat(eval): GEPA Week 3 - HybridOptimizer with adaptive multi-stage optimization
+- ❌ feat activitywatch tool
+- ✅ fix: initialize tools and model in subagent threads
+- ✅ feat: add restart tool
+- ✅ fix: remove xfail markers from previously flaky server tests
+- ✅ feat: convert default model and hook registry to ContextVar for thread safety
+- ✅ feat(plugins): implement Phase 3 command integration
+- ✅ feat(plugins): implement Phase 2 hook integration
+- ✅ feat(context): implement hooks-based context compression architecture
+- ❌ feat(context_compression): Phase 1 core infrastructure for 30-80% token reduction
+- ✅ feat(plugins): implement Phase 1 plugin infrastructure
 
 
 ---
