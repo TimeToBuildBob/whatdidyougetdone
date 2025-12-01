@@ -7,27 +7,24 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 7 pull requests
+- 🔀 5 pull requests
 - 📦 1 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 2
+- ✨ Feat: 3
 - 🐛 Fix: 1
-- 📝 Docs: 3
-- 📦 Other: 1
+- 🧪 Test: 1
 
 ## Activity by Repository
 
 ### gptme
 
-- ✅ fix: detect git version from pip's direct_url.json for pipx installs
-- ✅ build(deps): remove pytest-asyncio dep
-- ✅ feat: implement active context discovery
-- ✅ docs: more docs fixes
-- ✅ docs: custom provider docs fix
-- ✅ docs: fixes to docs, clean up
-- ✅ feat(context): implement hooks-based context compression architecture
+- ❌ feat(context): Phase 3 extractive compression for auto-compact
+- ✅ fix: add better cost telemetry logging in optimizable scenarios
+- ❌ feat(skills): implement hook system (Phase 4.2)
+- ✅ test: mark flaky test as flaky
+- ❌ feat(skills): implement Phase 4.1 - skills infrastructure
 
 
 ---
@@ -37,48 +34,27 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 25 pull requests
+- 🔀 6 pull requests
 - 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 14
-- 🐛 Fix: 8
-- 📝 Docs: 1
-- 🧪 Test: 2
+- ✨ Feat: 1
+- 🐛 Fix: 5
 
 ## Activity by Repository
 
-### gptme-contrib
-
-- 🔄 feat(imagen): Phase 1 enhancements - multiple options and view integration
-- ✅ feat(consortium): Implement Phase 1 core functionality
-- ✅ test: disable outdated discord state test
-
 ### gptme
 
-- ✅ fix(tests): explicitly disable chat history in server v2 test
-- 🔄 test(dspy): add comprehensive unit tests for GptmeReasoningProgram
-- ✅ docs(dspy): add comprehensive documentation for use_reasoning_program parameter
-- ✅ fix(shell): properly terminate child processes on timeout
-- ✅ fix(dspy): register metadata for complexity test tasks
-- ❌ feat(context): Phase 3.2 - Extensible Plugin System for Context Management
-- ✅ fix(tools): preserve full type information in tool signatures
-- ✅ feat: add compression analysis utilities and script
-- ✅ fix(server): add default model fallback and improve error messages
-- ✅ fix(patch): implement relaxed whitespace matching for whitespace-only lines
-- ✅ feat(context): Phase 3.1.1 - Task Complexity Analyzer Core Infrastructure
-- ✅ feat(eval): GEPA Week 3 - HybridOptimizer with adaptive multi-stage optimization
-- ❌ feat activitywatch tool
-- ✅ fix: initialize tools and model in subagent threads
-- ✅ feat: add restart tool
-- ✅ fix: remove xfail markers from previously flaky server tests
-- ✅ feat: convert default model and hook registry to ContextVar for thread safety
-- ✅ feat(plugins): implement Phase 3 command integration
-- ✅ feat(plugins): implement Phase 2 hook integration
-- ✅ feat(context): implement hooks-based context compression architecture
-- ❌ feat(context_compression): Phase 1 core infrastructure for 30-80% token reduction
-- ✅ feat(plugins): implement Phase 1 plugin infrastructure
+- ✅ fix: support custom providers in model selection and routing
+- 🔄 feat: add diagnostic logging to shell tool for Issue #408
+- ✅ fix: prevent file content inclusion in command arguments
+- ✅ fix: add browser recovery logic to prevent deadlocks on connection errors
+- ✅ Fix: Use conservative token limit for Anthropic models to prevent overflow
+
+### gptme-contrib
+
+- ✅ fix(twitter): Fix TypeError in check_for_duplicate_replies and KeyError in TweetDraft.from_dict
 
 
 ---
