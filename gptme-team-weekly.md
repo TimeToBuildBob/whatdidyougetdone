@@ -7,25 +7,35 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 3 pull requests
+- 🔀 13 pull requests
 - 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 1
-- 📝 Docs: 1
-- 📦 Other: 1
+- ✨ Feat: 9
+- 🐛 Fix: 2
+- 📝 Docs: 2
 
 ## Activity by Repository
 
-### gptme
-
-- ❌ feat(shell): add quiet parameter to suppress output (Issue #44)
-
 ### gptme-contrib
 
-- ✅ Bob/fix agent onboarding pr56
-- ❌ docs(knowledge): add active listening skills framework
+- ❌ feat(lib): add iterative analysis framework
+- ❌ feat(hooks): add COMMIT_MASTER_ALLOWLIST env var support
+- ✅ feat(run_loops): add GitHub notifications support to project monitoring
+- ✅ feat(status): add generalized infrastructure status scripts
+- ✅ feat(run_loops): support multiple orgs and repos in project monitoring
+
+### gptme
+
+- ✅ fix: propagate metadata in Anthropic retry decorator
+- ✅ feat: add extensible command argument completion system
+- ✅ docs: add comprehensive commands reference documentation
+- ✅ docs: document plugins in project config
+- ❌ feat(hooks): add keyword detector hook for pattern-triggered actions
+- ✅ fix: throw lock on tmux tool new_session to prevent race
+- ✅ feat: improve cost awareness UX and add prompt caching for OpenRouter
+- ✅ feat(context): implement AdaptiveCompressor for Phase 3.1 Week 3-4
 
 
 ---
@@ -35,55 +45,60 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 29 pull requests
+- 🔀 34 pull requests
 - 📦 3 active repositories
 
 ### PR Breakdown by Type
 
 - ✨ Feat: 21
-- 🐛 Fix: 5
-- 📝 Docs: 2
-- 🔧 Chore: 1
+- 🐛 Fix: 10
+- 📝 Docs: 1
+- 🔧 Chore: 2
 
 ## Activity by Repository
 
 ### gptme-contrib
 
-- ✅ docs(lessons): upstream improvements from Bob's workspace
-- ✅ feat(lsp): add Phase 6 features (semantic tokens, document links, code lens)
-- ✅ feat(lsp): add Phase 3 advanced features (code actions, workspace symbols)
-- ❌ feat(lsp): add Phase 4 features (document formatting, signature help)
-- ✅ feat(lsp): add Phase 5 features (inlay hints, call hierarchy)
-- ✅ feat(precommit): add lesson metadata validation
-- ✅ feat(lsp): add Phase 2.3 user experience improvements
-- ✅ feat(twitter): add quality_score field to TweetDraft
-- ✅ feat(imagen): update to google-genai SDK for Gemini image generation
-- ✅ feat(lsp): add Phase 2.2 rename refactoring feature
-- ✅ feat(lsp): add Phase 2.1 navigation features (definition, references, hover)
-- ✅ feat(plugins): add LSP integration plugin - Phase 1 diagnostics
+- ❌ feat(lib): add iterative analysis framework
+- ❌ feat(hooks): add COMMIT_MASTER_ALLOWLIST env var support
+- 🔄 feat(lessons): improve keyword specificity for 2 more lessons
+- 🔄 feat(lessons): improve keyword specificity for 8 lessons
+- ✅ fix(cc-analyze): warn when sync timeout exceeds prompt cache window
+- ✅ fix(cc-analyze): add execute function for block support
+- ✅ feat(plugins): add cc-analyze plugin for Claude Code subagent analysis
+- ✅ feat(imagen): add image modification support with text prompts
+- ✅ fix(lsp): add missing @dataclass decorator and LSPManager Phase 6 methods
 
 ### gptme
 
-- ✅ feat: add parallel tool execution support
-- 🔄 feat: add shared executor module for ACP/server code reuse
-- ✅ refactor(session): add shared session module for ACP/server
-- ✅ fix(shell): truncate long commands in output to reduce context waste
-- ✅ feat(acp): add Phase 3 session persistence and cancellation
-- ✅ docs(acp): add Agent Client Protocol documentation
-- ✅ feat(acp): add Phase 2 tool call reporting and permissions
-- ✅ feat(subagent): add Phase 1 async enhancements (subprocess mode, hook notifications, batch)
-- ✅ feat(acp): add Agent Client Protocol support (Phase 1)
-- ✅ fix: improve /tokens command to use CostTracker
-- ❌ feat(server): add GitHub token storage API for hosted service
-- ✅ fix: enable dynamic model switching via /model command
-- ✅ feat(cli): add /clear command to clear terminal screen
-- ✅ fix: add missing sound files to package distribution
-- ✅ fix(setup): check for wl-copy instead of wl-clipboard command
-- ✅ feat(models): add ollama/local model discovery to /model command
+- ✅ feat(lessons): deduplicate lessons by resolved path to handle symlinks
+- ✅ feat(autocompact): add Master Context Architecture for byte-range recovery
+- ✅ fix(security): validate screenshot path stays within OUTPUT_DIR
+- ✅ fix(security): block file:// protocol in lynx browser backend
+- ✅ docs(security): add security documentation and SECURITY.md
+- ✅ fix(eval): pass API keys to Docker container
+- ✅ fix(security): prevent command injection vulnerabilities
+- ✅ fix(restart): filter out positional arguments (prompts) on restart
+- ❌ feat(autocompact): add Phase 4 revert fallback for context compaction
+- ✅ feat(commands): add /skills command for browsing skills and lessons
+- ✅ feat(codeblock): support quad+ backticks for nested markdown (Issue #1005)
+- ✅ feat(subagent): add structured delegation template for clear task handoff
+- ✅ refactor: separate multi-tool from parallel execution
+- ❌ feat(skills): add 3-failures-stop pattern skill
+- ✅ feat(skills): add codebase classification skill
+- ✅ feat(lessons): support Anthropic SKILL.md format matching
+- ✅ refactor(autocompact): truncate largest tool results first
+- ❌ feat(hooks): add keyword detector hook for pattern-triggered actions
+- ✅ fix(shell): prevent orphaned bg jobs and support bg on non-first line (Issues #992, #993)
+- ✅ feat(complete): add todo-based continuation enforcer
+- ✅ fix(eval): wire DockerGPTMeEnv to agent for --docker flag
+- ✅ feat(eval): implement DockerGPTMeEnv for Docker-isolated gptme execution
+- ✅ feat(cli): add context-mode, context-include, output-schema flags for subprocess mode
+- ✅ feat: add shared executor module for ACP/server code reuse
 
-### gptme-webui
+### gptme-agent-template
 
-- ❌ feat(settings): add GitHub token integration UI
+- ✅ feat(journal): add subdirectory format support and migration script
 
 
 ---
