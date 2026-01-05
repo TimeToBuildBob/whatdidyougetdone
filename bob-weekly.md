@@ -5,58 +5,69 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 34 pull requests
-- 📦 3 active repositories
+- 🔀 48 pull requests
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 21
-- 🐛 Fix: 10
+- ✨ Feat: 10
+- 🐛 Fix: 36
 - 📝 Docs: 1
-- 🔧 Chore: 2
+- 🔧 Chore: 1
 
 ## Activity by Repository
 
-### gptme-contrib
-
-- ❌ feat(lib): add iterative analysis framework
-- ❌ feat(hooks): add COMMIT_MASTER_ALLOWLIST env var support
-- 🔄 feat(lessons): improve keyword specificity for 2 more lessons
-- 🔄 feat(lessons): improve keyword specificity for 8 lessons
-- ✅ fix(cc-analyze): warn when sync timeout exceeds prompt cache window
-- ✅ fix(cc-analyze): add execute function for block support
-- ✅ feat(plugins): add cc-analyze plugin for Claude Code subagent analysis
-- ✅ feat(imagen): add image modification support with text prompts
-- ✅ fix(lsp): add missing @dataclass decorator and LSPManager Phase 6 methods
-
 ### gptme
 
-- ✅ feat(lessons): deduplicate lessons by resolved path to handle symlinks
-- ✅ feat(autocompact): add Master Context Architecture for byte-range recovery
-- ✅ fix(security): validate screenshot path stays within OUTPUT_DIR
-- ✅ fix(security): block file:// protocol in lynx browser backend
-- ✅ docs(security): add security documentation and SECURITY.md
-- ✅ fix(eval): pass API keys to Docker container
-- ✅ fix(security): prevent command injection vulnerabilities
-- ✅ fix(restart): filter out positional arguments (prompts) on restart
-- ❌ feat(autocompact): add Phase 4 revert fallback for context compaction
-- ✅ feat(commands): add /skills command for browsing skills and lessons
-- ✅ feat(codeblock): support quad+ backticks for nested markdown (Issue #1005)
-- ✅ feat(subagent): add structured delegation template for clear task handoff
-- ✅ refactor: separate multi-tool from parallel execution
-- ❌ feat(skills): add 3-failures-stop pattern skill
-- ✅ feat(skills): add codebase classification skill
-- ✅ feat(lessons): support Anthropic SKILL.md format matching
-- ✅ refactor(autocompact): truncate largest tool results first
-- ❌ feat(hooks): add keyword detector hook for pattern-triggered actions
-- ✅ fix(shell): prevent orphaned bg jobs and support bg on non-first line (Issues #992, #993)
-- ✅ feat(complete): add todo-based continuation enforcer
-- ✅ fix(eval): wire DockerGPTMeEnv to agent for --docker flag
-- ✅ feat(eval): implement DockerGPTMeEnv for Docker-isolated gptme execution
-- ✅ feat(cli): add context-mode, context-include, output-schema flags for subprocess mode
-- ✅ feat: add shared executor module for ACP/server code reuse
+- ✅ docs: add glossary with step/turn terminology
+- ✅ fix(prompts): truncate context command stderr to prevent info leakage
+- ✅ fix(message): prevent call_id=None from serializing as literal 'None' string
+- 🔄 fix(chat): add input validation and queue size limits
+- 🔄 feat(hooks): add cache_awareness hook for centralized cache state tracking
+- ✅ fix(server): replace assert with runtime check for path traversal defense
+- ✅ fix(message): preserve whitespace in TOML serialization
+- ✅ fix(llm): replace assert with runtime checks for production safety
+- ✅ fix(prompts): add path traversal protection for glob patterns
+- ✅ feat(llm): add retry logic for OpenAI API transient errors
+- ✅ feat(hooks): add CACHE_INVALIDATED hook type for cache-aware plugins
+- ✅ fix(llm): check raw file size instead of base64 encoded size
+- ✅ refactor(llm): remove dead code in _chat_complete control flow
+- ✅ fix(llm): prevent duplicate output on generator retry
+- ✅ fix(llm): log exceptions instead of silently swallowing them
+- ✅ fix(llm): prevent division by zero in token rate calculation
+- ✅ feat(autocompact): add semantic patterns for value-aware retention
+- ✅ fix(lessons): deduplicate lessons by resolved path in matcher
+- ✅ fix(llm): replace bare assert with proper error for missing system message
+- ✅ fix(llm): replace bare assert with proper error for empty LLM responses
+- ✅ fix(autocompact): include exception type when resume error message is empty
+- ✅ fix(eval): prevent SIGTERM self-kill from overwriting success result
+- ✅ fix(eval): add grace period before SIGKILL to prevent IPC corruption
+- ✅ fix(tools): add path traversal protection to save and patch tools
+- ✅ fix(message): add XML escaping to prevent injection in to_xml()
+- ✅ fix(config): use atomic write to prevent corruption in daemon thread
+- ✅ fix(logmanager): ensure lock is released if atexit registration fails
+- ✅ fix(eval): add automatic cleanup for temp directories
+- ✅ fix(logmanager): store TemporaryDirectory instance to prevent resource leak
+- ✅ fix(eval): move init_tools outside inner function to avoid repeated calls
+- ✅ fix(eval): use UUID for unique agent IDs
+- ✅ fix(eval): prevent race condition in result retrieval
+- ✅ fix(eval): add path traversal protection to FileStore.upload()
+- ✅ fix(eval): use explicit shell invocation instead of shell=True
+- ✅ fix(util): use ContextVar for thread-safe interrupt state
+- ✅ fix(llm): explicitly close stream generator in finally block
+- 🔄 fix(eval): add thread-safe locking for environment variable mutation
+- 🔄 fix(chat): resolve thread-safety and resource leak issues
+- ✅ fix(browser): close browser contexts to prevent resource leaks
+- ✅ fix(tools): add defensive checks for edge cases
+- 🔄 fix(llm): add safe parsing for environment variables
 
-### gptme-agent-template
+### gptme-contrib
 
-- ✅ feat(journal): add subdirectory format support and migration script
+- 🔄 feat(plugins): add attention-router and attention-history plugins
+- ✅ feat(lessons): improve keyword specificity for 2 more lessons
+- ✅ feat(lessons): improve keyword specificity for 8 lessons
+- ✅ fix(gptmail): RFC 2047 encode Subject and From headers for non-ASCII chars
+- ✅ feat(packages): add gptmail - email automation for gptme agents
+- ✅ feat(tasks): add --user flag to filter tasks by assigned_to
+- ✅ feat(patterns): add agent visual identity establishment lesson
 
