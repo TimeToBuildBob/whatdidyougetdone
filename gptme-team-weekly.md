@@ -7,33 +7,23 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 8 pull requests
-- 📦 3 active repositories
+- 🔀 5 pull requests
+- 📦 1 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 5
-- 🐛 Fix: 2
-- 📦 Other: 1
+- ✨ Feat: 2
+- 🐛 Fix: 3
 
 ## Activity by Repository
 
-### gptme-contrib
-
-- ✅ feat(tasks): add --jsonl option for LLM-friendly compact output
-- ❌ feat(tasks): add import command to create tasks from GitHub/Linear issues
-- ❌ feat(tasks): add --json output to ready and next commands
-- ❌ feat(lessons): add shell heredoc avoidance lesson
-
 ### gptme
 
-- ❌ feat(server): add rate limiting support
-- ✅ fix(server): validate role against allowed values
-
-### gptme-agent-template
-
-- ✅ fix: remove duplicates of pre-commit scripts, use contrib versions
-- ❌ ci: add integration tests workflow for agent validation
+- ❌ feat(user-confirm): capture user feedback when command execution is declined
+- ❌ feat: support reading PDFs with browser tool
+- ❌ fix(shell): add PTY support for interactive programs like sudo
+- ❌ fix(anthropic): remove top_p parameter to fix model compatibility
+- ❌ fix(anthropic): improve sampling parameter detection for model compatibility
 
 
 ---
@@ -49,32 +39,31 @@ Activity for the last 7 days:
 ### PR Breakdown by Type
 
 - ✨ Feat: 8
-- 🐛 Fix: 2
-- 📝 Docs: 4
-- 🧪 Test: 1
+- 🐛 Fix: 6
+- 🔧 Chore: 1
 
 ## Activity by Repository
 
 ### gptme
 
-- 🔄 feat(mcp): add MCP resources support
-- ✅ feat(gh): truncate verbose comment bodies to reduce token usage
-- ✅ fix(lessons): disable description-based word matching
-- 🔄 feat(prompts): add skills summary to system prompt
-- 🔄 docs(design): add hook-based tool confirmations proposal
-- ✅ fix(chat): add input validation and queue size limits
-- ✅ test(gh): fix mocked tests for comment ID format
-- ✅ feat(gh): include comment IDs in PR review output
-- ✅ feat(lessons): add wildcard and regex pattern support for keyword matching
+- ✅ fix(chat): return to prompt when user declines execution
+- ✅ refactor(dspy): archive GptmeReasoningProgram, simplify GEPA
+- 🔄 feat(browser): improve PDF reading with page limits and vision hints
+- ✅ feat(anthropic): add web search block handling
+- ❌ feat: added support for Anthropic API search tool
+- ✅ feat(anthropic): add native web search support
+- ✅ fix(llm): add safe parsing for environment variables
+- ✅ feat(prompts): add skills summary to system prompt
+- 🔄 feat: add URI support in Message.files for URLs and MCP resources
+- ✅ fix(logging): suppress OpenTelemetry error spam on connection failures
+- ✅ fix(models): inherit base model properties for date-suffixed variants
+- ❌ fix(anthropic): improve sampling parameter detection for model compatibility
+- ❌ fix(anthropic): remove top_p parameter to fix model compatibility
 
 ### gptme-contrib
 
-- ❌ feat(tasks): implement task state machine Phase 1 - state consolidation
-- 🔄 feat(tasks): implement state machine improvements
-- ✅ docs(lessons): rename CASCADE concept to avoid workflow confusion
-- ✅ docs(lessons): add gh-pr-review extension lesson
-- ✅ docs(lessons): add PR review reading lesson with jq patterns
-- ✅ feat(tasks): add import command and utils.py with Linear support
+- ✅ feat(tasks): add tracking activity detection since waiting_since
+- ✅ feat(tasks): implement state machine improvements
 
 
 ---
