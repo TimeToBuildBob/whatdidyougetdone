@@ -5,19 +5,40 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 3 pull requests
-- 📦 1 active repositories
+- 🔀 20 pull requests
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 2
-- 🐛 Fix: 1
+- ✨ Feat: 9
+- 🐛 Fix: 10
+- 📝 Docs: 1
 
 ## Activity by Repository
 
+### gptme-contrib
+
+- 🔄 feat: add gptme-activity-summary package
+- ❌ feat(summarization): add gptme-summarization package
+- ❌ feat(lessons): add markdown codeblock syntax lesson and pre-commit hook
+
 ### gptme
 
-- ✅ fix: fix `a` as acceptable answer for auto in confirmation
-- ✅ feat(context): add URL confirmation and content size safeguards
-- ✅ feat(vision): add PIL.Image support to view_image
+- ✅ feat(dirs): add get_workspace() for agent workspace detection
+- ✅ fix(subagent): update subprocess mode for new --context CLI flag
+- ✅ fix(agent): fix service management and add proper tests
+- 🔄 feat: auto-trigger LLM resume when rule-based compaction stalls
+- ✅ feat(cli): add --context flag, --tools validation, and CLI help cleanup
+- ✅ docs: recommend gptme-agent CLI for creating agents
+- ❌ Fix/server fd leak minimal
+- 🔄 fix(shell): close leaked pipes via SESSION_END hook
+- ✅ fix(webui): chain consecutive user messages
+- ✅ feat(webui): complete avatar support — cache fix, tooltips, user avatars
+- ✅ fix(webui): fix chat settings save, sidebar icon, and model search
+- ✅ fix(webui): use message queue array to prevent rapid-send message loss
+- ✅ fix(webui): use .get() for agent avatar observable check
+- ✅ fix(webui): skip hidden messages in chain type calculation
+- ✅ fix(webui): clean up server UI — combine ConnectionButton into ServerSelector
+- ✅ feat(webui): add show hidden messages setting, move initial system to settings
+- ✅ feat(webui): multi-backend support with unified view
 
