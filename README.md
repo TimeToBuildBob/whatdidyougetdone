@@ -1,5 +1,7 @@
 # What Did You Get Done?
 
+> **Note:** This project has been superseded by [**gptme-activity-summary**](https://github.com/gptme/gptme-contrib/tree/master/packages/gptme-activity-summary), which supports daily/weekly/monthly summarization from multiple data sources (GitHub, gptme sessions, journals, tweets, email) with LLM-powered synthesis. It works for both agents and humans — try `summarize github --user <username>` for GitHub-only reports.
+
 A simple tool to generate activity reports from GitHub and local activity data, inspired by Elon Musk's "What did you get done this week?" question. Perfect for team leads, managers, and anyone who wants to track and showcase their progress and achievements.
 
 ## Features
