@@ -5,41 +5,36 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 9 pull requests
-- 📦 6 active repositories
+- 🔀 15 pull requests
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 4
+- ✨ Feat: 10
 - 🐛 Fix: 3
-- 📦 Other: 2
+- 📝 Docs: 1
+- 📦 Other: 1
 
 ## Activity by Repository
 
-### aw-client-js
+### gptme-contrib
 
-- ✅ ci: update setup-node@v1 to v4 in lint job
+- 🔄 feat(dashboard): add Lesson/Skill kind filter to guidance section
+- 🔄 build(gptme-sessions): add Makefile so CI runs unit tests
+- 🔄 feat(dashboard): add per-task detail pages with markdown rendering
+- 🔄 feat(sessions): show unsync count in default view
+- ✅ docs(dashboard): fix README — document missing /api/tasks, sessions/journals/tasks template variables
+- ✅ feat(dashboard): add per-journal detail pages with markdown rendering
+- 🔄 feat(dashboard): add About section from workspace README.md
+- 🔄 fix(dashboard): strip inline markdown from plugin descriptions
+- ✅ fix(sessions): show sync hint when store has partial entries
+- ✅ feat(sessions): add LLM-as-judge goal-alignment scoring
+- ✅ feat(sessions): add annotate command for amending session records
+- ✅ feat(dashboard): add task scanning and /api/tasks endpoint
+- 🔄 feat(sessions): add 'show' command to display single session details
 
 ### gptme
 
-- 🔄 fix: improve error handling and resource cleanup across tools
-- 🔄 fix(codeblock): prevent premature block extraction in streaming mode
-- ❌ feat: add support for quad-ticked markdown in codeblocks and tooluse
-
-### aw-watcher-afk
-
-- 🔄 ci: update deprecated runners and actions
-
-### gptme-contrib
-
-- ✅ feat(gptodo): implement link checking in check command
-- ✅ fix(activity-summary): skip aw-client tests when not installed
-
-### docs
-
-- 🔄 feat(faq): add user-facing FAQ entries and organize into sections
-
-### activitywatch.github.io
-
-- 🔄 feat(blog): add ActivityWatch vs RescueTime comparison page
+- ❌ feat(config): add [agent.links] as canonical key for agent named URLs
+- ❌ fix(eval/dspy): handle API quota exhaustion gracefully in optimize workflow
 
