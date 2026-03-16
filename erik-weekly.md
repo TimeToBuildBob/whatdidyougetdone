@@ -5,23 +5,36 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 4 pull requests
-- 📦 2 active repositories
+- 🔀 12 pull requests
+- 📦 3 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 2
-- 📦 Other: 2
+- ✨ Feat: 3
+- 🐛 Fix: 5
+- 🔧 Chore: 3
+- 📦 Other: 1
 
 ## Activity by Repository
 
-### gptme
-
-- ❌ Add Nightmarket tool — API marketplace for AI agents
-- ❌ Add CrowPay tool — payment service for AI agents
-
 ### gptme-contrib
 
-- ❌ feat(dashboard): add submodule scanning and unified lessons/skills view
-- ❌ feat(dashboard): add GitHub source links to all dashboard items
+- ✅ fix(dashboard): simplify nav, move README to Core Files, fix heatmap
+- ❌ fix(dashboard): simplify nav to scroll-spy, fix heatmap responsive, fix /blob/HEAD/
+- ✅ Support nested metadata usage format from gptme
+
+### aw-client
+
+- ❌ feat(sync): add AWSync client for pushing events to aw-sync-server
+
+### gptme
+
+- ✅ refactor: consolidate release pipeline into single workflow
+- ✅ fix(release): poetry via pipx, upload retry, Docker tag policy
+- ✅ feat(prompts): distinguish agent instruction files from context files
+- ✅ feat(release): centralize release pipeline in release.yml
+- ✅ refactor(message): nest token fields under `usage` in MessageMetadata
+- ✅ fix(release): don't block dev releases on flaky API test failures
+- ✅ fix(models): proper metadata for openai-subscription models
+- ✅ chore: add make tiny summary + refactor gh tool complexity
 
