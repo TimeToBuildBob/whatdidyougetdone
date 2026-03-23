@@ -5,57 +5,57 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 29 pull requests
-- 📦 4 active repositories
+- 🔀 26 pull requests
+- 📦 5 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 7
-- 🐛 Fix: 19
-- 📝 Docs: 1
+- ✨ Feat: 10
+- 🐛 Fix: 11
+- 📝 Docs: 2
 - 🧪 Test: 1
-- 🔧 Chore: 1
+- 🔧 Chore: 2
 
 ## Activity by Repository
 
-### pi-skills
-
-- 🔄 docs: add gptme installation instructions
-
 ### gptme
 
-- ✅ fix(server): replace assertions with explicit error checks in production code
-- ✅ fix(tools): graceful degradation for unavailable tools in server context
-- 🔄 feat(eval): add practical7 suite — ini-to-json, json-diff, changelog-gen
-- 🔄 fix: assorted bug fixes — wrong tool name, missing timeout, dead code, race guard
-- 🔄 feat(eval): add practical6 suite — csv-analysis, word-frequency, merge-configs
-- 🔄 fix(tokens): graceful fallback when tiktoken unavailable or offline
-- 🔄 fix(models): update Claude 4.6 context window to 1M (GA)
-- 🔄 fix(tests): replace pytest-mock mocker fixture with unittest.mock
-- 🔄 fix(shell): preserve output when last line lacks trailing newline
-- 🔄 fix(tests): mark test_python tests as slow to fix flaky CI
-- 🔄 fix: replace bare except clauses and unclosed file handle
-- 🔄 fix(types): resolve mypy errors in chats tool and gh tests
-- ✅ fix(eval): close file handle in SWEBenchInfo.save_to_log_dir
-- 🔄 fix(precommit): run checks on modified files only in TURN_POST hook
-- ✅ fix(server): close TOCTOU race on acp_runtime in step request handler
-- ✅ test(eval): add runtime guard and test for duplicate test names
-- ✅ fix(server): guard acp_runtime None in _acp_step finally block
+- 🔄 feat(eval): add practical12 suite — word frequency, Collatz sequences, log-level stats
+- 🔄 feat(eval): add practical11 suite — Roman numerals, run-length encoding, anagram groups
+- 🔄 feat(eval): add practical10 suite — semver sorting, date histogram, TSV-to-CSV
+- ✅ fix: remove 6 type: ignore comments — batch 5
+- ✅ feat(eval): add practical9 suite — env parsing, YAML merge, git log stats
+- ✅ feat(prompts): auto-load cross-tool AI instruction files
+- ✅ test(subagent): add unit tests for refactored subagent package
+- ✅ fix(tests): gracefully skip tests when API quota exhausted mid-run
+- ✅ fix: remove 11 type: ignore comments — batch 4
+- ✅ docs(profiles): update browser-use profile with interactive browsing
+- ✅ fix: remove 18 type: ignore comments — batch 3
+- ✅ refactor(subagent): split into modular package
+- ✅ fix: remove 19 type: ignore comments — batch 2
+- ✅ feat(browser): add read_page_text() for interactive page content
+- ✅ feat(browser): add page metadata to ARIA snapshot output
+- ✅ fix(context): include dotfiles in rglob fallback listing
+- ✅ feat(browser): add interactive browsing — click, fill, scroll
+- ✅ fix: improve type safety — remove 4 type: ignore comments
+- ✅ feat(context): add directory support to include_paths
+- ✅ refactor(prompts): separate dynamic context for better prompt caching
+- ✅ fix(config): preserve TOML formatting and comments on chat config save
+
+### aw-webui
+
+- ✅ fix(categories): keep Top Categories colors when category query contains encoded segments
+
+### aw-qt
+
+- ✅ fix(manager): detect existing server on startup, avoid port conflict
+- ✅ fix(manager): skip ignored files early to suppress spurious warnings
+
+### gptme-agent-template
+
+- ✅ docs: upstream multi-session safety, troubleshooting, and config examples
 
 ### gptme-contrib
 
-- 🔄 fix(status): handle systemctl marker prefix in status-systemd.sh
-- 🔄 feat(sessions): add ab_group and tier_version fields to SessionRecord
-- ✅ fix(tests): isolate git config writes from host repo in test_git_hooks
-- ✅ feat(dashboard): client-side search fallback for static gh-pages deployments
-- ✅ fix(dashboard): include source attribution in search results for submodule lessons/skills
-- ✅ feat(dashboard): add packages and plugins to search index
-- ✅ feat(dashboard): show context_tier in sessions panel
-- ✅ feat(sessions): add context_tier tracking to session records
-- ✅ fix(dashboard): session fallback scan, search excerpt rendering, UX improvements
-
-### agent-workspace-plugin
-
-- ✅ chore: restore valid metadata fields in plugin.json
-- ✅ fix: align plugin format with official Anthropic conventions
+- ✅ feat(scripts): upstream check-claude-usage.sh and quota-gate.sh from Bob
 
