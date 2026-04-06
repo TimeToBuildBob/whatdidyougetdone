@@ -5,47 +5,53 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 26 pull requests
+- 🔀 31 pull requests
 - 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 6
-- 🐛 Fix: 13
-- 🧪 Test: 6
-- 📦 Other: 1
+- ✨ Feat: 10
+- 🐛 Fix: 12
+- 📝 Docs: 3
+- 🧪 Test: 1
+- 🔧 Chore: 5
 
 ## Activity by Repository
 
 ### gptme
 
-- ✅ test(server): add 59 tests for agents and session API endpoints
-- ✅ feat(webui): improve file attachment UX with tooltips and lightbox
-- ✅ perf(server): speed up conversation list/search with tail-only JSONL scan
-- ✅ feat(webui): add search to navigation and improve search scope
-- ✅ fix(webui): highlight Chat tab when on root path '/'
-- ✅ fix(webui): add mobile bottom navigation and fix desktop logo shift
-- ✅ feat(webui): delete individual messages from conversation
-- ✅ fix(webui): use dynamic aria-label for mobile nav toggle
-- ✅ fix(webui): fix mobile navigation — hamburger menu, no sidebar auto-open
-- ✅ fix(webui): serve attached files via correct API endpoint
-- ✅ fix(webui): preserve cross-server conversations with same id
-- ✅ fix(webui): fix duplicate message and step race in pendingFiles flow
-- ✅ test(server): add 84 tests for api_v2_common and session_models modules
-- ✅ test(models): add 86 tests for model resolution and listing modules
-- ✅ test(context): strengthen vacuous assertions per Greptile review
-- ✅ test(context): expand test coverage for task_analyzer and adaptive_compressor
-- ✅ test(hooks): add 80 tests for cache_awareness and server_confirm modules
-- ✅ feat(webui): group conversations by date in sidebar
-- ✅ fix(webui): remove asChild from ContextMenuTrigger wrapping Computed
-- ✅ feat(webui): add right-click context menu for conversations
-- ✅ feat(webui): show last message preview in conversation list
-- ✅ fix(webui): add aria-label to icon-only buttons for accessibility
-- ✅ fix(webui): prevent scroll-to-bottom button flicker during smooth scroll
-- ✅ fix(webui): make scroll-to-bottom button reactive with use$()
+- 🔄 test(eval): add comprehensive tests for behavioral eval checkers
+- ✅ docs(eval): document current SWE-Bench support
+- ✅ docs(eval): fix leaderboard CLI command examples
+- ✅ feat(eval): add write-test-suite and test-driven-error-handling behavioral scenarios
+- ✅ feat(eval): add merge-conflict and extract-function behavioral scenarios
+- ✅ feat(eval): add stage-new-files behavioral scenario
+- ✅ fix(tools): add explicit UTF-8 encoding to all file read/write operations
+- ✅ fix(server): fix model name in rerun endpoint and event flag race condition
+- ✅ refactor: remove redundant local imports already available at module scope
+- ✅ fix(eval): fix behavioral eval suite — 4 cascading bugs
+- ✅ feat(eval): add behavioral eval suite — 3 multi-step workflow scenarios
+- ✅ feat(eval): add --resume and incremental writing to SWE-bench eval
+- ✅ fix(tools): add text=True to lynx subprocess and error handling to PDF download
+- ✅ feat(eval): add --info flag to gptme-eval-swebench for dataset inspection
+- ✅ fix(server): close TOCTOU race in /step endpoint for concurrent requests
+- ✅ fix(llm): add safety guard against silent None return in retry decorators
+- ✅ fix(eval): handle TimeoutExpired from docker stop during timeout cleanup
+- ✅ refactor: narrow broad except Exception catches to specific types
+- ✅ fix(tools): add missing capture_output/text to subprocess calls
+- ✅ fix(server): return LLM errors in step HTTP response
+- ✅ feat(eval): add practical31-33 suites — 9 new algorithm tests
+- ✅ feat(eval): add pass-rate trend analysis with sparklines
+- ✅ feat(eval): add practical30 suite — decode string, top-k frequent, partition equal subset
+- ✅ docs(evals): update practical suite coverage to practical29, 86 tasks
+- ✅ feat(eval): add practical29 suite — word break II, unique paths, rotate array
+- ✅ fix(tools): add error handling for subprocess calls in screenshot and PDF tools
+- ✅ fix(server): harden session management and input validation
 
 ### gptme-contrib
 
-- ✅ fix(twitter): resolve .env path from script frame, not installed package
-- ✅ fix(twitter): atomic token save + timezone-aware expiry + fallback expires_at
+- ✅ refactor: remove redundant local imports already at module scope
+- ✅ refactor(lessons): rewrite gepa-genetic-pareto as behavioral optimization guide
+- ✅ refactor(lessons): trim 3 oversized lessons to two-file architecture
+- ✅ fix(sessions): handle all T24:MM:SS timestamps, not just T24:00:00
 
