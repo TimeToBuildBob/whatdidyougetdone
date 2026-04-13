@@ -5,30 +5,28 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 10 pull requests
-- 📦 2 active repositories
+- 🔀 5 pull requests
+- 📦 3 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 4
-- 🐛 Fix: 5
-- 📝 Docs: 1
+- ✨ Feat: 1
+- 🐛 Fix: 3
+- 📦 Other: 1
 
 ## Activity by Repository
 
 ### gptme
 
-- 🔄 feat(webui): polish message styling and fix avatar chaining
-- ✅ docs: add webui/AGENTS.md with architecture notes and gotchas
-- ✅ feat(webui): custom welcome background with frosted glass effect
-- ✅ feat(webui): render short code blocks inline instead of collapsible
-- ✅ fix(webui): sidebar icon reorder, workspace filtering, remove redundant sections
-- ✅ fix(webui): handle nested code blocks in markdown rendering
-- ✅ fix(webui,server): step collapse bugs, message styling, metadata, model persistence, scroll
-- ❌ fix(webui): reorder sidebar icons
+- ✅ ci: always run webui ci on master
+- ✅ fix(server): resolve gptme session dirs in external sessions API
+- ✅ feat(webui): polish message styling and fix avatar chaining
+
+### aw-tauri
+
+- ✅ fix: change identifier in tauri configuration to net.activitywatch.tauri
 
 ### gptme-contrib
 
-- ✅ feat(sessions): add session_name, project fields and project filtering
-- ✅ fix(twitter): silence tweepy SyntaxWarning spam
+- ✅ fix(sessions): resolve gptme session directories in read_transcript
 

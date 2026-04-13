@@ -5,53 +5,53 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 31 pull requests
-- 📦 2 active repositories
+- 🔀 27 pull requests
+- 📦 4 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 10
-- 🐛 Fix: 12
-- 📝 Docs: 3
-- 🧪 Test: 1
-- 🔧 Chore: 5
+- ✨ Feat: 16
+- 🐛 Fix: 10
+- 📝 Docs: 1
 
 ## Activity by Repository
 
+### activitywatch
+
+- 🔄 fix(build): preserve identifiers in strip-and-sync framework fallback
+- ✅ fix(build): always sync canonical framework binary to avoid per-copy signature divergence
+- ✅ fix(build): snapshot pre-signing checksum to correctly detect framework binary duplicates
+- ✅ fix(build): sign canonical framework binary once and sync to duplicates
+
 ### gptme
 
-- 🔄 test(eval): add comprehensive tests for behavioral eval checkers
-- ✅ docs(eval): document current SWE-Bench support
-- ✅ docs(eval): fix leaderboard CLI command examples
-- ✅ feat(eval): add write-test-suite and test-driven-error-handling behavioral scenarios
-- ✅ feat(eval): add merge-conflict and extract-function behavioral scenarios
-- ✅ feat(eval): add stage-new-files behavioral scenario
-- ✅ fix(tools): add explicit UTF-8 encoding to all file read/write operations
-- ✅ fix(server): fix model name in rerun endpoint and event flag race condition
-- ✅ refactor: remove redundant local imports already available at module scope
-- ✅ fix(eval): fix behavioral eval suite — 4 cascading bugs
-- ✅ feat(eval): add behavioral eval suite — 3 multi-step workflow scenarios
-- ✅ feat(eval): add --resume and incremental writing to SWE-bench eval
-- ✅ fix(tools): add text=True to lynx subprocess and error handling to PDF download
-- ✅ feat(eval): add --info flag to gptme-eval-swebench for dataset inspection
-- ✅ fix(server): close TOCTOU race in /step endpoint for concurrent requests
-- ✅ fix(llm): add safety guard against silent None return in retry decorators
-- ✅ fix(eval): handle TimeoutExpired from docker stop during timeout cleanup
-- ✅ refactor: narrow broad except Exception catches to specific types
-- ✅ fix(tools): add missing capture_output/text to subprocess calls
-- ✅ fix(server): return LLM errors in step HTTP response
-- ✅ feat(eval): add practical31-33 suites — 9 new algorithm tests
-- ✅ feat(eval): add pass-rate trend analysis with sparklines
-- ✅ feat(eval): add practical30 suite — decode string, top-k frequent, partition equal subset
-- ✅ docs(evals): update practical suite coverage to practical29, 86 tasks
-- ✅ feat(eval): add practical29 suite — word break II, unique paths, rotate array
-- ✅ fix(tools): add error handling for subprocess calls in screenshot and PDF tools
-- ✅ fix(server): harden session management and input validation
+- 🔄 feat(eval): add fix-off-by-one-loop behavioral scenario (34th)
+- 🔄 feat(eval): add implement-memoization behavioral scenario (31st)
+- 🔄 feat(eval): add implement-priority-queue behavioral scenario (33rd)
+- 🔄 feat(eval): add implement-state-machine behavioral scenario (33rd)
+- 🔄 feat(eval): add implement-connection-pool and implement-retry-decorator behavioral scenarios (31st and 32nd)
+- ✅ fix(server+eval): event trimming for memory leak + eval timeout bug
+- ✅ fix(server): detect and clean up stuck generating sessions
+- ✅ docs: add local model quickstart and Claude Managed Agents comparison
+- ✅ feat(eval): add implement-event-emitter behavioral scenario (30th)
+- ✅ feat(eval): add implement-lru-cache behavioral scenario (29th)
+- ✅ fix(lessons): guard against zero-norm embeddings and clean up dead code
+- ✅ fix(eval): correct behavioral scenario count in docstring (28, not 29)
+- ✅ feat(eval): add circuit-breaker behavioral scenario (26th)
+- ✅ feat(eval): add rate-limiting behavioral scenario (28th)
+- ✅ feat(eval): add add-docstrings behavioral scenario (24th scenario)
+- ✅ feat(eval): add validate-user-input behavioral scenario (27th scenario)
+- ❌ feat(eval): add retry-with-backoff behavioral scenario (23rd)
+- ✅ feat(eval): add retry-with-backoff behavioral scenario (26th scenario)
+- ✅ feat(eval): add add-deprecation-warning behavioral scenario (25th scenario)
+- ✅ feat(eval): add fix-mutable-default behavioral scenario (22nd scenario)
+- ✅ fix(lessons): make tool matching case-insensitive
 
 ### gptme-contrib
 
-- ✅ refactor: remove redundant local imports already at module scope
-- ✅ refactor(lessons): rewrite gepa-genetic-pareto as behavioral optimization guide
-- ✅ refactor(lessons): trim 3 oversized lessons to two-file architecture
-- ✅ fix(sessions): handle all T24:MM:SS timestamps, not just T24:00:00
+- ✅ fix(validator): only flag opening fences for missing language tags
+
+### aw-tauri
+
+- 🔄 feat(bundle): use tauri-native resources + dynamic bundle path detection
 
