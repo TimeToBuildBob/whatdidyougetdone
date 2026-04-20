@@ -5,53 +5,46 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 27 pull requests
+- 🔀 20 pull requests
 - 📦 4 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 16
-- 🐛 Fix: 10
-- 📝 Docs: 1
+- ✨ Feat: 7
+- 🐛 Fix: 12
+- 🔧 Chore: 1
 
 ## Activity by Repository
 
-### activitywatch
+### gptme-contrib
 
-- 🔄 fix(build): preserve identifiers in strip-and-sync framework fallback
-- ✅ fix(build): always sync canonical framework binary to avoid per-copy signature divergence
-- ✅ fix(build): snapshot pre-signing checksum to correctly detect framework binary duplicates
-- ✅ fix(build): sign canonical framework binary once and sync to duplicates
+- ✅ feat(gptme-voice): add call resume and post-call hooks
+- ✅ fix(gptme-voice): tune VAD for easier Grok interruption
+- ✅ feat(gptme-voice): caller context, phone allowlist, and male voice for Bob
+- ❌ fix(gptme-voice): add caller allowlist and call context
+- ✅ fix(gptme-voice): remove stale Grok model guidance
+- ✅ fix(gptme-voice): use Twilio streamSid field names
+- ✅ fix(gptme-voice): drop ?model= from xAI WebSocket URL
+- ✅ feat(gptme-voice): add xAI Grok realtime provider support
+- ✅ fix(git): use --no-verify to prevent pre-commit redispatch after manual run
+- ✅ fix(twitter): prefer context-specific OpenRouter keys
+- ✅ feat(gptme-voice): add /incoming TwiML endpoint for inbound Twilio calls
+- ✅ fix(git): bypass hook dispatch flake in git-safe-commit
+- ✅ feat(git): add git-safe-commit and pre-commit-auto-stage scripts
+- ✅ fix(gptme-sessions): preserve zero-token session counts
+- ✅ fix(usage-check): reap stale tmux sessions from prior runs
+- ✅ feat(gptme-sessions): persist observed usage totals
 
 ### gptme
 
-- 🔄 feat(eval): add fix-off-by-one-loop behavioral scenario (34th)
-- 🔄 feat(eval): add implement-memoization behavioral scenario (31st)
-- 🔄 feat(eval): add implement-priority-queue behavioral scenario (33rd)
-- 🔄 feat(eval): add implement-state-machine behavioral scenario (33rd)
-- 🔄 feat(eval): add implement-connection-pool and implement-retry-decorator behavioral scenarios (31st and 32nd)
-- ✅ fix(server+eval): event trimming for memory leak + eval timeout bug
-- ✅ fix(server): detect and clean up stuck generating sessions
-- ✅ docs: add local model quickstart and Claude Managed Agents comparison
-- ✅ feat(eval): add implement-event-emitter behavioral scenario (30th)
-- ✅ feat(eval): add implement-lru-cache behavioral scenario (29th)
-- ✅ fix(lessons): guard against zero-norm embeddings and clean up dead code
-- ✅ fix(eval): correct behavioral scenario count in docstring (28, not 29)
-- ✅ feat(eval): add circuit-breaker behavioral scenario (26th)
-- ✅ feat(eval): add rate-limiting behavioral scenario (28th)
-- ✅ feat(eval): add add-docstrings behavioral scenario (24th scenario)
-- ✅ feat(eval): add validate-user-input behavioral scenario (27th scenario)
-- ❌ feat(eval): add retry-with-backoff behavioral scenario (23rd)
-- ✅ feat(eval): add retry-with-backoff behavioral scenario (26th scenario)
-- ✅ feat(eval): add add-deprecation-warning behavioral scenario (25th scenario)
-- ✅ feat(eval): add fix-mutable-default behavioral scenario (22nd scenario)
-- ✅ fix(lessons): make tool matching case-insensitive
+- ✅ fix(doctor): add node, npx, and docker to optional tool checks
+- ✅ fix(eval): clean up auto-created host_dir in DockerExecutionEnv
 
-### gptme-contrib
+### activitywatch
 
-- ✅ fix(validator): only flag opening fences for missing language tags
+- 🔄 refactor(scripts): improve version handling in build scripts
 
-### aw-tauri
+### contributor-stats
 
-- 🔄 feat(bundle): use tauri-native resources + dynamic bundle path detection
+- ✅ feat: update gource script for 2014-2025+ with community repos
 
