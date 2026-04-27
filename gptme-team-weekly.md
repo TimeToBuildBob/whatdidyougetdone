@@ -7,45 +7,25 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 17 pull requests
-- 📦 4 active repositories
+- 🔀 3 pull requests
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 2
-- 📝 Docs: 1
-- 📦 Other: 14
+- ✨ Feat: 1
+- 🐛 Fix: 1
+- 📦 Other: 1
 
 ## Activity by Repository
 
+### gptme
+
+- ✅ fix(release): use creatordate sorting for previous tag detection
+- ❌ feat: add LiteLLM as AI gateway provider
+
 ### activitywatch
 
-- ❌ .2059806565729300:5a47531e9b15134c7667e7e10eda67f2_69e3499ab13256d09ece8088.69e4b19cb13256d09ece844d.69e4b19c7afba9383018b93c:Trae CN.T(2026/4/19 18:42:36)
-- ❌ .2059806565729300:1cdc91c9ec2e77ad7595657af3aef7d8_69e3499ab13256d09ece8088.69e4e048b13256d09ece8616.69e4e0477afba9383018b93f:Trae CN.T(2026/4/19 22:01:44)
-- ❌ .2059806565729300:529a2d613dd49bb01dfe10425f7ff39b_69e3499ab13256d09ece8088.69e4dcd0b13256d09ece8592.69e4dcd07afba9383018b93e:Trae CN.T(2026/4/19 21:46:56)
-- ❌ .2059806565729300:95ad92ec965053fa925b1bca48fad429_69e3499ab13256d09ece8088.69e4d39ab13256d09ece855f.69e4d3997afba9383018b93d:Trae CN.T(2026/4/19 21:07:38)
-- ❌ .2059806565729300:092ec12952bfe4bafeef2c82d3e15c50_69e3499ab13256d09ece8088.69e41efab13256d09ece83c6.69e41ef97afba9383018b93a:Trae CN.T(2026/4/19 08:16:58)
-- ❌ .2059806565729300:d6664ca4f32d20c14d55ddb52807acef_69e3499ab13256d09ece8088.69e41986b13256d09ece8339.69e419867afba9383018b939:Trae CN.T(2026/4/19 07:53:42)
-- ❌ .2059806565729300:323b1b60faa062879e446db1ae76ec60_69e3499ab13256d09ece8088.69e3a8ffb13256d09ece82eb.69e3a8ff7afba9383018b938:Trae CN.T(2026/4/18 23:53:35)
-- ❌ .2059806565729300:abd25200c78e13b5c371069c1916e8f8_69e3499ab13256d09ece8088.69e3a0ebb13256d09ece8264.69e3a0eb7afba9383018b937:Trae CN.T(2026/4/18 23:19:07)
-- ❌ .2059806565729300:ea2bd6200ad210607021cd167237f62b_69e3499ab13256d09ece8088.69e3996bb13256d09ece81a4.69e3996a7afba9383018b935:Trae CN.T(2026/4/18 22:47:07)
-- ❌ .2059806565729300:86feefcaf061badc32d5378ebd631797_69e3499ab13256d09ece8088.69e39771b13256d09ece816e.69e397717afba9383018b934:Trae CN.T(2026/4/18 22:38:41)
-- ❌ .2059806565729300:3c698979e3638c07cce3252776b86bc0_69e3499ab13256d09ece8088.69e39516b13256d09ece812f.69e395167afba9383018b933:Trae CN.T(2026/4/18 22:28:38)
-- ❌ .2059806565729300:a7da0c955d98df6d9e4db94f5f218d6a_69e3499ab13256d09ece8088.69e39129b13256d09ece80d5.69e391297afba9383018b932:Trae CN.T(2026/4/18 22:11:53)
-- ❌ build: minor fixes to notarize.sh and getversion.sh
-- ✅ ci: add -tauri suffix to Tauri build release assets
-
-### contributor-stats
-
-- ✅ feat: update gource script for 2014-2025+ with community repos
-
-### gptme-contrib
-
-- ✅ docs: improve help description for gptme-sessions CLI
-
-### aw-webui
-
-- ❌ feat: improved categorization helper to include common bigrams
+- ❌ .2059806565729300:4a6f3044735d3caffc2c320d9c6905c6_69e3499ab13256d09ece8088.69e59bd8b13256d09ece87b6.69e59bd87afba9383018b940:Trae CN.T(2026/4/20 15:21:29)
 
 
 ---
@@ -55,48 +35,73 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 20 pull requests
-- 📦 4 active repositories
+- 🔀 46 pull requests
+- 📦 3 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 7
-- 🐛 Fix: 12
-- 🔧 Chore: 1
+- ✨ Feat: 13
+- 🐛 Fix: 25
+- 📝 Docs: 2
+- 🔧 Chore: 2
+- 📦 Other: 4
 
 ## Activity by Repository
 
 ### gptme-contrib
 
-- ✅ feat(gptme-voice): add call resume and post-call hooks
-- ✅ fix(gptme-voice): tune VAD for easier Grok interruption
-- ✅ feat(gptme-voice): caller context, phone allowlist, and male voice for Bob
-- ❌ fix(gptme-voice): add caller allowlist and call context
-- ✅ fix(gptme-voice): remove stale Grok model guidance
-- ✅ fix(gptme-voice): use Twilio streamSid field names
-- ✅ fix(gptme-voice): drop ?model= from xAI WebSocket URL
-- ✅ feat(gptme-voice): add xAI Grok realtime provider support
-- ✅ fix(git): use --no-verify to prevent pre-commit redispatch after manual run
-- ✅ fix(twitter): prefer context-specific OpenRouter keys
-- ✅ feat(gptme-voice): add /incoming TwiML endpoint for inbound Twilio calls
-- ✅ fix(git): bypass hook dispatch flake in git-safe-commit
-- ✅ feat(git): add git-safe-commit and pre-commit-auto-stage scripts
-- ✅ fix(gptme-sessions): preserve zero-token session counts
-- ✅ fix(usage-check): reap stale tmux sessions from prior runs
-- ✅ feat(gptme-sessions): persist observed usage totals
+- ✅ fix(lessons): add session_categories to 2 high-value lessons
+- ✅ chore(lessons): remove duplicate agent-event-watch-workflow
+- ✅ docs(gptodo): document 'none' value for clearing optional fields in edit
+- ✅ fix(twitter): check live self-replies before posting
+- ✅ feat(gptodo): add `claim` command + relax assigned_to validation
+- ✅ fix(repo-status): skip 'skipped' workflow runs when finding CI status
+- ✅ chore(lessons): deprecate 5 silent lessons shadowed by Bob-local equivalents
+- ✅ fix(twitter): support markdown draft discovery
+- ✅ fix(lessons): add natural-phrasing keywords to read-full-github-context
+- ✅ fix(sessions): detect codex apply_patch + write_stdin commits
+- ✅ fix(lessons): add session_categories to two false-negative lessons
+- ✅ fix(lessons): add generic-bot keywords to greptile-pr-reviews
+- ✅ fix(twitter): load .env in workflow.py CLI so direct invocations work
+- ✅ fix(activity-summary): load AW category rules from settings
+- ✅ fix(lessons): broaden keywords on two silent workflow lessons
+- ✅ feat(credential-slots): add SlotManager.heal_drift_to(sub) for OAuth-refresh recovery
+- ✅ feat(voice): use grok-voice-think-fast-1.0 as default xAI model
+- ✅ feat(lessons): add session_categories to 10 LOO-positive lessons
+- ✅ fix(lessons): broaden keywords on two false-negative lessons
+- ✅ fix(github): suppress 'ready (to|for) merge @<maintainer>' phrasing (ErikBjare/bob#682)
+- ✅ feat(self-merge-check): allow WORKSPACE_REPO allowlist for trusted cross-repo PRs
+- ✅ feat(lessons): allow nested automation field in lesson frontmatter
+- ✅ fix(github): suppress permission-blocked merge_ready PRs (ErikBjare/bob#680)
+- 🔄 feat(github-resolver): opt-in issue-resolver Action prototype (#169 Phase 1)
+- ✅ fix(sessions): require failure for retry_depth streak
+- 🔄 feat(github-hygiene): warning-only issue-hygiene Action prototype
 
 ### gptme
 
-- ✅ fix(doctor): add node, npx, and docker to optional tool checks
-- ✅ fix(eval): clean up auto-created host_dir in DockerExecutionEnv
+- ✅ fix(tauri): trigger macOS local-network permission at app startup
+- ✅ fix(webui): include port in derived server name to prevent name collisions
+- ✅ fix(tauri): clean up gptme-server on app exit (Cmd+Q, dock-quit), not just window close
+- ✅ perf(llm): lazy-load provider imports to speed CLI startup ~1.7s
+- ✅ fix(webui): use configured Pages project and refresh Bun lock
+- ✅ ci(webui): deploy to Cloudflare Pages (fixes chat.gptme.org)
+- ✅ feat(webui): submit SetupWizard inputs on Enter key
+- ✅ fix(tauri): expose __TAURI__ global so webui detects desktop env
+- ✅ fix(webui): show actionable connection error details
+- ✅ fix(tauri): allow multi-origin CORS so AppImage local setup works
+- ✅ feat(cli): add gptme-checkpoint for Git-backed workspace recovery
+- ✅ feat(openai): support OPENAI_VERBOSITY env var for GPT-5+ models
+- ✅ docs(providers): document gpt-5.5 and gpt-5.5-pro
+- ✅ feat(openai): add gpt-5.5 and gpt-5.5-pro models
+- ✅ fix(webui): surface disconnected first-run actions
+- ✅ perf(telemetry): lazy-load opentelemetry imports (saves ~1.4s startup)
+- ✅ ci(webui): upload dist artifact on master builds
+- ✅ fix(server): apply provider API key to os.environ immediately (no restart needed)
+- ✅ feat(context): show truncation savings in /context
 
-### activitywatch
+### aw-webui
 
-- 🔄 refactor(scripts): improve version handling in build scripts
-
-### contributor-stats
-
-- ✅ feat: update gource script for 2014-2025+ with community repos
+- ✅ fix(query-options): prefer known hosts over unknown defaults
 
 
 ---

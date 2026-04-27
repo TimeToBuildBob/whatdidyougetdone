@@ -5,46 +5,71 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 20 pull requests
-- 📦 4 active repositories
+- 🔀 46 pull requests
+- 📦 3 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 7
-- 🐛 Fix: 12
-- 🔧 Chore: 1
+- ✨ Feat: 13
+- 🐛 Fix: 25
+- 📝 Docs: 2
+- 🔧 Chore: 2
+- 📦 Other: 4
 
 ## Activity by Repository
 
 ### gptme-contrib
 
-- ✅ feat(gptme-voice): add call resume and post-call hooks
-- ✅ fix(gptme-voice): tune VAD for easier Grok interruption
-- ✅ feat(gptme-voice): caller context, phone allowlist, and male voice for Bob
-- ❌ fix(gptme-voice): add caller allowlist and call context
-- ✅ fix(gptme-voice): remove stale Grok model guidance
-- ✅ fix(gptme-voice): use Twilio streamSid field names
-- ✅ fix(gptme-voice): drop ?model= from xAI WebSocket URL
-- ✅ feat(gptme-voice): add xAI Grok realtime provider support
-- ✅ fix(git): use --no-verify to prevent pre-commit redispatch after manual run
-- ✅ fix(twitter): prefer context-specific OpenRouter keys
-- ✅ feat(gptme-voice): add /incoming TwiML endpoint for inbound Twilio calls
-- ✅ fix(git): bypass hook dispatch flake in git-safe-commit
-- ✅ feat(git): add git-safe-commit and pre-commit-auto-stage scripts
-- ✅ fix(gptme-sessions): preserve zero-token session counts
-- ✅ fix(usage-check): reap stale tmux sessions from prior runs
-- ✅ feat(gptme-sessions): persist observed usage totals
+- ✅ fix(lessons): add session_categories to 2 high-value lessons
+- ✅ chore(lessons): remove duplicate agent-event-watch-workflow
+- ✅ docs(gptodo): document 'none' value for clearing optional fields in edit
+- ✅ fix(twitter): check live self-replies before posting
+- ✅ feat(gptodo): add `claim` command + relax assigned_to validation
+- ✅ fix(repo-status): skip 'skipped' workflow runs when finding CI status
+- ✅ chore(lessons): deprecate 5 silent lessons shadowed by Bob-local equivalents
+- ✅ fix(twitter): support markdown draft discovery
+- ✅ fix(lessons): add natural-phrasing keywords to read-full-github-context
+- ✅ fix(sessions): detect codex apply_patch + write_stdin commits
+- ✅ fix(lessons): add session_categories to two false-negative lessons
+- ✅ fix(lessons): add generic-bot keywords to greptile-pr-reviews
+- ✅ fix(twitter): load .env in workflow.py CLI so direct invocations work
+- ✅ fix(activity-summary): load AW category rules from settings
+- ✅ fix(lessons): broaden keywords on two silent workflow lessons
+- ✅ feat(credential-slots): add SlotManager.heal_drift_to(sub) for OAuth-refresh recovery
+- ✅ feat(voice): use grok-voice-think-fast-1.0 as default xAI model
+- ✅ feat(lessons): add session_categories to 10 LOO-positive lessons
+- ✅ fix(lessons): broaden keywords on two false-negative lessons
+- ✅ fix(github): suppress 'ready (to|for) merge @<maintainer>' phrasing (ErikBjare/bob#682)
+- ✅ feat(self-merge-check): allow WORKSPACE_REPO allowlist for trusted cross-repo PRs
+- ✅ feat(lessons): allow nested automation field in lesson frontmatter
+- ✅ fix(github): suppress permission-blocked merge_ready PRs (ErikBjare/bob#680)
+- 🔄 feat(github-resolver): opt-in issue-resolver Action prototype (#169 Phase 1)
+- ✅ fix(sessions): require failure for retry_depth streak
+- 🔄 feat(github-hygiene): warning-only issue-hygiene Action prototype
 
 ### gptme
 
-- ✅ fix(doctor): add node, npx, and docker to optional tool checks
-- ✅ fix(eval): clean up auto-created host_dir in DockerExecutionEnv
+- ✅ fix(tauri): trigger macOS local-network permission at app startup
+- ✅ fix(webui): include port in derived server name to prevent name collisions
+- ✅ fix(tauri): clean up gptme-server on app exit (Cmd+Q, dock-quit), not just window close
+- ✅ perf(llm): lazy-load provider imports to speed CLI startup ~1.7s
+- ✅ fix(webui): use configured Pages project and refresh Bun lock
+- ✅ ci(webui): deploy to Cloudflare Pages (fixes chat.gptme.org)
+- ✅ feat(webui): submit SetupWizard inputs on Enter key
+- ✅ fix(tauri): expose __TAURI__ global so webui detects desktop env
+- ✅ fix(webui): show actionable connection error details
+- ✅ fix(tauri): allow multi-origin CORS so AppImage local setup works
+- ✅ feat(cli): add gptme-checkpoint for Git-backed workspace recovery
+- ✅ feat(openai): support OPENAI_VERBOSITY env var for GPT-5+ models
+- ✅ docs(providers): document gpt-5.5 and gpt-5.5-pro
+- ✅ feat(openai): add gpt-5.5 and gpt-5.5-pro models
+- ✅ fix(webui): surface disconnected first-run actions
+- ✅ perf(telemetry): lazy-load opentelemetry imports (saves ~1.4s startup)
+- ✅ ci(webui): upload dist artifact on master builds
+- ✅ fix(server): apply provider API key to os.environ immediately (no restart needed)
+- ✅ feat(context): show truncation savings in /context
 
-### activitywatch
+### aw-webui
 
-- 🔄 refactor(scripts): improve version handling in build scripts
-
-### contributor-stats
-
-- ✅ feat: update gource script for 2014-2025+ with community repos
+- ✅ fix(query-options): prefer known hosts over unknown defaults
 
