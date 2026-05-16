@@ -343,7 +343,7 @@ def get_aw_activity(
 
         # Get buckets for window activity
         buckets = aw.get_buckets()
-        window_buckets = [bid for bid in buckets.keys() if "window" in bid.lower()]
+        window_buckets = [bid for bid in buckets if "window" in bid.lower()]
 
         if not window_buckets:
             print("Warning: No ActivityWatch window buckets found")
@@ -606,7 +606,7 @@ def generate_report(
         "chore": [],
         "other": [],
     }
-    for pr_url, pr in seen_prs.items():
+    for _pr_url, pr in seen_prs.items():
         title = pr["title"].lower()
         if title.startswith("feat"):
             pr_categories["feat"].append(pr)
@@ -616,7 +616,7 @@ def generate_report(
             pr_categories["docs"].append(pr)
         elif title.startswith("test"):
             pr_categories["test"].append(pr)
-        elif title.startswith("chore") or title.startswith("refactor"):
+        elif title.startswith(("chore", "refactor")):
             pr_categories["chore"].append(pr)
         else:
             pr_categories["other"].append(pr)
