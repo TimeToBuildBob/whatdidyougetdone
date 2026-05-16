@@ -5,21 +5,16 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 2 pull requests
-- 📦 2 active repositories
+- 🔀 1 pull requests
+- 📦 1 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 1
-- 📝 Docs: 1
+- 📦 Other: 1
 
 ## Activity by Repository
 
-### aw-core
+### TimeToBuildBob.github.io
 
-- 🔄 feat: add support for optional pulsetime param to flood in query2
-
-### gptme-contrib
-
-- ❌ docs(packages): list missing package docs entries
+- ✅ build: configure posthog managed proxy
 

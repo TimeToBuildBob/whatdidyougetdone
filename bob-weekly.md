@@ -5,82 +5,91 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 45 pull requests
-- 📦 7 active repositories
+- 🔀 50 pull requests
+- 📦 8 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 20
-- 🐛 Fix: 17
-- 📝 Docs: 3
+- ✨ Feat: 16
+- 🐛 Fix: 20
+- 📝 Docs: 5
+- 🧪 Test: 3
 - 🔧 Chore: 1
-- 📦 Other: 4
+- 📦 Other: 5
 
 ## Activity by Repository
 
-### gptme-contrib
+### whatdidyougetdone
 
-- 🔄 fix(lessons): fix dead keywords in simplify-before-optimize and read-full-github-context
-- ✅ chore(lessons): add target_grade to 3 remaining untagged lessons
-- ✅ fix(lessons): replace dead keywords on read-full-github-context, add companion link
-- ✅ fix(gptme-sessions): category-aware rubric in LLM judge prompt
-- ✅ fix(lessons): replace dead keywords on avoid-long-try-blocks
-- ✅ fix(lessons): replace 18 dead keywords on read-full-github-context
-- ✅ feat(gptme-voice): add G.711 mu-law passthrough on OpenAI Twilio path
-- ✅ fix(codegraph): use git ls-files in _iter_python_files for git repos
-- ✅ feat(codegraph): add repo-map skeleton output
-- ✅ fix(lessons): tighten communication-loop keywords to failure-mode signals
-- ✅ feat(gptme-sessions): wire selector_mode + recommended-category through post-session
-- ✅ docs(lessons): add verification gate to risky-action pre-mortem
-- ✅ fix(gptme-voice): cancel previous audioEndTimer on consecutive audio_end events
-- ✅ fix(codegraph): skip tests gracefully when tree-sitter extras not installed
-- ✅ feat(gptme-voice): add browser WebSocket client
-- ✅ fix(gptme-voice): expose OpenAI realtime reasoning effort
-- ✅ fix(lessons): narrow over-broad keywords in github-issue-engagement lesson
-- ✅ fix(codegraph): accept str paths in build_index by converting to Path
-- ✅ fix(codegraph): update cross-file impact test assertion for qualified IDs
-- ✅ fix(lessons): add session_categories routing to agent-orchestrator-patterns
-- ✅ feat(gptodo): add success_criterion field to task frontmatter
-- ✅ fix(lessons): remove session_categories from communication-loop-closure-patterns
+- ✅ style: apply ruff auto-fixes (SIM118, F841)
 
 ### gptme
 
-- ✅ feat(models): add preferred_edit_format to OpenRouter models
-- 🔄 [codex] queue prompts for running chats
-- 🔄 feat(commands): add checkpoint slash command
-- 🔄 feat(computer): add pluggable transport abstraction layer
-- ✅ feat(serve): inject webui HTML rendering hint into system prompt
-- ✅ feat(eval): natural pass-rate gate for lesson injection (Phase 3, idea #228)
-- ✅ feat: architect/editor coder split — plan with strong model, execute with cheap model
-- ✅ feat(models): add preferred_edit_format field to model registry
-- ✅ docs: describe account provider onboarding
-- ✅ fix(tests): isolate include_paths tests from GPTME_DISABLE_PATH_INCLUDE env var
-- ✅ feat(hooks): add mcp_namespace_hint hook for @server_name references
-- ✅ docs(alternatives): make CMA runtime fee gap explicit ($0.08/hr vs $0)
-- ✅ feat(commands): add /account provider onboarding with OAuth
-- ✅ feat(oauth): add OpenRouter PKCE OAuth flow
-- ❌ feat(commands): add /account command for multi-credential switching
+- ✅ docs(providers): document OpenAI Responses API gate
+- 🔄 refactor(openai): share Responses API helpers
+- ✅ feat(openai): add feature-gated Responses API chat path
+- ✅ docs(cli): document JSONL automation mode
+- ✅ fix(llm): apply default max_tokens (16k) for OpenRouter models
+- ✅ test(cli): relax queued prompt help assertions
+- ✅ [codex] docs(cli): surface queued follow-up prompts
+- ✅ fix(ci): move workflow inputs from inline run: interpolation to env:
+- ✅ test(cli): add integration tests validating stdout is pure JSONL in JSON mode
+- ✅ fix(tools): restore CUA transport compatibility
+- ✅ feat(cli): add --output-format json for headless gptme runs
+- ✅ fix(eval): attach fixture files to local eval prompts
+- ✅ feat(eval): add partial-credit 'Score' column to eval_results.csv
+- ✅ feat(llm): surface actionable diagnostic for OpenRouter 402 insufficient-credits errors
+- ✅ [codex] improve skills discoverability
+- ✅ feat(hooks): tool-target AGENTS.md injection for path-aware file tools
+- ✅ feat(hooks): tool-target agent-instruction loading (Phase 1)
+- ❌ feat(hooks): add tool-targeted agent instruction loading (Phase 1)
+- ✅ feat(subagent): add role= parameter for typed work posture
+- ✅ feat(profiles): add built-in verifier profile for subagent review/validation
+- ✅ [codex] queue prompts for running chats
+- ✅ test(webui): cover provider setup server settings action
+- ✅ fix(tests): clear GPTME_DISABLE_PATH_INCLUDE in test_image_auto_attach_end_to_end
+- ✅ feat(hooks): add TTL-based cache coldness heuristic to cache_awareness
 
-### gptme-agent-template
+### activitywatch.github.io
 
-- ✅ feat(workflow): WORKFLOW.md contract template — repo-versioned autonomous workflow
+- 🔄 fix(stats): explain March 2026 downloads dip
 
-### activitywatch
+### gptme-contrib
 
-- ✅ ci(build-tauri): expose Linux AppImage/deb/rpm bundles as artifacts
-- ❌ ci(build-tauri): expose Linux AppImage and deb as standalone release artifacts
+- ✅ fix(lessons): prune measured dead keywords
+- ✅ fix(lessons): replace dead strategic-focus keywords
+- ✅ fix(lessons): archive gh-pr-review-extension (confirmed harmful, Δ=-0.1291)
+- ✅ fix(lessons): archive 2 confirmed-harmful lessons (progress-despite-blockers, check-existing-prs)
+- ✅ fix(lessons): remove additional dead keywords from 3 lessons
+- ✅ fix(lessons): replace person-specific blocker keyword
+- ✅ fix(lessons): replace dead keywords in progress-despite-blockers and greptile-pr-reviews
+- ✅ fix(git): clarify pre-commit rerun status message
+- ✅ docs(lessons): archive memory-failure-prevention, session-ending-protocol (confirmed-harmful in crossref analysis)
+- ✅ style: apply ruff auto-fixes (SIM114, PIE810, unused vars)
+- ✅ fix(monitoring): surface Bob-authored draft PRs in pr_update flow
+- ✅ docs(lessons): remove dead keywords flagged by 7-day keyword health
+- ✅ fix(gptme-voice): Twilio REST API call termination + transcript fallback hangup
+- ✅ fix(gptme-voice): address HandoffHubWriter robustness issues
+- ✅ feat(gptme-voice): add HandoffHubWriter for HTTP hub publishing
+- ✅ feat(judge): cascade_context routing-aware adjustment (Option C)
+- ✅ feat(credential-slots): identity drift detection via refresh-token fingerprint
+- ✅ feat(mcp): expose agent memory from lessons server
+- ✅ fix(twitter): include rejected/review dirs in reply-dedup to stop re-evaluation loop
+- ✅ fix(lessons): replace dead keywords in measure-before-optimize
+
+### TimeToBuildBob.github.io
+
+- ✅ docs(blog): publish LOO feedback-loop and self-heal posts
+
+### gptme-plugin-registry
+
+- 🔄 feat: OpenAPI schema, CLI tools, and validation
 
 ### aw-server-rust
 
-- 🔄 feat(privacy-filter): add heartbeat-level privacy filtering engine
-- ❌ feat(privacy-filter): add server-side heartbeat privacy filtering
-- ❌ feat(server): server-side privacy filter at heartbeat ingestion
+- 🔄 feat(server): add --config override for server config path
 
 ### aw-webui
 
-- 🔄 fix(views): use queryOptions.start for +1 week button (closes #817)
-
-### aw-tauri
-
-- ✅ ci(build): upload artifacts from build workflow for testing
+- 🔄 fix(timeline): wrap long bucket labels on narrow screens
 
