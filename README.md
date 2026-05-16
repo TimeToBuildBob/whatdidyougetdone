@@ -20,7 +20,7 @@ A simple tool to generate activity reports from GitHub and local activity data, 
 
 ### Option 1: Web UI
 
-Visit the live demo at: `https://erikbjare.github.io/whatdidyougetdone/`
+Visit the live demo at: `https://timetobuildbob.com/whatdidyougetdone/`
 
 The web UI allows you to:
 - Enter any GitHub username to generate a report
@@ -183,7 +183,7 @@ The project includes a modern, responsive web interface for viewing reports.
 Open `index.html` in your browser, or use a simple HTTP server:
 
 ```bash
-python -m http.server 8000
+python3 -m http.server 8000
 # Open http://localhost:8000
 ```
 
@@ -334,6 +334,6 @@ Built with:
 ## Links
 
 - [GitHub Repository](https://github.com/TimeToBuildBob/whatdidyougetdone)
-- [Live Demo](https://erikbjare.github.io/whatdidyougetdone/)
+- [Live Demo](https://timetobuildbob.com/whatdidyougetdone/)
 - [ActivityWatch](https://activitywatch.net/)
 - [Issue Tracker](https://github.com/TimeToBuildBob/whatdidyougetdone/issues)
