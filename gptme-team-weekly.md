@@ -28,28 +28,54 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 50 pull requests
-- 📦 8 active repositories
+- 🔀 52 pull requests
+- 📦 6 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 16
-- 🐛 Fix: 20
-- 📝 Docs: 5
-- 🧪 Test: 3
+- ✨ Feat: 14
+- 🐛 Fix: 24
+- 📝 Docs: 7
+- 🧪 Test: 2
 - 🔧 Chore: 1
-- 📦 Other: 5
+- 📦 Other: 4
 
 ## Activity by Repository
 
-### whatdidyougetdone
+### gptme-contrib
 
-- ✅ style: apply ruff auto-fixes (SIM118, F841)
+- 🔄 feat(generate): wire existing-lesson precheck into GEPA-lite evolution path
+- ✅ fix(gptmail): treat malformed dates as oldest
+- ✅ feat(gptme-sessions): extract Codex project from session payload.cwd
+- ✅ fix(gptmail): sort unreplied emails by date
+- ✅ fix(gptme-codegraph): preserve decorated python defs
+- ✅ fix(linear): validate OAuth state round-trip
+- ✅ fix(gptme-tts): add explicit backend teardown contract
+- ✅ fix(judge): move Category Interpretation before goal-priority, add forbidden constructions
+- ✅ feat(judge): add worked-example reasoning chains to judge prompt
+- ✅ fix(hooks): fetch submodule commits from configured upstream
+- ✅ feat(self-merge): allow trusted repo-path overrides
+- ✅ fix(lessons): prune measured dead keywords
+- ✅ fix(lessons): replace dead strategic-focus keywords
+- ✅ fix(lessons): archive gh-pr-review-extension (confirmed harmful, Δ=-0.1291)
+- ✅ fix(lessons): archive 2 confirmed-harmful lessons (progress-despite-blockers, check-existing-prs)
+- ✅ fix(lessons): remove additional dead keywords from 3 lessons
+- ✅ fix(lessons): replace person-specific blocker keyword
+- ✅ fix(lessons): replace dead keywords in progress-despite-blockers and greptile-pr-reviews
+- ✅ fix(git): clarify pre-commit rerun status message
+- ✅ docs(lessons): archive memory-failure-prevention, session-ending-protocol (confirmed-harmful in crossref analysis)
+- ✅ style: apply ruff auto-fixes (SIM114, PIE810, unused vars)
+- ✅ fix(monitoring): surface Bob-authored draft PRs in pr_update flow
+- ✅ docs(lessons): remove dead keywords flagged by 7-day keyword health
+- ✅ fix(gptme-voice): Twilio REST API call termination + transcript fallback hangup
 
 ### gptme
 
+- 🔄 fix(docs): correct 6 technical errors in FAQ section
+- ✅ docs: make finetuning page honest about current support
+- ✅ feat(tools): add trigger language for shell, read, and gh
+- ✅ refactor(openai): share Responses API helpers
 - ✅ docs(providers): document OpenAI Responses API gate
-- 🔄 refactor(openai): share Responses API helpers
 - ✅ feat(openai): add feature-gated Responses API chat path
 - ✅ docs(cli): document JSONL automation mode
 - ✅ fix(llm): apply default max_tokens (16k) for OpenRouter models
@@ -68,53 +94,23 @@ Activity for the last 7 days:
 - ❌ feat(hooks): add tool-targeted agent instruction loading (Phase 1)
 - ✅ feat(subagent): add role= parameter for typed work posture
 - ✅ feat(profiles): add built-in verifier profile for subagent review/validation
-- ✅ [codex] queue prompts for running chats
-- ✅ test(webui): cover provider setup server settings action
-- ✅ fix(tests): clear GPTME_DISABLE_PATH_INCLUDE in test_image_auto_attach_end_to_end
-- ✅ feat(hooks): add TTL-based cache coldness heuristic to cache_awareness
+
+### aw-android
+
+- 🔄 fix(release): require committed versionName for tag builds
+
+### whatdidyougetdone
+
+- ✅ docs: update live demo URL
+- ✅ style: apply ruff auto-fixes (SIM118, F841)
 
 ### activitywatch.github.io
 
 - 🔄 fix(stats): explain March 2026 downloads dip
 
-### gptme-contrib
-
-- ✅ fix(lessons): prune measured dead keywords
-- ✅ fix(lessons): replace dead strategic-focus keywords
-- ✅ fix(lessons): archive gh-pr-review-extension (confirmed harmful, Δ=-0.1291)
-- ✅ fix(lessons): archive 2 confirmed-harmful lessons (progress-despite-blockers, check-existing-prs)
-- ✅ fix(lessons): remove additional dead keywords from 3 lessons
-- ✅ fix(lessons): replace person-specific blocker keyword
-- ✅ fix(lessons): replace dead keywords in progress-despite-blockers and greptile-pr-reviews
-- ✅ fix(git): clarify pre-commit rerun status message
-- ✅ docs(lessons): archive memory-failure-prevention, session-ending-protocol (confirmed-harmful in crossref analysis)
-- ✅ style: apply ruff auto-fixes (SIM114, PIE810, unused vars)
-- ✅ fix(monitoring): surface Bob-authored draft PRs in pr_update flow
-- ✅ docs(lessons): remove dead keywords flagged by 7-day keyword health
-- ✅ fix(gptme-voice): Twilio REST API call termination + transcript fallback hangup
-- ✅ fix(gptme-voice): address HandoffHubWriter robustness issues
-- ✅ feat(gptme-voice): add HandoffHubWriter for HTTP hub publishing
-- ✅ feat(judge): cascade_context routing-aware adjustment (Option C)
-- ✅ feat(credential-slots): identity drift detection via refresh-token fingerprint
-- ✅ feat(mcp): expose agent memory from lessons server
-- ✅ fix(twitter): include rejected/review dirs in reply-dedup to stop re-evaluation loop
-- ✅ fix(lessons): replace dead keywords in measure-before-optimize
-
 ### TimeToBuildBob.github.io
 
 - ✅ docs(blog): publish LOO feedback-loop and self-heal posts
-
-### gptme-plugin-registry
-
-- 🔄 feat: OpenAPI schema, CLI tools, and validation
-
-### aw-server-rust
-
-- 🔄 feat(server): add --config override for server config path
-
-### aw-webui
-
-- 🔄 fix(timeline): wrap long bucket labels on narrow screens
 
 
 ---
