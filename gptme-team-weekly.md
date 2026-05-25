@@ -7,18 +7,28 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 1 pull requests
-- 📦 1 active repositories
+- 🔀 3 pull requests
+- 📦 3 active repositories
 
 ### PR Breakdown by Type
 
+- ✨ Feat: 1
+- 🐛 Fix: 1
 - 📦 Other: 1
 
 ## Activity by Repository
 
-### TimeToBuildBob.github.io
+### aw-watcher-spotify
 
-- ✅ build: configure posthog managed proxy
+- ❌ fix: handle missing 'popularity' field in Spotify API response (issue #36)
+
+### activitywatch
+
+- ❌ Add aw-watcher-cursor-busy module
+
+### gptme
+
+- ❌ feat: add Tavily search backend to browser tool
 
 
 ---
@@ -28,89 +38,64 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 52 pull requests
-- 📦 6 active repositories
+- 🔀 39 pull requests
+- 📦 3 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 14
-- 🐛 Fix: 24
-- 📝 Docs: 7
-- 🧪 Test: 2
-- 🔧 Chore: 1
-- 📦 Other: 4
+- ✨ Feat: 8
+- 🐛 Fix: 22
+- 📝 Docs: 9
 
 ## Activity by Repository
 
-### gptme-contrib
-
-- 🔄 feat(generate): wire existing-lesson precheck into GEPA-lite evolution path
-- ✅ fix(gptmail): treat malformed dates as oldest
-- ✅ feat(gptme-sessions): extract Codex project from session payload.cwd
-- ✅ fix(gptmail): sort unreplied emails by date
-- ✅ fix(gptme-codegraph): preserve decorated python defs
-- ✅ fix(linear): validate OAuth state round-trip
-- ✅ fix(gptme-tts): add explicit backend teardown contract
-- ✅ fix(judge): move Category Interpretation before goal-priority, add forbidden constructions
-- ✅ feat(judge): add worked-example reasoning chains to judge prompt
-- ✅ fix(hooks): fetch submodule commits from configured upstream
-- ✅ feat(self-merge): allow trusted repo-path overrides
-- ✅ fix(lessons): prune measured dead keywords
-- ✅ fix(lessons): replace dead strategic-focus keywords
-- ✅ fix(lessons): archive gh-pr-review-extension (confirmed harmful, Δ=-0.1291)
-- ✅ fix(lessons): archive 2 confirmed-harmful lessons (progress-despite-blockers, check-existing-prs)
-- ✅ fix(lessons): remove additional dead keywords from 3 lessons
-- ✅ fix(lessons): replace person-specific blocker keyword
-- ✅ fix(lessons): replace dead keywords in progress-despite-blockers and greptile-pr-reviews
-- ✅ fix(git): clarify pre-commit rerun status message
-- ✅ docs(lessons): archive memory-failure-prevention, session-ending-protocol (confirmed-harmful in crossref analysis)
-- ✅ style: apply ruff auto-fixes (SIM114, PIE810, unused vars)
-- ✅ fix(monitoring): surface Bob-authored draft PRs in pr_update flow
-- ✅ docs(lessons): remove dead keywords flagged by 7-day keyword health
-- ✅ fix(gptme-voice): Twilio REST API call termination + transcript fallback hangup
-
 ### gptme
 
-- 🔄 fix(docs): correct 6 technical errors in FAQ section
-- ✅ docs: make finetuning page honest about current support
-- ✅ feat(tools): add trigger language for shell, read, and gh
-- ✅ refactor(openai): share Responses API helpers
-- ✅ docs(providers): document OpenAI Responses API gate
-- ✅ feat(openai): add feature-gated Responses API chat path
-- ✅ docs(cli): document JSONL automation mode
-- ✅ fix(llm): apply default max_tokens (16k) for OpenRouter models
-- ✅ test(cli): relax queued prompt help assertions
-- ✅ [codex] docs(cli): surface queued follow-up prompts
-- ✅ fix(ci): move workflow inputs from inline run: interpolation to env:
-- ✅ test(cli): add integration tests validating stdout is pure JSONL in JSON mode
-- ✅ fix(tools): restore CUA transport compatibility
-- ✅ feat(cli): add --output-format json for headless gptme runs
-- ✅ fix(eval): attach fixture files to local eval prompts
-- ✅ feat(eval): add partial-credit 'Score' column to eval_results.csv
-- ✅ feat(llm): surface actionable diagnostic for OpenRouter 402 insufficient-credits errors
-- ✅ [codex] improve skills discoverability
-- ✅ feat(hooks): tool-target AGENTS.md injection for path-aware file tools
-- ✅ feat(hooks): tool-target agent-instruction loading (Phase 1)
-- ❌ feat(hooks): add tool-targeted agent instruction loading (Phase 1)
-- ✅ feat(subagent): add role= parameter for typed work posture
-- ✅ feat(profiles): add built-in verifier profile for subagent review/validation
+- 🔄 fix(server): validate session belongs to conversation across all sessions endpoints
+- ✅ fix/events 404 nonexistent conversation
+- ✅ fix: prevent hang on empty query in chats search
+- ✅ fix(webui): gate useTasksQuery on connection state
+- ✅ docs: surface gptme-codegraph as named ecosystem project in README
+- ✅ feat(webui): distinguish connection-refused, CORS, PNA, and timeout errors in disconnected state
+- ✅ fix(cli): reject overlong conversation IDs before filesystem access
+- ✅ fix(server): return 400 for conversation_id/branch names exceeding NAME_MAX
+- ✅ fix(cli): remove browser backend noise from utility output
+- ✅ fix(chats): read finds any conversation by id and exits non-zero when missing
+- ✅ fix(cli): reject negative chats --limit instead of crashing islice()
+- ✅ fix(cli): warn when 'models info' falls back for an unrecognized provider
+- ✅ feat(webui): launch SetupWizard from disconnected banner on first visit
+- ✅ fix(cli): make non-default tools callable via gptme-util tools call
+- ✅ fix(chats): avoid scanning test logs for user stats
+- ✅ fix(cli): tokens count treats '-' as stdin (Unix convention)
+- ✅ feat(webui): surface gptme.ai as cloud alternative in disconnected banner
+- ✅ feat(webui): opt into Chrome LNA for local-server fetches (targetAddressSpace)
+- ✅ fix(cli): mcp commands exit nonzero on failure
+- ✅ fix(cli): tokens count exits nonzero when no input is provided
+- ✅ docs(webui): explain Chrome 142+ Local Network Access for hosted UI → local server
+- ✅ fix(cli): resolve bare provider-less model names instead of crashing
+- ✅ fix(logmanager): tolerate unknown message fields when reading logs
+- ✅ feat(webui): add install step + setup-guide link to disconnected banner
+- ✅ docs(webui): document CORS origin for hosted UI + local server
+- ✅ docs(readme): add multi-agent and provider support rows to comparison table
 
-### aw-android
+### gptme-contrib
 
-- 🔄 fix(release): require committed versionName for tag builds
+- ✅ docs(readme): add gptme-codegraph to packages table
+- ✅ feat(gptme-runloops): add grok-build executor
+- ✅ fix(lessons): add session_categories to persist-before-noting (false-negative fix)
+- ✅ fix(lessons): remove self-referential keywords across 6 shared lessons
+- ✅ docs(gptodo): document recurring tasks in help
+- ✅ feat(aw-watcher-agent): ActivityWatch watcher for AI coding assistants (phase 1)
+- ✅ feat(skills): add project-setup-interview skill
+- ✅ fix(lessons): strengthen greptile-pr-reviews description (symptom-focused rewrite)
+- ✅ fix(lessons): strengthen greptile description for hybrid retrieval
+- ✅ docs(activity-summary): fix human-mode CLI syntax and add successor story
+- ✅ docs(lessons): add description fields to 60 remaining lesson files for hybrid matcher
+- ✅ docs(lessons): add description fields to autonomous and workflow lessons for hybrid matcher
 
 ### whatdidyougetdone
 
-- ✅ docs: update live demo URL
-- ✅ style: apply ruff auto-fixes (SIM118, F841)
-
-### activitywatch.github.io
-
-- 🔄 fix(stats): explain March 2026 downloads dip
-
-### TimeToBuildBob.github.io
-
-- ✅ docs(blog): publish LOO feedback-loop and self-heal posts
+- ✅ fix: correct gptme-activity-summary successor command
 
 
 ---

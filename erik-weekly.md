@@ -5,16 +5,26 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 1 pull requests
-- 📦 1 active repositories
+- 🔀 3 pull requests
+- 📦 3 active repositories
 
 ### PR Breakdown by Type
 
+- ✨ Feat: 1
+- 🐛 Fix: 1
 - 📦 Other: 1
 
 ## Activity by Repository
 
-### TimeToBuildBob.github.io
+### aw-watcher-spotify
 
-- ✅ build: configure posthog managed proxy
+- ❌ fix: handle missing 'popularity' field in Spotify API response (issue #36)
+
+### activitywatch
+
+- ❌ Add aw-watcher-cursor-busy module
+
+### gptme
+
+- ❌ feat: add Tavily search backend to browser tool
 
