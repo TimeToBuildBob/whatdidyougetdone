@@ -5,62 +5,54 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 39 pull requests
-- 📦 3 active repositories
+- 🔀 28 pull requests
+- 📦 4 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 8
-- 🐛 Fix: 22
-- 📝 Docs: 9
+- ✨ Feat: 24
+- 🐛 Fix: 1
+- 🔧 Chore: 3
 
 ## Activity by Repository
 
-### gptme
-
-- 🔄 fix(server): validate session belongs to conversation across all sessions endpoints
-- ✅ fix/events 404 nonexistent conversation
-- ✅ fix: prevent hang on empty query in chats search
-- ✅ fix(webui): gate useTasksQuery on connection state
-- ✅ docs: surface gptme-codegraph as named ecosystem project in README
-- ✅ feat(webui): distinguish connection-refused, CORS, PNA, and timeout errors in disconnected state
-- ✅ fix(cli): reject overlong conversation IDs before filesystem access
-- ✅ fix(server): return 400 for conversation_id/branch names exceeding NAME_MAX
-- ✅ fix(cli): remove browser backend noise from utility output
-- ✅ fix(chats): read finds any conversation by id and exits non-zero when missing
-- ✅ fix(cli): reject negative chats --limit instead of crashing islice()
-- ✅ fix(cli): warn when 'models info' falls back for an unrecognized provider
-- ✅ feat(webui): launch SetupWizard from disconnected banner on first visit
-- ✅ fix(cli): make non-default tools callable via gptme-util tools call
-- ✅ fix(chats): avoid scanning test logs for user stats
-- ✅ fix(cli): tokens count treats '-' as stdin (Unix convention)
-- ✅ feat(webui): surface gptme.ai as cloud alternative in disconnected banner
-- ✅ feat(webui): opt into Chrome LNA for local-server fetches (targetAddressSpace)
-- ✅ fix(cli): mcp commands exit nonzero on failure
-- ✅ fix(cli): tokens count exits nonzero when no input is provided
-- ✅ docs(webui): explain Chrome 142+ Local Network Access for hosted UI → local server
-- ✅ fix(cli): resolve bare provider-less model names instead of crashing
-- ✅ fix(logmanager): tolerate unknown message fields when reading logs
-- ✅ feat(webui): add install step + setup-guide link to disconnected banner
-- ✅ docs(webui): document CORS origin for hosted UI + local server
-- ✅ docs(readme): add multi-agent and provider support rows to comparison table
-
 ### gptme-contrib
 
-- ✅ docs(readme): add gptme-codegraph to packages table
-- ✅ feat(gptme-runloops): add grok-build executor
-- ✅ fix(lessons): add session_categories to persist-before-noting (false-negative fix)
-- ✅ fix(lessons): remove self-referential keywords across 6 shared lessons
-- ✅ docs(gptodo): document recurring tasks in help
-- ✅ feat(aw-watcher-agent): ActivityWatch watcher for AI coding assistants (phase 1)
-- ✅ feat(skills): add project-setup-interview skill
-- ✅ fix(lessons): strengthen greptile-pr-reviews description (symptom-focused rewrite)
-- ✅ fix(lessons): strengthen greptile description for hybrid retrieval
-- ✅ docs(activity-summary): fix human-mode CLI syntax and add successor story
-- ✅ docs(lessons): add description fields to 60 remaining lesson files for hybrid matcher
-- ✅ docs(lessons): add description fields to autonomous and workflow lessons for hybrid matcher
+- ✅ feat(codegraph): extract function calls from Rust symbols
+- ✅ feat(codegraph): add Java language support (symbol + import extraction)
+- ✅ chore: update uv.lock for codegraph Go language support
+- ✅ feat(sessions): attribute token usage to tool spans
+- ✅ feat(codegraph): add Go language support (symbol + import extraction)
+- ✅ feat(sessions): add dedup command for overlapping session records
+- ✅ feat(sessions): add auto-tag command for existing records
 
-### whatdidyougetdone
+### gptme
 
-- ✅ fix: correct gptme-activity-summary successor command
+- 🔄 feat(webui): stream tool outputs live via SSE tool_output events
+- ✅ feat(webui): per-tool call latency badges with live elapsed timer
+- ✅ refactor(webui): remove dead App.css and convert remaining raw CSS to Tailwind @apply
+- 🔄 feat(webui): add conversation system prompt override
+- 🔄 feat(webui): import exported conversation JSON
+- 🔄 fix(webui): improve history accessibility
+- 🔄 feat(webui): add Ctrl+F message search with match navigation
+- 🔄 feat(webui): speech-to-text dictation button
+- ✅ feat(webui): temperature and top_p controls in ChatOptionsPanel
+- ✅ feat(webui): add FunctionBrowser panel with /api/v2/tools endpoint
+- 🔄 feat(webui): offline demo ApiClient seam (IApiClient + createDemoApiClient)
+- ✅ feat(webui): persist temperature/top_p/max_tokens in ConversationSettings sidebar
+- ✅ feat(webui): add ErrorBoundary to catch render crashes and chunk-load failures
+- ✅ feat(webui): add temperature and top_p controls to ChatOptionsPanel
+- ✅ feat(llm): make temperature and top_p request-driven via ChatConfig
+- ✅ refactor(hooks): use typed HookData dataclass for tool execution hooks
+- ✅ feat(resilience): add CircuitBreaker for flaky MCP/tool calls
+- ✅ feat(webui): add /admin session management panel
+- ✅ feat(webui): add max_tokens input with full operation coverage
+
+### aw-core
+
+- 🔄 feat(transform): add merge_subwatcher_fields — general subwatcher field enrichment
+
+### aw-webui
+
+- 🔄 feat(queries): add editor-bucket-aware categorization
 

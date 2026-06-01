@@ -10,21 +10,19 @@ Activity for the last 7 days:
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 1
-- 🐛 Fix: 1
-- 📦 Other: 1
+- ✨ Feat: 3
 
 ## Activity by Repository
 
-### aw-watcher-spotify
-
-- ❌ fix: handle missing 'popularity' field in Spotify API response (issue #36)
-
-### activitywatch
-
-- ❌ Add aw-watcher-cursor-busy module
-
 ### gptme
 
-- ❌ feat: add Tavily search backend to browser tool
+- 🔄 feat(webui): add open conversation directory action
+
+### QSlang
+
+- ✅ feat: infer substance for unit-only dose entries
+
+### quantifiedme
+
+- 🔄 feat(predict): Bayesian sleep/wellbeing model (whoop:recovery)
 
