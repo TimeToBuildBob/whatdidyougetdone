@@ -7,26 +7,28 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 3 pull requests
-- 📦 3 active repositories
+- 🔀 7 pull requests
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 3
+- ✨ Feat: 4
+- 🐛 Fix: 3
 
 ## Activity by Repository
 
 ### gptme
 
-- 🔄 feat(webui): add open conversation directory action
+- ✅ fix(shell): preserve indentation on first line of command output
+- ❌ fix(util): reject empty batch model override
+- 🔄 feat(server): add A2A JSON-RPC MVP
+- 🔄 fix(server): validate edited message file paths
+- 🔄 feat(extension): add conversation history
+- ✅ feat(webui): add open conversation directory action
 
-### QSlang
+### aw-webui
 
-- ✅ feat: infer substance for unit-only dose entries
-
-### quantifiedme
-
-- 🔄 feat(predict): Bayesian sleep/wellbeing model (whoop:recovery)
+- 🔄 feat(ui): pre-release polish pass — bug fixes, tests, and view-level revamps
 
 
 ---
@@ -36,56 +38,80 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 28 pull requests
-- 📦 4 active repositories
+- 🔀 37 pull requests
+- 📦 8 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 24
-- 🐛 Fix: 1
-- 🔧 Chore: 3
+- ✨ Feat: 9
+- 🐛 Fix: 18
+- 📝 Docs: 6
+- 🧪 Test: 1
+- 🔧 Chore: 1
+- 📦 Other: 2
 
 ## Activity by Repository
 
 ### gptme-contrib
 
-- ✅ feat(codegraph): extract function calls from Rust symbols
-- ✅ feat(codegraph): add Java language support (symbol + import extraction)
-- ✅ chore: update uv.lock for codegraph Go language support
-- ✅ feat(sessions): attribute token usage to tool spans
-- ✅ feat(codegraph): add Go language support (symbol + import extraction)
-- ✅ feat(sessions): add dedup command for overlapping session records
-- ✅ feat(sessions): add auto-tag command for existing records
+- 🔄 feat(gptme-codegraph): add local-first semantic search (Phase 1)
+- ✅ fix(voice): clear Twilio playback buffer on barge-in
+- ✅ fix(voice): surface recently-completed subagent outcomes in subagent_status
+- ✅ fix(voice): truthful runtime-identity self-report (no more confabulated model)
+- ✅ fix(lessons): skip companion/length soft-warnings for archived lessons
+- ✅ docs(commands): add vent command entry
+- ✅ fix(skills): add explicit category to home-assistant skill for catalog
+- ✅ feat(codegraph): add stat-fingerprint cache for on-the-fly repo-map generation
+- ✅ feat(skills): add missing YAML frontmatter to gptme-wrapped and plugin-development
+
+### gptme-agent-template
+
+- ✅ docs: add portable agent app guide
 
 ### gptme
 
-- 🔄 feat(webui): stream tool outputs live via SSE tool_output events
-- ✅ feat(webui): per-tool call latency badges with live elapsed timer
-- ✅ refactor(webui): remove dead App.css and convert remaining raw CSS to Tailwind @apply
-- 🔄 feat(webui): add conversation system prompt override
-- 🔄 feat(webui): import exported conversation JSON
-- 🔄 fix(webui): improve history accessibility
-- 🔄 feat(webui): add Ctrl+F message search with match navigation
-- 🔄 feat(webui): speech-to-text dictation button
-- ✅ feat(webui): temperature and top_p controls in ChatOptionsPanel
-- ✅ feat(webui): add FunctionBrowser panel with /api/v2/tools endpoint
-- 🔄 feat(webui): offline demo ApiClient seam (IApiClient + createDemoApiClient)
-- ✅ feat(webui): persist temperature/top_p/max_tokens in ConversationSettings sidebar
-- ✅ feat(webui): add ErrorBoundary to catch render crashes and chunk-load failures
-- ✅ feat(webui): add temperature and top_p controls to ChatOptionsPanel
-- ✅ feat(llm): make temperature and top_p request-driven via ChatConfig
-- ✅ refactor(hooks): use typed HookData dataclass for tool execution hooks
-- ✅ feat(resilience): add CircuitBreaker for flaky MCP/tool calls
-- ✅ feat(webui): add /admin session management panel
-- ✅ feat(webui): add max_tokens input with full operation coverage
-
-### aw-core
-
-- 🔄 feat(transform): add merge_subwatcher_fields — general subwatcher field enrichment
+- ✅ test(webui): honor Playwright port setting
+- ✅ feat(webui): add conversation system prompt override
+- ✅ fix(webui): trigger placeholder chat initial step
+- ✅ fix(webui): improve chat composer mobile ergonomics
+- ✅ fix(util): reject empty batch model override
+- ✅ fix(webui): Jest ESM import crash from ansi-regex v6
+- ✅ refactor(extension): move under webui/, replace side panel with React
+- ✅ feat(util): add batch mode command
+- ✅ feat(util): add gptme-util status subcommand for operator handoff
+- ✅ fix: model-aware temperature and top_p for gpt-5 and moonshot (conflict resolved)
+- ❌ fix(complete): nudge once in interactive -y mode on think-only response
+- ✅ fix(complete): nudge interactive+no_confirm (-y) mode on think-only responses
+- ✅ feat(complete): stuck/loop detection hook for repeating tool calls
+- ✅ fix(webui): keep demo mode out of setup probes
+- ❌ feat(extension): add Chrome extension MVP — Slice 1 skeleton
+- ✅ feat(webui): add live_app panel kind distinct from iframe panels (#830 follow-on 3)
+- ✅ perf(llm): batch terminal output per chunk, not per char
+- ✅ fix(reduce): drop orphaned tool results in limit_log when tool-use is dropped
+- ✅ fix(eval): normalize model key in pass-rate gate to handle router prefixes
+- ✅ docs(automation): expand automation guide with non-interactive mode, CI/CD, and scheduling
 
 ### aw-webui
 
-- 🔄 feat(queries): add editor-bucket-aware categorization
+- 🔄 fix(timeline): keep scroll zoom anchored to cursor
+- ✅ fix(deps): override vulnerable d3-color
+- 🔄 [codex] fix(activity): widen timeline barchart card
+
+### aw-import-timely
+
+- 🔄 docs: fix test setup instructions
+
+### activitywatch.github.io
+
+- 🔄 docs: clarify macOS release-specific support guidance
+
+### docs
+
+- 🔄 docs: clarify macOS release-specific support guidance
+
+### aw-client
+
+- 🔄 fix(queue): warn before connect and create buckets immediately
 
 
 ---

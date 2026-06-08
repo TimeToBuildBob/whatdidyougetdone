@@ -5,24 +5,26 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 3 pull requests
-- 📦 3 active repositories
+- 🔀 7 pull requests
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 3
+- ✨ Feat: 4
+- 🐛 Fix: 3
 
 ## Activity by Repository
 
 ### gptme
 
-- 🔄 feat(webui): add open conversation directory action
+- ✅ fix(shell): preserve indentation on first line of command output
+- ❌ fix(util): reject empty batch model override
+- 🔄 feat(server): add A2A JSON-RPC MVP
+- 🔄 fix(server): validate edited message file paths
+- 🔄 feat(extension): add conversation history
+- ✅ feat(webui): add open conversation directory action
 
-### QSlang
+### aw-webui
 
-- ✅ feat: infer substance for unit-only dose entries
-
-### quantifiedme
-
-- 🔄 feat(predict): Bayesian sleep/wellbeing model (whoop:recovery)
+- 🔄 feat(ui): pre-release polish pass — bug fixes, tests, and view-level revamps
 
