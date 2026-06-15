@@ -5,78 +5,52 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 37 pull requests
-- 📦 8 active repositories
+- 🔀 29 pull requests
+- 📦 3 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 9
-- 🐛 Fix: 18
-- 📝 Docs: 6
-- 🧪 Test: 1
-- 🔧 Chore: 1
-- 📦 Other: 2
+- ✨ Feat: 23
+- 🐛 Fix: 5
+- 📝 Docs: 1
 
 ## Activity by Repository
 
-### gptme-contrib
-
-- 🔄 feat(gptme-codegraph): add local-first semantic search (Phase 1)
-- ✅ fix(voice): clear Twilio playback buffer on barge-in
-- ✅ fix(voice): surface recently-completed subagent outcomes in subagent_status
-- ✅ fix(voice): truthful runtime-identity self-report (no more confabulated model)
-- ✅ fix(lessons): skip companion/length soft-warnings for archived lessons
-- ✅ docs(commands): add vent command entry
-- ✅ fix(skills): add explicit category to home-assistant skill for catalog
-- ✅ feat(codegraph): add stat-fingerprint cache for on-the-fly repo-map generation
-- ✅ feat(skills): add missing YAML frontmatter to gptme-wrapped and plugin-development
-
-### gptme-agent-template
-
-- ✅ docs: add portable agent app guide
-
 ### gptme
 
-- ✅ test(webui): honor Playwright port setting
-- ✅ feat(webui): add conversation system prompt override
-- ✅ fix(webui): trigger placeholder chat initial step
-- ✅ fix(webui): improve chat composer mobile ergonomics
-- ✅ fix(util): reject empty batch model override
-- ✅ fix(webui): Jest ESM import crash from ansi-regex v6
-- ✅ refactor(extension): move under webui/, replace side panel with React
-- ✅ feat(util): add batch mode command
-- ✅ feat(util): add gptme-util status subcommand for operator handoff
-- ✅ fix: model-aware temperature and top_p for gpt-5 and moonshot (conflict resolved)
-- ❌ fix(complete): nudge once in interactive -y mode on think-only response
-- ✅ fix(complete): nudge interactive+no_confirm (-y) mode on think-only responses
-- ✅ feat(complete): stuck/loop detection hook for repeating tool calls
-- ✅ fix(webui): keep demo mode out of setup probes
-- ❌ feat(extension): add Chrome extension MVP — Slice 1 skeleton
-- ✅ feat(webui): add live_app panel kind distinct from iframe panels (#830 follow-on 3)
-- ✅ perf(llm): batch terminal output per chunk, not per char
-- ✅ fix(reduce): drop orphaned tool results in limit_log when tool-use is dropped
-- ✅ fix(eval): normalize model key in pass-rate gate to handle router prefixes
-- ✅ docs(automation): expand automation guide with non-interactive mode, CI/CD, and scheduling
+- 🔄 feat(webui/tts): add ttsAuthToken setting for cloud-authenticated TTS
+- ✅ feat(util): add --output-format json to gptme-util llm generate
+- ✅ feat(tools): add root-cause classification to stuck_detect_hook
+- 🔄 feat(scripts): add treeofthoughts.py — eval-guided tree search for agents (#495)
+- 🔄 feat(tools): as_function_subtoolspecs() — invoke tool functions without IPython
+- 🔄 feat(computer): add wait_for_change action for context-efficient UI loops
+- 🔄 feat(snapshot): add --dry-run / -n flag to /snapshot prune
+- ✅ feat(util): add --max-tokens and --temperature to llm generate
+- ✅ feat(tools): ToolSpec.from_function() + parameter extraction in from_callable
+- 🔄 feat(subagent): configurable max_concurrent cap with semaphore gating
+- ✅ feat(rag): add rag_index_conversations for indexing past conversations
+- ✅ feat(snapshot): add /snapshot prune subcommand
+- ✅ feat(subagent): add subagent_cancel() + tests for resolve_role_defaults
+- ✅ feat(tools): hint-based allowlist and MCP annotation hints
+- ✅ docs(commands): document /snapshot and /backtrack commands
+- ✅ fix(llm): invalidate gptme gateway client on reinit (#2876 follow-up)
+- ✅ feat(tools): introduce ToolFunction abstraction for structured callable metadata
+- ✅ feat(snapshot): embed conversation message count for diff summary
+- ✅ feat(computer): add scroll action for mouse wheel support
+- ✅ feat(subagent): forward subprocess/isolated defaults from planner subtask roles
+- ✅ feat(commands): add /snapshot command for agent tree search (#495)
+- ✅ feat(tools): add view_anchored and patch_anchored tools (Gate G2)
+- ✅ fix(webui): collapse single hook system messages in chat view
+- ✅ feat(commands): add /backtrack for in-session conversation recovery
 
-### aw-webui
+### gptme-contrib
 
-- 🔄 fix(timeline): keep scroll zoom anchored to cursor
-- ✅ fix(deps): override vulnerable d3-color
-- 🔄 [codex] fix(activity): widen timeline barchart card
+- ✅ fix(gptme-imagen): wrap functions with ToolFunction.from_callable()
+- ✅ feat(judge): temperature param + calibration anchors for score spread
+- ✅ fix(greptile-helper): SHA-based re-review staleness (not date heuristic)
+- ✅ fix(agent-msg): remove unused type:ignore; add gptmail to mypy ignore_missing_imports
 
-### aw-import-timely
+### agentsview
 
-- 🔄 docs: fix test setup instructions
-
-### activitywatch.github.io
-
-- 🔄 docs: clarify macOS release-specific support guidance
-
-### docs
-
-- 🔄 docs: clarify macOS release-specific support guidance
-
-### aw-client
-
-- 🔄 fix(queue): warn before connect and create buckets immediately
+- 🔄 feat(parser): add gptme agent parser
 

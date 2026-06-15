@@ -5,26 +5,27 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 7 pull requests
-- 📦 2 active repositories
+- 🔀 5 pull requests
+- 📦 3 active repositories
 
 ### PR Breakdown by Type
 
 - ✨ Feat: 4
-- 🐛 Fix: 3
+- 🐛 Fix: 1
 
 ## Activity by Repository
 
 ### gptme
 
-- ✅ fix(shell): preserve indentation on first line of command output
-- ❌ fix(util): reject empty batch model override
-- 🔄 feat(server): add A2A JSON-RPC MVP
-- 🔄 fix(server): validate edited message file paths
-- 🔄 feat(extension): add conversation history
-- ✅ feat(webui): add open conversation directory action
+- ✅ feat(llm): route gptme cloud models through their real backend SDK
+- ✅ fix(server): tolerate pre-existing workspace symlink in ChatConfig.from_logdir
+- ✅ feat(extension): add conversation history
 
-### aw-webui
+### gptme-contrib
 
-- 🔄 feat(ui): pre-release polish pass — bug fixes, tests, and view-level revamps
+- ✅ feat(subscription): upstream config-driven check-quota.py + shared harness_models
+
+### quantifiedme
+
+- ✅ feat(load): add Zlantar personal-finance loader
 
