@@ -5,27 +5,25 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 5 pull requests
+- 🔀 4 pull requests
 - 📦 3 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 4
-- 🐛 Fix: 1
+- 📦 Other: 4
 
 ## Activity by Repository
 
 ### gptme
 
-- ✅ feat(llm): route gptme cloud models through their real backend SDK
-- ✅ fix(server): tolerate pre-existing workspace symlink in ChatConfig.from_logdir
-- ✅ feat(extension): add conversation history
+- 🔄 [codex] fix webui rerun tool session id
+- ✅ build(deps): bump the python-minor-patch group with 31 updates
 
 ### gptme-contrib
 
-- ✅ feat(subscription): upstream config-driven check-quota.py + shared harness_models
+- ✅ [codex] add reusable autonomous session gate
 
-### quantifiedme
+### gptme-agent-template
 
-- ✅ feat(load): add Zlantar personal-finance loader
+- 🔄 [codex] add opt-in session gate for autonomous runners
 
