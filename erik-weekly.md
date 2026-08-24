@@ -5,32 +5,42 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 6 pull requests
-- 📦 4 active repositories
+- 🔀 7 pull requests
+- 📦 7 active repositories
 
 ### PR Breakdown by Type
 
 - ✨ Feat: 1
-- 🐛 Fix: 4
-- 📦 Other: 1
+- 📝 Docs: 2
+- 📦 Other: 4
 
 ## Activity by Repository
 
+### aw-tauri
+
+- ✅ feat(updater): add updater signing pubkey, build updater artifacts when key present
+
+### ErikBjare
+
+- ✅ Add consulting availability line to profile
+
 ### gptme
 
-- ❌ feat(hooks): add agent-devtools trace exporter
-- ❌ Add TrustedRouter provider
+- ✅ docs: document subscription auth (ChatGPT Plus/Pro, SuperGrok) in README and providers docs
+
+### meta
+
+- ✅ Clarify entity: fix employees contradiction, drop hiring-intent, add Services section
 
 ### gptme-contrib
 
-- ✅ fix(deps): pin CPU-only torch to eliminate 5.2G CUDA bloat
+- ✅ docs: overhaul root README + add scripts/README index
 
-### aw-android
+### superuserlabs.github.io
 
-- ✅ fix: reword foreground notification to not expose internals
-- ✅ fix: add prominent disclosure before accessibility settings redirect
+- 🔄 Add proper Consulting section, contact email, contrast fixes
 
-### aw-webui
+### ErikBjare.github.io
 
-- ✅ fix(category-builder): support hosts with only Android/ScreenTime buckets
+- 🔄 Replace jobs page with consulting page, refresh PGP key, clean up legacy cruft
 

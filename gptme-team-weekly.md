@@ -7,34 +7,44 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 6 pull requests
-- 📦 4 active repositories
+- 🔀 7 pull requests
+- 📦 7 active repositories
 
 ### PR Breakdown by Type
 
 - ✨ Feat: 1
-- 🐛 Fix: 4
-- 📦 Other: 1
+- 📝 Docs: 2
+- 📦 Other: 4
 
 ## Activity by Repository
 
+### aw-tauri
+
+- ✅ feat(updater): add updater signing pubkey, build updater artifacts when key present
+
+### ErikBjare
+
+- ✅ Add consulting availability line to profile
+
 ### gptme
 
-- ❌ feat(hooks): add agent-devtools trace exporter
-- ❌ Add TrustedRouter provider
+- ✅ docs: document subscription auth (ChatGPT Plus/Pro, SuperGrok) in README and providers docs
+
+### meta
+
+- ✅ Clarify entity: fix employees contradiction, drop hiring-intent, add Services section
 
 ### gptme-contrib
 
-- ✅ fix(deps): pin CPU-only torch to eliminate 5.2G CUDA bloat
+- ✅ docs: overhaul root README + add scripts/README index
 
-### aw-android
+### superuserlabs.github.io
 
-- ✅ fix: reword foreground notification to not expose internals
-- ✅ fix: add prominent disclosure before accessibility settings redirect
+- 🔄 Add proper Consulting section, contact email, contrast fixes
 
-### aw-webui
+### ErikBjare.github.io
 
-- ✅ fix(category-builder): support hosts with only Android/ScreenTime buckets
+- 🔄 Replace jobs page with consulting page, refresh PGP key, clean up legacy cruft
 
 
 ---
@@ -44,31 +54,57 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 9 pull requests
-- 📦 2 active repositories
+- 🔀 19 pull requests
+- 📦 7 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 5
-- 🐛 Fix: 3
+- ✨ Feat: 10
+- 🐛 Fix: 7
 - 📝 Docs: 1
+- 📦 Other: 1
 
 ## Activity by Repository
 
-### gptme-contrib
+### runner-registry
 
-- 🔄 feat(pm): rename greptile_needs_{fix,improvement} to reviewer_needs_{fix,improvement}
-- ✅ fix(pm): sync worker timeout table with shell script
-- 🔄 feat(precommit): suggest canonical task_type when a synonym is used
-- 🔄 fix(twitter): distinguish spend-cap 403 from content-rejection 403
-- 🔄 feat(skills): add agentic-presentation skill
-- ✅ fix(gptme-rag): surface search degradation warnings in non-json mode
-- ✅ feat(skills): financial advisor prompt calibration
+- ✅ fix(gptme): correct mcp_support, add capabilities and credential_path
 
 ### gptme
 
-- 🔄 feat(prompts): end responses with a concrete next step
-- ✅ docs(tools): document hashline_edit tool + fix read examples with tag header (#3476)
+- 🔄 fix(server): guard startup SIGTERM handler against overriding custom handlers
+- ✅ fix(server): install SIGTERM handler before slow init to prevent silent failure
+- ✅ feat(service-init): add launchd support for macOS agents
+- ✅ feat(harness): audit assistant harness update requests
+- ✅ ci: add dependency advisory gate (Phase 1, non-blocking)
+- ❌ feat(cli): add cross-session knowledge base (gptme-util knowledge)
+- 🔄 feat(tools): add offline file format conversion tool
+
+### gptme-agent-template
+
+- ✅ docs: link native gptme service init CLI for headless agents
+
+### gptme-contrib
+
+- 🔄 fix(git-safe-commit): block exclusion-only pathspec and pathspec-file bypass
+- ✅ feat(skills): add /end — cross-runtime session wrap-up gate
+- ✅ feat(gptme-rag): add lesson_matcher module — keyword/wildcard, session_categories, BM25
+- ✅ fix(lessons): exclude newline from companion-link path-component regex
+- ✅ feat(twitter): account profiles, --quote, release announcer
+- 🔄 feat(activity-summary): add gptme fallback for claude quota exhaustion
+- ✅ fix(pm): notification state is owned by the handling worker, not the next worker to finish
+
+### aw-server-rust
+
+- 🔄 feat(profile): named instance profiles via --profile flag
+
+### aw-client
+
+- ✅ feat: add --format json option to canonical command
+
+### aw-android
+
+- ✅ fix(widget): revert category grouping to top-level
 
 
 ---
