@@ -7,44 +7,23 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 7 pull requests
-- 📦 7 active repositories
+- 🔀 2 pull requests
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
 - ✨ Feat: 1
-- 📝 Docs: 2
-- 📦 Other: 4
+- 🐛 Fix: 1
 
 ## Activity by Repository
 
-### aw-tauri
-
-- ✅ feat(updater): add updater signing pubkey, build updater artifacts when key present
-
-### ErikBjare
-
-- ✅ Add consulting availability line to profile
-
 ### gptme
 
-- ✅ docs: document subscription auth (ChatGPT Plus/Pro, SuperGrok) in README and providers docs
-
-### meta
-
-- ✅ Clarify entity: fix employees contradiction, drop hiring-intent, add Services section
+- ✅ feat(knowledge): cross-session KB save/retrieve as gptme-util CLI
 
 ### gptme-contrib
 
-- ✅ docs: overhaul root README + add scripts/README index
-
-### superuserlabs.github.io
-
-- 🔄 Add proper Consulting section, contact email, contrast fixes
-
-### ErikBjare.github.io
-
-- 🔄 Replace jobs page with consulting page, refresh PGP key, clean up legacy cruft
+- ❌ fix(ci): pass --output to community-plugins fetch so git add finds the file
 
 
 ---
@@ -54,57 +33,74 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 19 pull requests
+- 🔀 36 pull requests
 - 📦 7 active repositories
 
 ### PR Breakdown by Type
 
 - ✨ Feat: 10
-- 🐛 Fix: 7
-- 📝 Docs: 1
+- 🐛 Fix: 23
+- 📝 Docs: 2
 - 📦 Other: 1
 
 ## Activity by Repository
 
-### runner-registry
+### gptme-contrib
 
-- ✅ fix(gptme): correct mcp_support, add capabilities and credential_path
+- ✅ fix(rag): handle large collection indexing failures
+- 🔄 fix(gptme-sessions): close step_types LOO attribution gaps
+- ✅ feat(gptme-sessions): add step_types field to SessionRecord for LOO attribution
+- ✅ fix(vision-node): join capture thread before camera release
+- ✅ feat(lesson_matcher): add match.repos repository gate
+- ✅ fix(gptme-voice): preserve remote-party identity with open/closed call groups
+- 🔄 fix(gptodo): retry once on transient 401 auth-death in spawn_agent
+- ✅ fix(pm): stop treating AI-reviewer output as PM's own activity
+- ✅ feat(voice): bridge BobBrain vision into live calls
+- ✅ fix(activity-gate): treat round-capped P2-only reviews as clean
+- ✅ fix(browser-semantic): label benchmark as static proxy
+- ✅ feat(voice): capability-gated body_* tools — BodyAdapter + MAVSDK/PX4 support
+- ✅ fix(activity-summary): recover malformed gptme summary JSON
+- ✅ fix(gptme-activity-summary): isolate nested gptme logs from parent session
+- ✅ fix(gptme-activity-summary): strip think tags + raw_decode JSON in gptme fallback
+- ✅ feat(dotfiles): add Git-Session-Id prepare-commit-msg hook
+- ✅ fix(news): parse total stars when GitHub wraps the count in an octicon
+
+### aw-webui
+
+- 🔄 fix(query): use native date inputs in query options
+- 🔄 feat(categories): support field-scoped regex rules on master
 
 ### gptme
 
-- 🔄 fix(server): guard startup SIGTERM handler against overriding custom handlers
-- ✅ fix(server): install SIGTERM handler before slow init to prevent silent failure
-- ✅ feat(service-init): add launchd support for macOS agents
-- ✅ feat(harness): audit assistant harness update requests
-- ✅ ci: add dependency advisory gate (Phase 1, non-blocking)
-- ❌ feat(cli): add cross-session knowledge base (gptme-util knowledge)
-- 🔄 feat(tools): add offline file format conversion tool
+- 🔄 feat(context): add context-scout pre-pass (cheap model identifies relevant files)
+- 🔄 fix(knowledge): don't block on gptme-rag index after save/delete
+- 🔄 docs: add core domain guide
+- 🔄 fix(webui): disable task creation in offline demo mode
+- ✅ fix(llm): stop double-retrying and survive 429s in interactive mode
+- ✅ fix(util): handle embedded nulls in batch prompts
+- ✅ feat(knowledge): inject matching KB entries at session start
+- ✅ fix(webui): gate task creation in demo mode
+- 🔄 fix(shell): require confirmation for git-credentials and gptme config.toml reads
+- 🔄 fix(browser): gate PDF fetches with the shared URL helper
+- ❌ fix(security): enforce safe URL scheme validation in browser PDF fetcher (#3643)
 
-### gptme-agent-template
+### aw-server
 
-- ✅ docs: link native gptme service init CLI for headless agents
-
-### gptme-contrib
-
-- 🔄 fix(git-safe-commit): block exclusion-only pathspec and pathspec-file bypass
-- ✅ feat(skills): add /end — cross-runtime session wrap-up gate
-- ✅ feat(gptme-rag): add lesson_matcher module — keyword/wildcard, session_categories, BM25
-- ✅ fix(lessons): exclude newline from companion-link path-component regex
-- ✅ feat(twitter): account profiles, --quote, release announcer
-- 🔄 feat(activity-summary): add gptme fallback for claude quota exhaustion
-- ✅ fix(pm): notification state is owned by the handling worker, not the next worker to finish
-
-### aw-server-rust
-
-- 🔄 feat(profile): named instance profiles via --profile flag
-
-### aw-client
-
-- ✅ feat: add --format json option to canonical command
+- ✅ feat(profile): add --profile flag and port/settings isolation
 
 ### aw-android
 
-- ✅ fix(widget): revert category grouping to top-level
+- ✅ ci: fail closed if a pre-release tag would publish to Play production
+- 🔄 fix(notify): accept canonical shared config schema
+
+### gptme-agent-template
+
+- ✅ docs(tasks): document gptodo ready --skip-claimed for concurrent sessions
+- ✅ fix(precommit): scope task frontmatter validation
+
+### aw-server-rust
+
+- 🔄 feat(privacy-filter): capture-group replacement in redact
 
 
 ---
