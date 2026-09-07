@@ -10,16 +10,15 @@ Activity for the last 7 days:
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 1
-- 🐛 Fix: 1
+- 📦 Other: 2
 
 ## Activity by Repository
 
-### gptme
+### superuserlabs.github.io
 
-- ✅ feat(knowledge): cross-session KB save/retrieve as gptme-util CLI
+- ✅ Add proper Consulting section, contact email, contrast fixes
 
-### gptme-contrib
+### ErikBjare.github.io
 
-- ❌ fix(ci): pass --output to community-plugins fetch so git add finds the file
+- ✅ Replace jobs page with consulting page, refresh PGP key, clean up legacy cruft
 
