@@ -5,20 +5,25 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 2 pull requests
+- 🔀 5 pull requests
 - 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- 📦 Other: 2
+- 🐛 Fix: 2
+- 📝 Docs: 2
+- 📦 Other: 1
 
 ## Activity by Repository
 
-### superuserlabs.github.io
+### gptme
 
-- ✅ Add proper Consulting section, contact email, contrast fixes
+- ✅ fix(init): don't warn when the optional model registry is absent
+- ✅ docs(contributing): note toolchain drift between venv, lockfile and hooks
+- ✅ fix(config): order model layers by specificity, unify resolution
+- ✅ docs: restructure navigation and page structure
 
-### ErikBjare.github.io
+### gptme-contrib
 
-- ✅ Replace jobs page with consulting page, refresh PGP key, clean up legacy cruft
+- ❌ Add optional Agent Guild endpoint observation script
 
