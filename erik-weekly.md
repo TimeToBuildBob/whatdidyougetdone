@@ -5,25 +5,23 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 5 pull requests
+- 🔀 3 pull requests
 - 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- 🐛 Fix: 2
-- 📝 Docs: 2
+- ✨ Feat: 1
+- 🐛 Fix: 1
 - 📦 Other: 1
 
 ## Activity by Repository
 
 ### gptme
 
-- ✅ fix(init): don't warn when the optional model registry is absent
-- ✅ docs(contributing): note toolchain drift between venv, lockfile and hooks
-- ✅ fix(config): order model layers by specificity, unify resolution
-- ✅ docs: restructure navigation and page structure
+- ❌ feat(tools): add ordered ToolSpec.sensitivity for approval gates
 
-### gptme-contrib
+### activitywatch
 
-- ❌ Add optional Agent Guild endpoint observation script
+- ✅ ci(release): stop running the nightly submodule resolver on every trigger, and name the build legs again
+- 🔄 fix(changelog): one section per repo, so shared submodules aren't repeated
 

@@ -7,27 +7,25 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 5 pull requests
+- 🔀 3 pull requests
 - 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- 🐛 Fix: 2
-- 📝 Docs: 2
+- ✨ Feat: 1
+- 🐛 Fix: 1
 - 📦 Other: 1
 
 ## Activity by Repository
 
 ### gptme
 
-- ✅ fix(init): don't warn when the optional model registry is absent
-- ✅ docs(contributing): note toolchain drift between venv, lockfile and hooks
-- ✅ fix(config): order model layers by specificity, unify resolution
-- ✅ docs: restructure navigation and page structure
+- ❌ feat(tools): add ordered ToolSpec.sensitivity for approval gates
 
-### gptme-contrib
+### activitywatch
 
-- ❌ Add optional Agent Guild endpoint observation script
+- ✅ ci(release): stop running the nightly submodule resolver on every trigger, and name the build legs again
+- 🔄 fix(changelog): one section per repo, so shared submodules aren't repeated
 
 
 ---
@@ -37,58 +35,42 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 23 pull requests
-- 📦 6 active repositories
+- 🔀 16 pull requests
+- 📦 3 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 6
-- 🐛 Fix: 10
-- 📝 Docs: 6
-- 📦 Other: 1
+- ✨ Feat: 4
+- 🐛 Fix: 2
+- 📝 Docs: 8
+- 🧪 Test: 2
 
 ## Activity by Repository
 
+### TimeToBuildBob.github.io
+
+- 🔄 docs(blog): publish bounded gptme and ActivityWatch consulting pilots
+- 🔄 docs(blog): publish one retry after context overflow
+- 🔄 docs(blog): publish the evidence-backed engineering-post workflow
+- 🔄 docs(blog): publish idle subagent delivery post
+- 🔄 docs(blog): publish dependency-safe deduplication post
+- 🔄 docs(blog): publish fifty minutes is not a constant
+- ✅ feat(stats): add public lifetime stats page
+- 🔄 docs(blog): publish session identity post
+- 🔄 docs(blog): your own review thread is not demand
+
 ### gptme
 
-- 🔄 feat(skills): persist CostTracker ownership across TUI/server workers
-- ✅ feat(subagent): continue completed child conversations
-- ✅ feat(skills): export lifecycle metrics and measured cost windows
-- ✅ feat(tools): conditional tool docs + companion tools (requires_tools)
-- ✅ fix(shell): strip shell operators from tokens before sensitive-path check (#3806)
-- 🔄 fix(logmanager): acknowledge completion after transcript barriers
-- ✅ fix(cli): emit clean error on status -o write failure, auto-mkdir parent
+- 🔄 fix(cli): honor gitignore anchoring and negation in context tree
+- 🔄 feat(shell): promote slow foreground commands
+- 🔄 feat(subagent): deliver completions to idle server sessions
+- ✅ test(models): make warn-once assertion logger-local
+- ✅ test(tauri): real first-run E2E with webui + sidecar
+- ✅ fix(doctor): surface exhausted OpenRouter quota
 
 ### gptme-contrib
 
-- ✅ fix(harness_models): ignore the @provider pin when normalizing gptme routes for pricing
-- ✅ feat(sessions): preserve launcher dispatch causes
-- ✅ fix(activity-summary): retain fallback trajectories and diagnostics
-- ✅ fix(persistence): durably append terminal ledgers
-- 🔄 fix(sessions): capture Grok string errors without crashing
-
-### TimeToBuildBob.github.io
-
-- ✅ docs(blog): publish The answer key didn't change
-- ✅ docs(blog): publish the-plan-said-zero-consumers
-- ✅ docs(blog): explain request log retention and append races
-- 🔄 docs(blog): publish this-week-in-gptme-2026-w37
-- ✅ docs(blog): publish output flag filesystem API post
-- ✅ docs(blog): update AW Pro funnel ledger readout
-
-### aw-android
-
-- 🔄 ci(release): publish GitHub releases instead of leaving them as drafts
-- ✅ fix(android): inset native windows below system bars
-- ✅ fix(android): handle rejected foreground service starts
-
-### aw-webui
-
-- ✅ fix(ci): authenticate CML release lookup
-
-### aw-watcher-checkin
-
-- 🔄 feat: add opt-in window block check-ins
+- ✅ feat(coordination): port worktree push/occupancy guard from Bob's brain repo
 
 
 ---
