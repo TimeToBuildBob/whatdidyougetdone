@@ -5,67 +5,88 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 29 pull requests
-- 📦 7 active repositories
+- 🔀 42 pull requests
+- 📦 10 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 2
-- 🐛 Fix: 13
-- 📝 Docs: 5
-- 🧪 Test: 3
-- 🔧 Chore: 2
-- 📦 Other: 4
+- ✨ Feat: 13
+- 🐛 Fix: 19
+- 📝 Docs: 6
+- 🔧 Chore: 1
+- 📦 Other: 3
 
 ## Activity by Repository
 
-### aw-webui
-
-- 🔄 test(e2e): add dark-mode and mobile screenshot matrix
-- 🔄 fix(periodusage): cast EventTarget to Element before accessing attributes
-- ❌ fix(dark): give phone nav drawer a dark background in dark mode
-- ✅ fix(categories): reject negative rule priority
-
 ### gptme
 
-- 🔄 test(eventlog): property test for recovery from arbitrary log damage
-- ❌ build(dependabot): add lockfile-only versioning strategy for pip updater
-- ✅ fix(eventlog): recover correctly after a damaged compacted tail
-- ✅ fix(docs): skip crawler-throttled GitHub topic links
+- ✅ fix(tauri): register AppImage callbacks in release builds
+- ✅ fix(webui): keep provider setup reachable in the 800x600 desktop window
+- 🔄 fix(tauri): forward Linux desktop callback URLs
+- ✅ fix(desktop): allow slow sidecars to finish API-key setup
+- ✅ fix(precommit): support prek as a pre-commit runner
+- 🔄 fix(server): keep setup reachable when a selected model has no key
+- ✅ fix(rag): pass gptme-rag's --pattern flag for glob filters
+- ✅ fix(hooks): keep automatic dirty diff compact and noise-free
+- ✅ feat(hooks): inject working-tree diff at session start when dirty
+- ✅ ci(security): block on dependency advisories (Phase 2)
+- ✅ fix(lessons): store an intent digest instead of the full prompt in item receipts
 
-### gptme-contrib
+### activitywatch.github.io
 
-- 🔄 ci: weekly lock-refresh workflow for the git-pinned gptme
-- 🔄 build(deps): update gptme→0.34.0 and anthropic→1.13.0 in uv.lock
-- 🔄 fix(install-size): un-pin direct deps of dropped git sources
-- ❌ chore(deps): update gptme to 0.34.0 and anthropic to 1.13.0
-- 🔄 refactor(vent): remove deprecated --type flag
-- 🔄 fix(deps): refresh install-size lock and Anthropic judge compatibility
-
-### TimeToBuildBob.github.io
-
-- 🔄 docs(blog): two posts — Android native bridge + AI reviewer caught my mistake
-- ✅ fix(blog): clarify incomplete Windows v0.14.1 history recovery
-- ✅ docs(blog): ActivityWatch Android native bridge — origin-scoped WebMessageListener
-- ✅ docs(blog): reasoning models need their thinking budget provisioned
-- ✅ docs(blog): ActivityWatch Android 0.14.3 release announcement
-- ✅ docs(blog): publish this-week-in-gptme-2026-w41
-- ✅ fix(observability): guard against nil tag before sort
-
-### activitywatch
-
-- 🔄 fix(package): don't trust uname -m for Windows zip arch
-
-### uniswap-python
-
-- ✅ feat(metrics): adoption baseline snapshot script + daily workflow (UF grant D3/D4)
-- ❌ test: xfail v1 UNI-exchange price-output cases (no liquidity)
+- 🔄 fix(go): preserve release channel source attribution
+- ✅ feat(go): allowlist the webext nudge src
 
 ### aw-android
 
-- 🔄 build: compress DEX and native libs in APK (legacy packaging)
-- 🔄 fix(ui): initialize WebView background from system night mode to prevent first-paint flash
-- ✅ feat(webui): origin-scoped native bridge for the shared web menu
-- 🔄 fix(watcher): guard AlarmReceiver finish() with FinishOnce
-- ✅ fix(notify): honor explicit disable and fail closed on malformed settings
+- 🔄 fix(info): report deviceHostname from /api/0/info
+- ✅ fix(sync): remove stale databases from own SAF mirror
+- ✅ feat(sync): automatic one-shot staging reset (#296)
+
+### aw-server-rust
+
+- 🔄 fix(android): let /api/0/info report the device hostname
+- ✅ fix(legacy-import): propagate insert_events/create_bucket errors instead of panicking
+
+### activitywatch
+
+- 🔄 fix(packaging): pin Qt Wayland watcher substitution
+- ✅ feat(packaging): ship awatcher in the non-Tauri Linux bundle
+- ✅ build(deps): bump watcher pins for slow-server-startup fixes
+- ✅ build(deps): pin aw-server-rust and aw-tauri to the v0.14.2 release lock (fe558c4f)
+
+### aw-watcher-web
+
+- 🔄 feat(popup): show opt-in time today on current hostname
+- ✅ fix(browser): detect Edge before Chrome in detectBrowser()
+- ✅ feat(popup): add dismissable community support nudge
+
+### gptme-contrib
+
+- 🔄 refactor(hooks): replace stale match-lessons.py with library-delegating wrapper
+- ✅ feat(coordination): expose serialized claim denial snapshots
+- ✅ feat(review): make finalization coverage and disposition inputs explicit
+- ✅ fix(review): preserve execution evidence and single-pass semantics in shared API
+- ✅ feat(sessions): parse gptme tool calls in _normalize_gptme for ATIF export
+- ✅ fix(sessions): derive Letta timestamp bounds from parsed instants
+- ✅ feat(gptme-sessions): add normalize_letta() ingest for Letta trajectory-v1
+
+### aw-qt
+
+- ✅ feat(wayland): accept aw-awatcher as the Wayland watcher
+- ✅ feat(wayland): auto-detect Wayland session and start aw-watcher-window-wayland
+
+### aw-webui
+
+- ✅ feat(timeline): add date shift buttons and preserve query params on period nav
+
+### TimeToBuildBob.github.io
+
+- ✅ fix(blog): distinguish proposed Qt Wayland integration from shipped support
+- ✅ docs(blog): ActivityWatch Wayland Support Reaches the Qt Bundle
+- ✅ docs(blog): An MCP Tool Name Is Not a Provider Function Name
+- ✅ docs(blog): publish this-week-in-gptme-2026-w42
+- ✅ docs(blog): session-lifecycle diagram for the How an Agent Runs Itself guide
+- ✅ docs(blog): Break Your Fix to Trust Your Test
+- ❌ docs(blog): explain MCP native tool naming boundary
 

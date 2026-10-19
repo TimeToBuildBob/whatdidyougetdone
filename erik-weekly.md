@@ -5,82 +5,25 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 23 pull requests
-- 📦 15 active repositories
+- 🔀 9 pull requests
+- 📦 1 active repositories
 
 ### PR Breakdown by Type
 
-- ✨ Feat: 3
-- 🐛 Fix: 5
-- 📦 Other: 15
+- ✨ Feat: 2
+- 🐛 Fix: 7
 
 ## Activity by Repository
 
-### aw-webui
+### gptme
 
-- ✅ feat(ui): open phone navigation in a side drawer
-- ✅ fix(activity): build the Year barchart from day chunks and show progress for every chunked load
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-
-### aw-android
-
-- ✅ fix(widget): never crash when finishing the widget broadcast
-- ✅ ci(release): refuse a stable release while a production rollout is in progress
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-- ❌ fix(ui): add a visible button to open the navigation drawer
-- ❌ fix(server): make RustInterface.serverStarted volatile
-
-### aw-server-rust
-
-- ✅ feat(server): serve query reads from a read-only datastore handle
-- ✅ feat(query): per-request time budget and slow-query logging
-
-### aw-watcher-window
-
-- ✅ fix(macos): serialize heartbeats through a retrying queue, create the bucket lazily
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-
-### gptme-agent-template
-
-- ✅ ci: per-ref concurrency groups (finish running master builds, collapse queued ones)
-
-### aw-notify-rs
-
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-
-### aw-watcher-input
-
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-
-### aw-qt
-
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-
-### aw-watcher-web
-
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-
-### aw-core
-
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-
-### aw-watcher-afk
-
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-
-### aw-server
-
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-
-### activitywatch
-
-- 🔄 ci: PRs build one leg per OS family; Intel/arm/research/glibc-floor variants on master and tags
-
-### aw-client
-
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
-
-### aw-tauri
-
-- ✅ ci: collapse superseded runs with a per-ref concurrency group
+- ✅ fix(webui): render consecutive user messages as one message
+- ✅ fix(tui): show each tool result under the call it came from
+- ✅ fix(tools): save/patch report paths with ~; prompt says ~ is fine in paths
+- ✅ fix(tui): agent text stands out; tool lines muted; /display grouping
+- ✅ feat(tui): show an agent turn as one block, tool results under their step
+- ✅ fix(shell): shellcheck blocks error-severity findings, hides style advice
+- ✅ fix(tui): no blinks or jumps while a turn runs; frame-level regression tests
+- ✅ fix(compact): keep the last message, default to summarize, no-op trim says so
+- ✅ feat(shell): memory guard kills the agent's largest command when system memory runs low
 
