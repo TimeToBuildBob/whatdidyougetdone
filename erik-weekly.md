@@ -5,25 +5,23 @@ Activity for the last 7 days:
 ## Summary
 
 - 💻 0 commits
-- 🔀 9 pull requests
-- 📦 1 active repositories
+- 🔀 4 pull requests
+- 📦 2 active repositories
 
 ### PR Breakdown by Type
 
-- 🐛 Fix: 8
+- ✨ Feat: 3
 - 📝 Docs: 1
 
 ## Activity by Repository
 
 ### gptme
 
-- ❌ docs(providers): add JZSTOKEN as remote cloud gateway example
-- ✅ fix(tests): type stream unwrap and shared writer handlers
-- ✅ fix(tui): preserve literal thinking tags in tool payloads
-- ✅ fix: preserve ordered Responses assistant phases through replay
-- ✅ fix: recover terminal tool calls after partial Responses streams
-- ❌ fix: collapse long single-line TUI tool output
-- ✅ fix: only report actual tool format changes on model switch
-- ✅ fix(subagent): recover final prose for native completion
-- ✅ fix(logmanager): preserve current context on failed and child loads
+- ✅ feat(memory): opt-in per-session dedup for memory match (--dedup-session)
+- ✅ feat(lessons): auto-include keyworded memories alongside lessons
+- ✅ docs(memory): reconcile lessons vs keyworded memories; keyword hygiene; hook dedup caveat
+
+### dotfiles
+
+- ✅ feat(tmux): show OSC 7501 agent lifecycle badges
 
